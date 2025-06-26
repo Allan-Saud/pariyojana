@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'users', 
     'user_auth',
     'authentication',
-    'project_settings'
+    'project_settings',
+    "projects"
 ]
 AUTH_USER_MODEL = 'users.User'
 
