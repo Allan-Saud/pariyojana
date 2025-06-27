@@ -14,10 +14,8 @@ from projects.views.consumer_committee import (
 )
 from projects.views.consumer_committee import preview_template
 from projects.views.project_aggrement_details import ProjectAgreementDetailsViewSet
-# urls.py
-
 from projects.views.official_detail import OfficialDetailViewSet
-
+from projects.views.operation_location import OperationSitePhotoViewSet
 
 
 router = DefaultRouter()
@@ -30,6 +28,7 @@ router.register(r'official-details', OfficialDetailViewSet, basename='official-d
 router.register(r'monitoring-committee', MonitoringFacilitationCommitteeViewSet, basename='monitoring-committee')
 router.register(r'cost-estimate-details', CostEstimateDetailViewSet, basename='cost-estimate-details')
 router.register(r'project-agreement-details', ProjectAgreementDetailsViewSet, basename='project-agreement-details')
+router.register(r'operation-site-photos', OperationSitePhotoViewSet, basename='operation-site-photos')
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -40,12 +39,9 @@ urlpatterns = [
     path('consumer-committee/generate-pdf/<int:serial_no>/<int:project_id>/', download_consumer_committee_pdf),
     path('preview-template/', preview_template),
 
-    # path(
-    #     'consumer-committee/generate-pdf/<int:serial_no>/<int:project_id>/',
-    #     download_consumer_committee_pdf,
-    #     name='consumer-committee-generate-pdf'
-    # ),
 ]
+
+
 
 
 
