@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Devanagari, sans-serif;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .section {
+            margin-top: 20px;
+        }
+
+        .quote {
+            margin-top: 30px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .field {
+            margin-left: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="center">
+        <div class="bold">ललितपुर महानगरपालिका</div>
+        <div class="bold">नगर कार्यपालिकाको कार्यालय</div>
+        <div>पुलचोक, ललितपुर</div>
+        <div>बागमती प्रदेश, नेपाल</div>
+    </div>
+
+    <div class="section center bold">
+        योजना संचालन/सम्झौता पुस्तिका
+    </div>
+
+    <div class="section center">
+        उपभोक्ता समिति गठन पंजीकरण तथा व्यवस्थापन कार्यविधि, २०७६ को दफा ७ (१) अनुसूची-२ बमोजिम संरचित
+    </div>
+
+    <div class="section center bold">
+        आ.ब. {{ fiscal_year }}
+    </div>
+
+    <div class="section">
+        <div class="field">१. योजनाको नाम:- {{ project_name }}</div>
+        <div class="field">२. योजना संचालन हुने स्थान:- {{ location }}</div>
+        <div class="field">३. योजनाको कुल लागत :- {{ total_cost }}</div>
+        <div class="field">४. बजेट शिर्षक :- {{ budget_title }}</div>
+        <div class="field">५. योजना सम्झौता मिति :- {{ agreement_date }}</div>
+        <div class="field">६. कार्यान्वयन मिति :- {{ execution_date|default:"-" }}</div>
+        <div class="field">७. योजना सम्पन्न गर्नु पर्ने मिति :- {{ completion_date }}</div>
+        <div class="field">८. व्यय भए भएको भए व्यय भए भएको मिति :- {{ expense_date|default:"-" }}</div>
+        <div class="field">९. भुक्तानी भएको मिति :- {{ payment_date|default:"-" }}</div>
+        <div class="field">१०. उपभोक्ता समितिको अध्यक्षको नाम गर:- {{ chairman_name }}</div>
+        <div class="field">११. सम्पर्क नं :- {{ contact_number }}</div>
+    </div>
+
+    <div class="quote bold">
+        "योजना/कार्यक्रमलाई वातावरण मैत्री बनाऔं"
+    </div>
+
+    <div class="quote">
+        "लगायत अनुमोदन म योजना/कार्यक्रम सम्बन्धी दस्तावेजका आधारमा मने खर्च र मुल्यांकनका आधारमा भुक्तानी हुने भइसकेको स्वीकृति लगात अनुमोदन र सम्झौता भएपछी मात्र योजना/कार्यक्रम सम्पन्न गरौं"
+    </div>
+
+</body>
+</html>

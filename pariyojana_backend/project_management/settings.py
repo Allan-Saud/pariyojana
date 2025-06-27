@@ -76,7 +76,9 @@ ROOT_URLCONF = "project_management.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+                BASE_DIR / 'projects' / 'pdfs' / 'consumer_committee' / 'templates',
+            ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

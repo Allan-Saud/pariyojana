@@ -6,12 +6,15 @@ from projects.serializers.consumer_committee import ConsumerCommitteeRowSerializ
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import api_view, parser_classes
-from rest_framework.response import Response
 from django.http import FileResponse, Http404
 from django.conf import settings
 import os
-from rest_framework.decorators import api_view
 from projects.constants import CONSUMER_COMMITTEE_TITLES
+from django.http import HttpResponse, Http404
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+# from projects.pdfs.consumer_committee.utils import build_pdf_context
+# from projects.pdfs.consumer_committee.renderers import render_pdf
 
 CONSUMER_COMMITTEE_TITLES = [
     {"serial_no": 1, "title": "योजना संचालन पुस्तिका विवरण पृष्ट"},
@@ -72,10 +75,51 @@ def consumer_committee_upload(request):
     return Response({"detail": "File uploaded successfully."})
 
 
-@api_view(['GET'])
-def download_consumer_committee_letter(request, serial_no):
-    file_path = os.path.join(settings.BASE_DIR, 'static', 'consumer_committee_letters', f'{serial_no}.pdf')
-    if not os.path.exists(file_path):
-        raise Http404("Letter not found.")
 
-    return FileResponse(open(file_path, 'rb'), as_attachment=True, filename=f'letter_{serial_no}.pdf')
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def download_consumer_committee_pdf(request, serial_no: int, project_id: int):
+    if not 1 <= serial_no <= 6:
+        raise Http404("Template not available.")
+
+    # template_map = {
+    #     1: "projects/pdfs/consumer_committee/templates/serial_1.html",
+    #     2: "projects/pdfs/consumer_committee/templates/serial_2.html",
+    #     3: "projects/pdfs/consumer_committee/templates/serial_3.html",
+    #     4: "projects/pdfs/consumer_committee/templates/serial_4.html",
+    #     5: "projects/pdfs/consumer_committee/templates/serial_5.html",
+    #     6: "projects/pdfs/consumer_committee/templates/serial_6.html",
+    # }
+    template_map = {
+        1: "serial_1.html",
+        2: "serial_2.html",
+        3: "serial_3.html",
+        4: "serial_4.html",
+        5: "serial_5.html",
+        6: "serial_6.html",
+    }
+
+
+    from projects.pdfs.consumer_committee.utils import build_pdf_context
+    from projects.pdfs.consumer_committee.renderers import render_pdf
+
+    context = build_pdf_context(serial_no, project_id)
+    content, filename = render_pdf(template_map[serial_no], context, f"serial_{serial_no}_project_{project_id}.pdf")
+
+    if content is None:
+        raise Http404("PDF rendering failed.")
+
+    return HttpResponse(content, content_type='application/pdf', headers={
+        'Content-Disposition': f'attachment; filename="{filename}"',
+    })
+
+
+from projects.pdfs.consumer_committee.utils import build_pdf_context
+
+def preview_template(request):
+    from django.template.loader import get_template
+    context = build_pdf_context(1, 4)
+    # html = get_template("serial_1.html").render(context)
+    html = get_template("serial_3.html").render(context)
+    return HttpResponse(html)  # View raw HTML in browser
+

@@ -1,0 +1,1 @@
+from .beneficiary_details import BeneficiaryDetailSerializer
