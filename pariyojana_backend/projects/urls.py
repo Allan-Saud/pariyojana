@@ -18,6 +18,10 @@ from projects.views.Consumer_Committee.official_detail import OfficialDetailView
 from projects.views.Operation_Location.operation_location import OperationSitePhotoViewSet
 from projects.views.Installment_Payment.bank_details import BankDetailViewSet
 from projects.views.Installment_Payment.payment_related_details import PaymentRelatedDetailViewSet
+from projects.views.Installment_Payment.bankaccount_recommendation import BankAccountRecommendationViewSet
+from projects.views.Installment_Payment.account_photos import AccountPhotoViewSet
+from projects.views.Cost_Estimate.map_cost_estimate import MapCostEstimateViewSet
+
 
 
 router = DefaultRouter()
@@ -33,6 +37,9 @@ router.register(r'project-agreement-details', ProjectAgreementDetailsViewSet, ba
 router.register(r'operation-site-photos', OperationSitePhotoViewSet, basename='operation-site-photos')
 router.register(r'bank-details', BankDetailViewSet, basename='bank-detail')
 router.register(r'payment-details', PaymentRelatedDetailViewSet)
+router.register(r'bank-account-recommendation', BankAccountRecommendationViewSet, basename='bank-recommendation')
+router.register(r'account-photos', AccountPhotoViewSet, basename='account-photos')
+router.register(r'map-cost-estimate', MapCostEstimateViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
