@@ -1,21 +1,23 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from projects.views.project import ProjectViewSet
-from projects.views.initiation_process import InitiationProcessViewSet
-from projects.views.program_detail import ProgramDetailViewSet
-from projects.views.beneficiary_details import BeneficiaryDetailViewSet
-from projects.views.consumer_committee_details import ConsumerCommitteeDetailViewSet
-from projects.views.monitoring_facilitation_committee import MonitoringFacilitationCommitteeViewSet
-from projects.views.cost_estimate_detail import CostEstimateDetailViewSet
-from projects.views.consumer_committee import (
+from projects.views.Initiation_Process.initiation_process import InitiationProcessViewSet
+from projects.views.Program_Details.program_detail import ProgramDetailViewSet
+from projects.views.Program_Details.beneficiary_details import BeneficiaryDetailViewSet
+from projects.views.Consumer_Committee.consumer_committee_details import ConsumerCommitteeDetailViewSet
+from projects.views.Consumer_Committee.monitoring_facilitation_committee import MonitoringFacilitationCommitteeViewSet
+from projects.views.Cost_Estimate.cost_estimate_detail import CostEstimateDetailViewSet
+from projects.views.Consumer_Committee.consumer_committee import (
     ConsumerCommitteeListView,
     consumer_committee_upload,
     download_consumer_committee_pdf,
 )
-from projects.views.consumer_committee import preview_template
-from projects.views.project_aggrement_details import ProjectAgreementDetailsViewSet
-from projects.views.official_detail import OfficialDetailViewSet
-from projects.views.operation_location import OperationSitePhotoViewSet
+from projects.views.Consumer_Committee.consumer_committee import preview_template
+from projects.views.Project_Aggrement.project_aggrement_details import ProjectAgreementDetailsViewSet
+from projects.views.Consumer_Committee.official_detail import OfficialDetailViewSet
+from projects.views.Operation_Location.operation_location import OperationSitePhotoViewSet
+from projects.views.Installment_Payment.bank_details import BankDetailViewSet
+from projects.views.Installment_Payment.payment_related_details import PaymentRelatedDetailViewSet
 
 
 router = DefaultRouter()
@@ -29,11 +31,13 @@ router.register(r'monitoring-committee', MonitoringFacilitationCommitteeViewSet,
 router.register(r'cost-estimate-details', CostEstimateDetailViewSet, basename='cost-estimate-details')
 router.register(r'project-agreement-details', ProjectAgreementDetailsViewSet, basename='project-agreement-details')
 router.register(r'operation-site-photos', OperationSitePhotoViewSet, basename='operation-site-photos')
+router.register(r'bank-details', BankDetailViewSet, basename='bank-detail')
+router.register(r'payment-details', PaymentRelatedDetailViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
 
-    # Consumer Committee
+
     path('consumer-committee/', ConsumerCommitteeListView.as_view(), name='consumer-committee-list'),
     path('consumer-committee/upload/', consumer_committee_upload, name='consumer-committee-upload'),
     path('consumer-committee/generate-pdf/<int:serial_no>/<int:project_id>/', download_consumer_committee_pdf),
