@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8" />
+  <title>उपभोक्ता समिति गठन सम्बन्धी दस्तावेज</title>
+  <style>
+    body {
+      font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 20px;
+      color: #000;
+    }
+    h1, h2, h3 {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    p {
+      margin: 6px 0;
+      text-align: justify;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 14px;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 6px 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    /* Optional page break if used for PDF */
+    .page-break {
+      page-break-after: always;
+    }
+  </style>
+</head>
+<body>
+
+<!-- serial_6.pdf PAGE 1 -->
+
+<h2>ललितपुर महानगरपालिका<br />
+नगर कार्यपालिकाको कार्यालय</h2>
+
+<p>पुल्चोक, ललितपुर<br />
+बागमती प्रदेश, नेपाल</p>
+
+<p><strong>मितिः-</strong></p>
+
+<p>श्रीमान् प्रमुख प्रशासकीय अधिकृतज्यू/महाशाखा प्रमुखज्यू/सचिवज्यू<br />
+नगर कार्यपालिकाको कार्यालय/वडा समितिको कार्यालय</p>
+
+<p><strong>विषयः-उपभोक्ता समिति गठन गरिएको सम्वन्धमा</strong></p>
+
+<p>उपर्युक्त सम्वन्धमा यस ललितपुर महानगरपालिका वडा नं १ को ktm स्थानमा A गर्ने सम्वन्धि योजना/आयोजना सन्चालनको लागि मिति मा आयोजना गरिएको स्थानीय भेलावाट देहाय
+वमोजिमको पदाधिकारीहरु रहनु भएको उपभोक्ता समिति गठन भएको व्यहोरा सिफारीस साथ अनुरोध गर्दछु।</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>सि.नं.</th>
+      <th>पद</th>
+      <th>नाम थर</th>
+      <th>उमेर</th>
+      <th>सम्पर्क नं. र ठेगाना</th>
+      <th>हस्ताक्षर</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if officials %}
+      {% for official in officials %}
+        <tr>
+          <td>{{ official.serial_no }}</td>
+          <td>{{ official.post }}</td>
+          <td>श्री {{ official.full_name }}</td>
+          <td><!-- Age field not available; calculate if you add DOB --></td>
+          <td>{{ official.contact_no }} {{ official.address }}</td>
+          <td><!-- Signature left blank intentionally --></td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="6">कोई विवरण उपलब्ध छैन।</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<p><strong>नोटः</strong></p>
+<ol>
+  <li>समितिको अध्यक्ष, सचिव र कोषाध्यक्षको नागरिकताको प्रमाणपत्रको प्रतिलिपी संलग्न गरिएको छ ।</li>
+  <li>माथी उल्लेखित उपभोक्ता समितिमा अध्यक्ष, सचिव र कोषाध्यक्ष मध्ये एक पद सहित ३३% प्रतिशत महिला रहेको।</li>
+  <li>उपभोक्ताहरुको भेलाबाट उपभोक्ता समिति गठन गरिएको।</li>
+</ol>
+
+<p><strong>हस्ताक्षर</strong></p>
+<p>अध्यक्ष, उपभोक्ता समिति</p>
+<p>उपभोक्ता समितको छाप</p>
+<p>वडा अध्यक्ष</p>
+
+</body>
+</html>

@@ -1,63 +1,76 @@
 <!DOCTYPE html>
 <html lang="ne">
 <head>
-    <meta charset="UTF-8" />
-    <title>उपभोक्ता समिति गठन सम्बन्धी सार्वजनिक सूचना</title>
+    <meta charset="UTF-8">
     <style>
         body {
-            font-family: "Mangal", "Kantipur", "Preeti", Arial, sans-serif;
-            line-height: 1.6;
-            margin: 30px;
-            font-size: 16px;
+            font-family: Kalimati, 'Noto Sans Devanagari', Devanagari, sans-serif;
+            font-size: 14px;
+            line-height: 1.8;
         }
-        h1, h2, h3 {
-            font-weight: bold;
+
+        .center {
             text-align: center;
         }
-        hr {
-            border: none;
-            border-top: 1px solid #333;
-            margin: 20px 0;
+
+        .bold {
+            font-weight: bold;
         }
-        .content {
-            max-width: 700px;
-            margin: auto;
+
+        .section {
+            margin-top: 20px;
         }
+
+        .field {
+            margin-left: 30px;
+        }
+
         .signature {
             margin-top: 60px;
-            text-align: right;
-            font-weight: bold;
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 80px;
+        }
+
+        .signature div {
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="content">
-        <h1>ललितपुर महानगरपालिका</h1>
-        <h2>नगर कार्यपालिकाको कार्यालय</h2>
-        <p style="text-align:center;">पुलचोक, ललितपुर<br />बागमती प्रदेश, नेपाल</p>
-{% comment %} 
-        <hr /> {% endcomment %}
 
-        <h3>उपभोक्ता समिति गठन गर्ने सम्बन्धी सार्वजनिक सूचना</h3>
+    <div class="center">
+        <div class="bold">ललितपुर महानगरपालिका</div>
+        <div class="bold">नगर कार्यपालिकाको कार्यालय</div>
+        <div>पुलचोक, ललितपुर</div>
+        <div>बागमती प्रदेश, नेपाल</div>
+    </div>
 
-        <p>
-            ललितपुर महानगरपालिकाको तपशिलको योजना संचालन गर्ने सम्बन्धमा स्थानीय समुदायको प्रतिनिधित्व हुने गरी उपभोक्ता समिति गठन गर्नु परेको भएकोले देहायको मिति, समय र स्थानमा आयोजना सम्बन्धित वडा भित्रका उपभोक्ताहरुको उपस्थित भई उपभोक्ता समिति तथा अनुमगन तथा सहयोगी समिति गठन गर्ने कार्यमा सहभागिता गरी दिनु हुन सम्बन्धित सबैमा अनुरोध गरिन्छ ।
-        </p>
+    <div class="section center bold">
+        उपभोक्ता समिति गठन गर्ने सम्बन्धी सार्वजनिक सूचना
+    </div>
 
-        {% comment %} <hr /> {% endcomment %}
-
-        <p><strong>तपशिल</strong></p>
-        <p>योजनाको नाम: <strong>{{ project_name }}</strong></p>
-        <p><strong>मिति:</strong> .......................</p>
-        <p><strong>समय:</strong> .......................</p>
-        <p><strong>स्थान:</strong> .......................</p>
-
-        {% comment %} <hr /> {% endcomment %}
-
-        <div class="signature">
-            .............................................................<br />
-            वडा अध्यक्ष/वडा सदस्य
+    <div class="section">
+        <div class="field">
+            ललितपुर महानगरपालिकाको तपशिलको योजना संचालन गर्ने सम्बन्धमा स्थानीय समुदायको प्रतिनिधित्व हुने गरि उपभोक्ता समिति गठन गर्नु पर्ने भएकोले देहायको मिति, समय र स्थानमा आयोजनाबाट लाभान्वित हुने सम्पूर्ण उपभोक्ताहरु उपस्थित भई उपभोक्ता समिति तथा अनुगमन तथा सहजीकरण समिति गठन गर्ने कार्यमा सहयोग गरि दिनु हुन सम्बन्धित सबैमा अनुरोध गरिन्छ ।
         </div>
     </div>
+
+    <div class="section bold field">तपशिल</div>
+
+    <div class="section">
+        <div class="field">योजनाको नामः {{ project_name }}</div>
+        <div class="field">मितिः {{ meeting_date }}</div>
+        <div class="field">समयः {{ meeting_time }}</div>
+        <div class="field">स्थानः {{ meeting_location }}</div>
+    </div>
+
+    <div class="signature">
+        <div>
+            <div>..............................</div>
+            <div>वडा अध्यक्ष/वडा सदस्य</div>
+        </div>
+    </div>
+
 </body>
 </html>

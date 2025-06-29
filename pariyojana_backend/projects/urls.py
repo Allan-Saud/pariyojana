@@ -30,7 +30,7 @@ router.register(r'projects', ProjectViewSet, basename='project')
 router.register(r'initiation-process', InitiationProcessViewSet)
 router.register(r'program-details', ProgramDetailViewSet, basename='program-detail')
 router.register(r'beneficiaries', BeneficiaryDetailViewSet, basename='beneficiaries')
-router.register(r'consumer-committee-details', ConsumerCommitteeDetailViewSet)
+router.register(r'consumer-committee-details', ConsumerCommitteeDetailViewSet, basename='consumer-committee-detail')
 router.register(r'official-details', OfficialDetailViewSet, basename='official-detail')
 router.register(r'monitoring-committee', MonitoringFacilitationCommitteeViewSet, basename='monitoring-committee')
 router.register(r'cost-estimate-details', CostEstimateDetailViewSet, basename='cost-estimate-details')
@@ -52,7 +52,7 @@ urlpatterns = [
     path('consumer-committee/', ConsumerCommitteeListView.as_view(), name='consumer-committee-list'),
     path('consumer-committee/upload/', consumer_committee_upload, name='consumer-committee-upload'),
     path('consumer-committee/generate-pdf/<int:serial_no>/<int:project_id>/', download_consumer_committee_pdf),
-    path('preview-template/', preview_template),
+     path('consumer-committee/preview-template/<int:serial_no>/<int:project_id>/', preview_template, name='preview-template'),
 
 ]
 

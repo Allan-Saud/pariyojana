@@ -1,7 +1,7 @@
 def build_pdf_context(serial_no, project_id):
     from projects.models.project import Project
-    from pariyojana_backend.projects.models.Consumer_Committee.consumer_committee_details import ConsumerCommitteeDetail
-    from pariyojana_backend.projects.models.Initiation_Process.initiation_process import InitiationProcess
+    from projects.models.Consumer_Committee.consumer_committee_details import ConsumerCommitteeDetail
+    from projects.models.Initiation_Process.initiation_process import InitiationProcess
 
     try:
         project = Project.objects.select_related("fiscal_year", "expenditure_center").get(pk=project_id)

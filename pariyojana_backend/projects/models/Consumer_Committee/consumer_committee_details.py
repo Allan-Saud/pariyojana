@@ -1,8 +1,7 @@
-# models/consumer_committee_details.py
-
 from django.db import models
-
+from projects.models.project import Project 
 class ConsumerCommitteeDetail(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='consumer_committees',null=True) 
     consumer_committee_name = models.CharField(max_length=255)
     address = models.TextField()
     formation_date = models.DateField()

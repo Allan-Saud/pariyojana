@@ -1,0 +1,271 @@
+{% comment %} <!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8" />
+  <title>Serial 5 Template</title>
+  <style>
+    body {
+      font-family: Kalimati, 'Noto Sans Devanagari', sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 4px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+ललितपुर महानगरपालिक<br />
+नगर कार्यपालिकाको कार्यालय<br />
+पुल्चोक, ललितपुर<br />
+बागमती प्रदेश, नेपाल<br /><br />
+
+उपभोक्ता समिति गठन सम्बन्धी स्थानीय समुदायको आम भेला<br /><br />
+
+आज मिति २०....... साल महिना गते वार वजे यस ललितपुर महानगरपालिका वडा नं. १ को ktm स्थानमा {{project_name}} गर्ने सम्वन्धी योजना संचालन गर्ने सम्वन्धमा वडा अध्यक्ष वडा सदस्य श्री .. ज्यू को समुपस्थितीमा देहायका कार्यसूचीमा छलफल गर्न आयोजित भेलाको उपस्थिती देहाय वमोजिम छन्।<br />
+उपस्थिती<br /><br />
+
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">क्र.सं.</th>
+      <th rowspan="2">नाम थर</th>
+      <th rowspan="2">उमेर</th>
+      <th colspan="2">लिङ्ग</th>
+      <th rowspan="2">सम्पर्क नं.</th>
+    </tr>
+    <tr>
+      <th>महिला</th>
+      <th>पुरुष</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>१</td><td>वडा नं. का वडा अध्यक्ष/सदस्य श्री</td><td></td><td></td><td></td><td></td></tr>
+    {% for i in range_2_46 %}
+    <tr>
+      <td>{{ i }}</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div style="page-break-after: always;"></div>
+
+<!-- PAGE 2 -->
+
+छलफलको कार्यसूची<br /><br />
+
+1. उपभोक्ता समिति गठन सम्वन्धमा ।<br />
+2. अनुगमन तथा सहजिकरण समिति गठन सम्वन्धमा ।<br />
+3. उपभोक्ता समितिको नाम र छाप सम्वन्धमा ।<br />
+4. विविध<br /><br />
+
+निर्णय नं.१<br /><br />
+
+छलफलको कार्यसुची १ को विषयमा छलफल हुँदा देहायका महानुभावहरु रहनु भएको उपभोक्ता समिति<br />
+गठन गर्ने निर्णय गरियो ।<br /><br />
+
+
+
+{% with official_by_post.chairman as अध्यक्ष %}
+अध्यक्ष श्री {{ अध्यक्ष }}<br />
+{% endwith %}
+
+{% with official_by_post.secretary as सचिव %}
+सचिव श्री {{ सचिव }}<br />
+{% endwith %}
+
+{% with official_by_post.treasurer as कोषाध्यक्ष %}
+कोषाध्यक्ष श्री {{ कोषाध्यक्ष }}<br />
+{% endwith %}
+
+{% for सदस्य in official_by_post.members %}
+सदस्य श्री {{ सदस्य }}<br />
+{% endfor %}
+
+
+<div style="page-break-after: always;"></div>
+
+<!-- PAGE 3 -->
+
+निर्णय नं.२<br /><br />
+
+छलफलको कार्यसूची २ को विषयमा छलफल हुँदा देहायको महानुभावहरु रहनु भएको अनुगमन तथा<br />
+सहजिकरण समिति गठन गर्ने निर्णय गरियो।<br /><br />
+
+
+
+{% with monitoring_by_post.coordinator as संयोजक %}
+संयोजक श्री {{ संयोजक }}<br />
+{% endwith %}
+
+{% with monitoring_by_post.member_secretary as सदस्य_सचिव %}
+सदस्य सचिव श्री {{ सदस्य_सचिव }}<br />
+{% endwith %}
+
+{% for सदस्य in monitoring_by_post.members %}
+सदस्य श्री {{ सदस्य }}<br />
+{% endfor %}
+
+
+<br />
+
+निर्णय नं.३<br /><br />
+
+छलफलक कार्यसूची नं. ३ अनुसार उपभोक्ता समितिको नाम श्री राखेर छाप राखे निर्णय गरियो।<br /><br />
+
+निर्णय. ४<br /><br />
+
+माथी उल्लेखीत समितिहरु गठन गर्न सहयोग गर्नु हुने सम्पुर्ण उपस्थीतमा धन्यवाद ज्ञापन गर्दै अन्य<br />
+छलफलको कार्यसूची नरहेकोले आजको भेला सम्पन्न भएको घोषणा गरियो।
+
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8" />
+  <title>Serial 5 Template</title>
+  <style>
+    body {
+      font-family: Kalimati, 'Noto Sans Devanagari', sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 4px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+ललितपुर महानगरपालिक<br />
+नगर कार्यपालिकाको कार्यालय<br />
+पुल्चोक, ललितपुर<br />
+बागमती प्रदेश, नेपाल<br /><br />
+
+उपभोक्ता समिति गठन सम्बन्धी स्थानीय समुदायको आम भेला<br /><br />
+
+आज मिति २०....... साल महिना गते वार वजे यस ललितपुर महानगरपालिका वडा नं. १ को ktm स्थानमा {{ project_name }} गर्ने सम्वन्धी योजना संचालन गर्ने सम्वन्धमा वडा अध्यक्ष वडा सदस्य श्री .. ज्यू को समुपस्थितीमा देहायका कार्यसूचीमा छलफल गर्न आयोजित भेलाको उपस्थिती देहाय वमोजिम छन्।<br />
+उपस्थिती<br /><br />
+
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">क्र.सं.</th>
+      <th rowspan="2">नाम थर</th>
+      <th rowspan="2">उमेर</th>
+      <th colspan="2">लिङ्ग</th>
+      <th rowspan="2">सम्पर्क नं.</th>
+    </tr>
+    <tr>
+      <th>महिला</th>
+      <th>पुरुष</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>१</td><td>वडा नं. का वडा अध्यक्ष/सदस्य श्री</td><td></td><td></td><td></td><td></td></tr>
+    {% for i in range_2_46 %}
+    <tr>
+      <td>{{ i }}</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div style="page-break-after: always;"></div>
+
+<!-- PAGE 2 -->
+
+छलफलको कार्यसूची<br /><br />
+
+1. उपभोक्ता समिति गठन सम्वन्धमा ।<br />
+2. अनुगमन तथा सहजिकरण समिति गठन सम्वन्धमा ।<br />
+3. उपभोक्ता समितिको नाम र छाप सम्वन्धमा ।<br />
+4. विविध<br /><br />
+
+निर्णय नं.१<br /><br />
+
+छलफलको कार्यसुची १ को विषयमा छलफल हुँदा देहायका महानुभावहरु रहनु भएको उपभोक्ता समिति<br />
+गठन गर्ने निर्णय गरियो ।<br /><br />
+
+{% with official_by_post.chairman as chairman %}
+अध्यक्ष श्री {{ chairman }}<br />
+{% endwith %}
+
+{% with official_by_post.secretary as secretary %}
+सचिव श्री {{ secretary }}<br />
+{% endwith %}
+
+{% with official_by_post.treasurer as treasurer %}
+कोषाध्यक्ष श्री {{ treasurer }}<br />
+{% endwith %}
+
+{% for member in official_by_post.members %}
+सदस्य श्री {{ member }}<br />
+{% endfor %}
+
+<div style="page-break-after: always;"></div>
+
+<!-- PAGE 3 -->
+
+निर्णय नं.२<br /><br />
+
+छलफलको कार्यसूची २ को विषयमा छलफल हुँदा देहायको महानुभावहरु रहनु भएको अनुगमन तथा<br />
+सहजिकरण समिति गठन गर्ने निर्णय गरियो।<br /><br />
+
+{% comment %} {% with monitoring_by_post.coordinator as coordinator %}
+संयोजक श्री {{ coordinator }}<br />
+{% endwith %} {% endcomment %}
+
+{% with monitoring_by_post.coordinator as coordinator %}
+संयोजक श्री {{ coordinator }}<br />
+{% endwith %}
+
+{% with monitoring_by_post.member_secretary as member_secretary %}
+सदस्य सचिव श्री {{ member_secretary }}<br />
+{% endwith %}
+
+{% for member in monitoring_by_post.members %}
+सदस्य श्री {{ member }}<br />
+{% endfor %}
+
+<br />
+
+निर्णय नं.३<br /><br />
+
+छलफलक कार्यसूची नं. ३ अनुसार उपभोक्ता समितिको नाम श्री राखेर छाप राखे निर्णय गरियो।<br /><br />
+
+निर्णय. ४<br /><br />
+
+माथि उल्लेखीत समितिहरु गठन गर्न सहयोग गर्नु हुने सम्पुर्ण उपस्थीतमा धन्यवाद ज्ञापन गर्दै अन्य<br />
+छलफलको कार्यसूची नरहेकोले आजको भेला सम्पन्न भएको घोषणा गरियो।
+
+</body>
+</html>
