@@ -64,3 +64,13 @@ class ProjectAgreementDetails(models.Model):
 
     def __str__(self):
         return f"Agreement Details for Project {self.project.id}"
+    
+    
+@property
+def latest_completion_date(self):
+    last_extension = self.extended_deadlines.order_by('-created_at').first()
+    if last_extension:
+        return last_extension.new_completion_date
+    return self.completion_date
+
+

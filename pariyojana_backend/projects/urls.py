@@ -21,8 +21,7 @@ from projects.views.Installment_Payment.payment_related_details import PaymentRe
 from projects.views.Installment_Payment.bankaccount_recommendation import BankAccountRecommendationViewSet
 from projects.views.Installment_Payment.account_photos import AccountPhotoViewSet
 from projects.views.Cost_Estimate.map_cost_estimate import MapCostEstimateViewSet
-
-
+from projects.views.ExtendedDeadline.extended_deadline import ExtendedDeadlineViewSet
 
 router = DefaultRouter()
 router.register(r'projects', ProjectViewSet, basename='project')
@@ -40,6 +39,7 @@ router.register(r'payment-details', PaymentRelatedDetailViewSet)
 router.register(r'bank-account-recommendation', BankAccountRecommendationViewSet, basename='bank-recommendation')
 router.register(r'account-photos', AccountPhotoViewSet, basename='account-photos')
 router.register(r'map-cost-estimate', MapCostEstimateViewSet)
+router.register(r'extended-deadlines', ExtendedDeadlineViewSet, basename='extended-deadline')
 
 urlpatterns = [
     path('', include(router.urls)),
