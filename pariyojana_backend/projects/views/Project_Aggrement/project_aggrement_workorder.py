@@ -11,6 +11,7 @@ from rest_framework import status
 from projects.pdfs.project_aggrement_workorder.renderers import render_pdf
 from projects.pdfs.project_aggrement_workorder.utils import build_pdf_context
 from django.http import HttpResponse, Http404
+
 class ProjectAgreementWorkorderListView(APIView):
     def get(self, request):
         today = date.today()
@@ -87,20 +88,16 @@ def download_project_agreement_workorder_pdf(request, serial_no: int, project_id
 
 
 
-from projects.models.project import Project
-from projects.pdfs.plan_aggrement.utils import build_pdf_context
-
 from django.template.loader import select_template
 
 def preview_project_aggrement_workorder_template(request, serial_no, project_id):
     context = build_pdf_context(serial_no, project_id)
-
     templates = [
         f"project_aggrement_workorder/serial_{serial_no}.html",
         f"serial_{serial_no}.html",
     ]
     template = select_template(templates)
-    # print("Loading template:", template.template.name)
 
     html = template.render(context)
     return HttpResponse(html)
+

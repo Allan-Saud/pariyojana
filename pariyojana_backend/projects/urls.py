@@ -72,9 +72,9 @@ urlpatterns = [
     path('plan_aggrement/preview-template/<int:serial_no>/<int:project_id>/', preview_project_plan_tracker_template, name='project-plan-tracker-preview-template'),
     
     
-    path('project-agreement/', ProjectAgreementWorkorderListView.as_view(), name='project_agreement_list'),
-    path('project-agreement/upload/', project_agreement_workorder_upload, name='project_agreement_upload'),
-    path('project-agreement/download/<int:serial_no>/<int:project_id>/', download_project_agreement_workorder_pdf, name='project_agreement_pdf_download'),
+    path('project-aggrement/', ProjectAgreementWorkorderListView.as_view(), name='project_agreement_list'),
+    path('project-aggrement/upload/', project_agreement_workorder_upload, name='project_agreement_upload'),
+    path('project-aggrement/download/<int:serial_no>/<int:project_id>/', download_project_agreement_workorder_pdf, name='project_agreement_pdf_download'),
     path('project_aggrement_workorder/preview-template/<int:serial_no>/<int:project_id>/', preview_project_aggrement_workorder_template, name='project-plan-tracker-preview-template'),
     
 
