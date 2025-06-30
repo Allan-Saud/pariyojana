@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>खर्चको तेरिज</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f8f8;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header-text {
+            line-height: 1.2;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .underline-input {
+            border-bottom: 1px solid #000;
+            display: inline-block;
+            min-width: 150px; /* Adjust as needed for length */
+            height: 1.2em;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="text-center mb-6">
+            <p class="header-text text-lg font-bold">ललितपुर महानगरपालिक</p>
+            <p class="header-text text-lg font-bold">नगर कार्यपालिकाको कार्यालय</p>
+            <p class="header-text text-md">पुल्चोक, ललितपुर</p>
+            <p class="header-text text-md">बागमती प्रदेश, नेपाल</p>
+        </div>
+
+        <div class="text-center mb-8">
+            <h2 class="text-xl font-bold">खर्चको तेरिज</h2>
+        </div>
+
+        <!-- Project Details -->
+        <div class="mb-4">
+            <p class="mb-2">योजनाको नामः <span class="underline-input">{{project_name}}</span></p>
+            <p class="mb-2">ठेगानाः <span class="underline-input">{{location}}</span></p>
+            <p class="mb-2">बजेट : <span class="underline-input">{{budget}}</span></p>
+        </div>
+
+        <!-- VAT Bill Details -->
+        <div class="mb-6">
+            <p class="font-bold mb-2">भ्याट बिलको विवरणः</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>बिजक जारी गर्नेको नाम</th>
+                        <th>भ्याट ना</th>
+                        <th>बिजक नं<br>मिति</th>
+                        <th>भ्याट बाहेकको रकम</th>
+                        <th>भ्याट रकम</th>
+                        <th>जम्मा</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                    <tr>
+                        <td colspan="3" class="text-right font-bold">जम्माः</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PAN Bill Details -->
+        <div class="mb-6">
+            <p class="font-bold mb-2">प्यान बिलको विवरणः</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>बिजक जारी गर्नेको नाम</th>
+                        <th>विजक न</th>
+                        <th>मिति</th>
+                        <th>रकम</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                    <tr>
+                        <td colspan="3" class="text-right font-bold">जम्मा</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>

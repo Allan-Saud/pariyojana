@@ -21,6 +21,11 @@ from projects.views.Project_Aggrement.project_aggrement_workorder import (
     download_project_agreement_workorder_pdf,
 )
 
+from projects.views.Documents.other_document import OtherDocumentListView, download_other_document_pdf,preview_other_document_template
+
+
+    
+
 
 from projects.views.Consumer_Committee.consumer_committee import preview_template
 from projects.views.Project_Aggrement.project_plan_tracker import preview_project_plan_tracker_template
@@ -77,6 +82,12 @@ urlpatterns = [
     path('project-aggrement/upload/', project_agreement_workorder_upload, name='project_agreement_upload'),
     path('project-aggrement/download/<int:serial_no>/<int:project_id>/', download_project_agreement_workorder_pdf, name='project_agreement_pdf_download'),
     path('project_aggrement_workorder/preview-template/<int:serial_no>/<int:project_id>/', preview_project_aggrement_workorder_template, name='project-plan-tracker-preview-template'),
+    
+    
+    path('other-documents/<int:project_id>/', OtherDocumentListView.as_view(), name='other-documents-list'),
+    path('other-documents/download/<int:serial_no>/<int:project_id>/', download_other_document_pdf, name='other-document-download'),
+    path('other-documents/preview-template/<int:serial_no>/<int:project_id>/', preview_other_document_template, name='other-document-preview-template'),
+    
     
 
 ]

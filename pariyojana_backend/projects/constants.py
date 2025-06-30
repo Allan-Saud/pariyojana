@@ -21,3 +21,13 @@ PROJECT_AGREEMENT_WORKORDER_TITLES = [
     {"serial_no": 3, "title": "आयोजना सन्चालन कार्यादेश"},
     {"serial_no": 4, "title": "आयोजना सूचना पाटी को नमुना"},
 ]
+
+
+from datetime import date
+
+OTHER_DOCUMENTS_TITLES = [
+    {"serial_no": 1, "title": "योजना कार्यन्वयन चेक लिष्ट"},
+    {"serial_no": 2, "title": "खर्च तेरिज"},
+    {"serial_no": 3, "title": "डोर हाजिर विवरण"},
+]
+
