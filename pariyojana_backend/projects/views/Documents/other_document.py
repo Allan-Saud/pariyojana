@@ -3,9 +3,10 @@ from rest_framework.response import Response
 from django.http import HttpResponse, Http404
 from datetime import date
 from rest_framework.decorators import api_view
-from projects.serializers.Documents.documents import DocumentSerializer
+from projects.serializers.Documents.other_document import OtherDocumentSerializer
 from projects.pdfs.other_documents.utils import build_pdf_context
 from projects.pdfs.other_documents.renderers import render_pdf
+from projects.models.project import Project
 
 DOCUMENT_TITLES = [
     {"serial_no": 1, "title": "योजना कार्यन्वयन चेक लिष्ट"},
@@ -27,6 +28,25 @@ class OtherDocumentListView(APIView):
             })
 
         return Response(response_data)
+    
+    def post(self, request, project_id):
+        # get the primary key field of Project
+        pk_field = Project._meta.pk.name
+        
+        try:
+            project = Project.objects.get(**{pk_field: project_id})
+        except Project.DoesNotExist:
+            return Response({"error": "Project not found"}, status=404)
+        
+        data = request.data.copy()
+        data['project'] = project.pk  # or project_id
+        
+        serializer = OtherDocumentSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save(project=project)
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
 
 @api_view(["GET"])
 def download_other_document_pdf(request, serial_no, project_id):
