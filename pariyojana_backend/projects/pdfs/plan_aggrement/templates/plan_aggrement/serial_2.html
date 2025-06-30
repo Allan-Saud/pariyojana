@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8">
+  <title>योजना सम्झौता निवेदन</title>
+  <style>
+    body {
+      font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
+      line-height: 1.6;
+      margin: 40px;
+    }
+    h1, h2, h3 {
+      text-align: center;
+      margin: 0;
+    }
+    .section {
+      margin-top: 20px;
+    }
+    ul {
+      list-style-type: decimal;
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>ललितपुर महानगरपालिका</h1>
+  <h2>नगर कार्यपालिकाको कार्यालय</h2>
+  <h3>पुल्चोक, ललितपुर<br>बागमती प्रदेश, नेपाल</h3>
+
+  <div class="section">
+    <p>
+      श्रीमान् प्रमुख प्रशासकीय अधिकृतज्यू/श्रीमान् सचिवज्यू<br>
+      नगर कार्यपालिकाको कार्यालय/वडा समितिको कार्यालय
+    </p>
+
+    <p>मितिः -</p>
+
+    <p><strong>विषयः</strong> योजना सम्झौता गराई पाउँ भन्ने सम्वन्धमा ।</p>
+
+    <p>
+      उपर्युक्त विषयमा चालु आर्थिक वर्षको वडास्तरीय/नगरस्तरीय/विषयगत सामाजिक विकास
+      तर्फको बजेट शिर्षकमा <strong>{{ project_name }}</strong> गर्ने सम्वन्धि योजनाको लागि 
+      <strong>रु {{ budget }}</strong> वरावरको रकम विनियोजन भएको हुँदा सो योजनाको लागि मिति
+      .......... गतेको आम भेलाबाट गठित उपभोक्ता समितिवाट व्यहोर्ने रकम 
+      नगद दाखिला गराई योजना सम्झौताका लागि आवश्यक कागजातहरु सहित यो निवेदन पेश गरेका छौ।
+    </p>
+  </div>
+
+  <div class="section">
+    <p><strong>संलग्न कागजातहरु:</strong></p>
+    <ul>
+      <li>उपभोक्ता समिति गठन आम भेलाको निर्णय प्रति</li>
+      <li>उपभोक्ता समिति गठन सम्बन्धी वडा कार्यालयको सिफारिस</li>
+      <li>उपभोक्ता समितिको पदाधिकारीहरुको नागरिकताको प्रतिलिपि</li>
+      <li>योजना संचालन हुने स्थानको फोटो</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <p><strong>निवेदक</strong></p>
+    {% for member in committee_members %}
+        <p>{{ member.post }}ः - {{ member.name }}</p>
+    {% endfor %}
+  </div>
+
+</body>
+</html>

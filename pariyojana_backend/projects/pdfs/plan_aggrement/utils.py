@@ -1,0 +1,119 @@
+from django.http import Http404
+from projects.models.project import Project
+from projects.models.Program_Details.program_detail import ProgramDetail
+from projects.models.Consumer_Committee.official_detail import OfficialDetail
+from projects.models.Consumer_Committee.monitoring_facilitation_committee import MonitoringFacilitationCommitteeMember
+from datetime import date
+
+
+def build_pdf_context(serial_no: int, project_serial_number: int):
+    try:
+        project = Project.objects.get(serial_number=project_serial_number)
+    except Project.DoesNotExist:
+        raise Http404("Project not found.")
+
+    if serial_no == 1:
+        officials = OfficialDetail.objects.filter(project=project).order_by("serial_no")
+
+        attendance_rows = []
+        for official in officials:
+            attendance_rows.append({
+                "post": official.post,
+                "name": f"श्री {official.full_name}",
+                "signature": "",
+            })
+
+        context = {
+            "city": "ललितपुर महानगरपालिका",
+            "office": "नगर कार्यपालिकाको कार्यालय",
+            "meeting_date": "20...... साल....महिना......",
+            "meeting_location": "पुल्चोक, ललितपुर बागमती प्रदेश, नेपाल",
+            "chairperson_name": officials.filter(post="अध्यक्ष").first().full_name if officials.filter(post="अध्यक्ष").exists() else "........",
+
+            "attendance_rows": attendance_rows,
+
+            "agenda_list": [
+                "बैंक खाता खोल्ने सम्बन्धमा ।",
+                "बैंक खातामा हस्ताक्षर सम्बन्धमा ।",
+                "अख्तियारी सम्बन्धमा ।",
+                "जनश्रमदान सम्बन्धमा ।",
+            ],
+
+            "decision_list": [
+                "बैठकको कार्यसूची नं.१ को सम्बन्धमा छलफल हुँदा बैंकमा यस उपभोक्ता समितिको खाता खोल्ने निर्णय गर्दै खाता खोल्न वडा कार्यालयमा सिफारिस माग गर्ने निर्णय गरियो।",
+                "बैठकको कार्यसूची नं.२ को सम्बन्धमा छलफल हुँदा बैंक खातामा अध्यक्ष/सचिव/कोषाध्यक्षको अनिवार्य हस्ताक्षर संयुक्त रुपमा प्रयोग गर्ने निर्णय गरियो।",
+                "बैठकको कार्यसूची नं.३ को सम्बन्धमा छलफल हुँदा योजना सम्झौता गर्ने अख्तियारी अध्यक्ष/सचिव/कोषाध्यक्षलाई दिने र किस्ता रकम माग गर्ने लगायतका चिठी पत्र आदान प्रदान गर्ने अख्तियारी समेत अध्यक्ष/सचिव/कोषाध्यक्षलाई प्रदान गर्ने निर्णय गरियो।",
+                "बैठकको कार्यसूची नं.४ को सम्बन्धमा छलफल हुँदा महानगरपालिकाको नीति अनुसार यस योजनाको लागि न्यूनतम १० प्रतिशत बराबरको रकम नगदै दाखिला गर्ने निर्णय गरियो।",
+            ]
+        }
+        return context
+
+    elif serial_no == 2:
+    # Use project directly (no ProgramDetail needed)
+            project_name = project.project_name or "........"
+            budget = project.budget or "........"  # Make sure the Project model has a `budget` field
+
+            members = MonitoringFacilitationCommitteeMember.objects.filter(project=project).order_by("serial_no")
+
+            committee_members = [
+                {"post": member.post, "name": member.full_name}
+                for member in members
+            ]
+
+            context = {
+                "project_name": project_name,
+                "budget": budget,
+                "committee_members": committee_members,
+            }
+
+            return context
+        
+        
+        
+    elif serial_no == 4:
+        officials = OfficialDetail.objects.filter(project=project).order_by("serial_no")
+
+        # Build list if needed, e.g., for signatures or multiple chairpersons
+        attendance_rows = []
+        for official in officials:
+            attendance_rows.append({
+                "post": official.post,
+                "name": f"श्री {official.full_name}",
+                "signature": "",  # You can fill if needed later
+            })
+
+        # Get all chairpersons from officials (in case more than one)
+        chairpersons = [
+            {"name": f"श्री {official.full_name}", "post": official.post}
+            for official in officials if official.post == "अध्यक्ष"
+        ]
+
+        # Project name fallback
+        project_name = getattr(project, 'name', None) or getattr(project, 'project_name', None) or "........"
+
+        context = {
+            "project_name": project_name,
+            "chairpersons": chairpersons,
+            # ...
+        }
+        
+        print(f"Serial 4 officials count: {officials.count()}")
+        for official in officials:
+            print(f"Official: post={official.post}, full_name={official.full_name}")
+
+        return context
+    
+    
+    elif serial_no == 5:
+        # Placeholder: adjust as per your PDF/template need
+        return {
+            "message": "No specific data needed for serial_no 5.",
+            "project_name": getattr(project, 'project_name', '........')
+        }
+
+
+
+
+
+    else:
+        raise NotImplementedError(f"Serial number {serial_no} not yet implemented.")

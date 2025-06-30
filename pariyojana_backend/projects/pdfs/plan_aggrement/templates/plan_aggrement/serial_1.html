@@ -1,0 +1,34 @@
+<h2>{{ city }}</h2>
+<h3>{{ office }}</h3>
+
+<p>
+आज मिति {{ meeting_date }} गते बिहान/ दिउसो वजे यस उपभोक्ता समितिका अध्यक्ष श्री {{ chairperson_name }} ज्युको अध्यक्षतामा वसेको {{ meeting_location }} बैठकको उपस्थिति र निर्णयहरु देहाय बमोजिम छन् ।
+</p>
+
+<h4>उपस्थिती</h4>
+<table>
+  <thead>
+    <tr><th>पद</th><th>नाम थर</th><th>दस्तखत</th></tr>
+  </thead>
+  <tbody>
+    {% for row in attendance_rows %}
+      <tr>
+        <td>{{ row.post }}</td>
+        <td>{{ row.name }}</td>
+        <td>{{ row.signature }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h4>बैठकको छलफलको कार्यसूची</h4>
+<ol>
+  {% for agenda in agenda_list %}
+    <li>{{ agenda }}</li>
+  {% endfor %}
+</ol>
+
+<h4>निर्णयहरु</h4>
+{% for decision in decision_list %}
+  <p><strong>निर्णय नं.{{ forloop.counter }}</strong><br>{{ decision }}</p>
+{% endfor %}

@@ -12,7 +12,19 @@ from projects.views.Consumer_Committee.consumer_committee import (
     consumer_committee_upload,
     download_consumer_committee_pdf,
 )
+from projects.views.Project_Aggrement.project_plan_tracker import (
+    ProjectPlanTrackerListView, upload_project_plan_tracker, download_project_plan_tracker_pdf
+)
+from projects.views.Project_Aggrement.project_aggrement_workorder import (
+    ProjectAgreementWorkorderListView,
+    project_agreement_workorder_upload,
+    download_project_agreement_workorder_pdf,
+)
+
+
 from projects.views.Consumer_Committee.consumer_committee import preview_template
+from projects.views.Project_Aggrement.project_plan_tracker import preview_project_plan_tracker_template
+from projects.views.Project_Aggrement.project_aggrement_workorder import preview_project_aggrement_workorder_template
 from projects.views.Project_Aggrement.project_aggrement_details import ProjectAgreementDetailsViewSet
 from projects.views.Consumer_Committee.official_detail import OfficialDetailViewSet
 from projects.views.Operation_Location.operation_location import OperationSitePhotoViewSet
@@ -23,7 +35,7 @@ from projects.views.Installment_Payment.account_photos import AccountPhotoViewSe
 from projects.views.Cost_Estimate.map_cost_estimate import MapCostEstimateViewSet
 from projects.views.ExtendedDeadline.extended_deadline import ExtendedDeadlineViewSet
 from projects.views.Cost_Estimate.cost_estimate_revision import CostEstimateRevisionViewSet
-from projects.views.progress_stage import ProjectProgressViewSet
+from projects.views.progress_stage import ProjectProgressViewSet\
 
 router = DefaultRouter()
 router.register(r'projects', ProjectViewSet, basename='project')
@@ -52,11 +64,21 @@ urlpatterns = [
     path('consumer-committee/', ConsumerCommitteeListView.as_view(), name='consumer-committee-list'),
     path('consumer-committee/upload/', consumer_committee_upload, name='consumer-committee-upload'),
     path('consumer-committee/generate-pdf/<int:serial_no>/<int:project_id>/', download_consumer_committee_pdf),
-     path('consumer-committee/preview-template/<int:serial_no>/<int:project_id>/', preview_template, name='preview-template'),
+    path('consumer-committee/preview-template/<int:serial_no>/<int:project_id>/', preview_template, name='preview-template'),
+     
+    path('project-plan-tracker/', ProjectPlanTrackerListView.as_view()),
+    path('project-plan-tracker/upload/', upload_project_plan_tracker),
+    path('project-plan-tracker/download/<int:serial_no>/<int:project_id>/', download_project_plan_tracker_pdf),
+    path('plan_aggrement/preview-template/<int:serial_no>/<int:project_id>/', preview_project_plan_tracker_template, name='project-plan-tracker-preview-template'),
+    
+    
+    path('project-agreement/', ProjectAgreementWorkorderListView.as_view(), name='project_agreement_list'),
+    path('project-agreement/upload/', project_agreement_workorder_upload, name='project_agreement_upload'),
+    path('project-agreement/download/<int:serial_no>/<int:project_id>/', download_project_agreement_workorder_pdf, name='project_agreement_pdf_download'),
+    path('project_aggrement_workorder/preview-template/<int:serial_no>/<int:project_id>/', preview_project_aggrement_workorder_template, name='project-plan-tracker-preview-template'),
+    
 
 ]
-
-
 
 
 

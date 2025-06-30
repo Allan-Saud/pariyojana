@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8">
+  <title>बैंक खाता सञ्चालन सिफारिस</title>
+  <style>
+    body {
+      font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
+      margin: 40px;
+      line-height: 1.8;
+    }
+    .center {
+      text-align: center;
+    }
+    .section {
+      margin-top: 20px;
+    }
+    .signature-box {
+      margin-top: 40px;
+    }
+    ul {
+      list-style-type: decimal;
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="center">
+    <h2>ललितपुर महानगरपालिक</h2>
+    <h3>नगर कार्यपालिकाको कार्यालय</h3>
+    <h4>पुल्चोक, ललितपुर<br>बागमती प्रदेश, नेपाल</h4>
+  </div>
+
+  <div class="section">
+    <p>श्री प्रमुख प्रशासकीय अधिकृत ज्यू,</p>
+    <p>नगर कार्यपालिकाको कार्यालय,</p>
+    <p>पुल्चोक, ललितपुर ।</p>
+    <p>श्री वडा अध्यक्ष ज्यू</p>
+    <p>..... कार्यालय</p>
+    <p>मितिः ............</p>
+  </div>
+
+  <div class="section">
+    <p><strong>विषयः- नयाँ बैंक खाता सञ्चालन सिफारिस सम्बन्धमा ।</strong></p>
+
+    <p>
+      उपरोक्त विषयमा यस उपभोक्ता समिति मार्फत सञ्चालन हुने गरी मिति २०..... मा 
+      <strong>{{ project_name }}</strong> नामको योजना सम्झौता भई कायदिश समेत प्राप्त भएकोले,
+      यस उपभोक्ता समितिको आम्दानी खर्च हिसाब दुरुस्त राख बैंकिङ्ग प्रणाली उपयुक्त हुने भएकोले तोकिएको 
+      बैङ्कमा देहायको पदाधिकारीहरूको दस्तखत रहने गरी उपभोक्ता समितिको नाममा बैंक खाता सञ्चालन 
+      व्यवस्थाका लागि उ.स.को मिति .......... निर्णयानुसार आवश्यक सिफारिस गरी पाउन यो निवेदन पेश 
+      गरेको छु । सिफारिस गरी पाउँ ।
+    </p>
+  </div>
+
+  <div class="section signature-box">
+  <div class="section signature-box">
+  <p><strong>निवेदक</strong></p>
+
+ <p>सहीछापः -</p>
+
+{% for chairperson in chairpersons %}
+  <p>नामथरः {{ chairperson.name }}</p>
+{% empty %}
+  <p>नामथरः ........</p>
+{% endfor %}
+
+<p>पदः अध्यक्ष</p>
+<p>उपभोक्ता समिति</p>
+<p>उपभोक्ता समितिको छाप</p>
+
+</div>
+
+
+
+  <div class="section">
+    <p><strong>संलग्न प्रमाण कागज</strong></p>
+    <ul>
+      <li>बैङ्क खाता सञ्चालन हुने पदाधिकारीको नागरिकताको प्रमाणीत प्रतिलिपि पाना-</li>
+      <li>उपभोक्ता समितिको बैठकको निर्णय प्रतिलिपि पाना-</li>
+    </ul>
+  </div>
+
+</body>
+</html>

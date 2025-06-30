@@ -80,6 +80,9 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
                 BASE_DIR / 'projects' / 'pdfs' / 'consumer_committee' / 'templates',
+                BASE_DIR / 'projects' / 'pdfs' / 'plan_aggrement' / 'templates',
+                BASE_DIR / 'projects' / 'pdfs' / 'project_aggrement_workorder' / 'templates',
+                
             ],
         "APP_DIRS": True,
         "OPTIONS": {

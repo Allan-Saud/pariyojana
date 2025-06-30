@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8">
+  <title>योजना सम्झौता टिप्पणी र आदेश</title>
+  <style>
+    body {
+      font-family: Kalimati, 'Noto Sans Devanagari', 'Noto Sans', Arial, sans-serif;
+      line-height: 1.7;
+      margin: 40px;
+    }
+    h1, h2, h3 {
+      text-align: center;
+      margin: 0;
+    }
+    .section {
+      margin-top: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    td, th {
+      border: 1px solid #000;
+      padding: 8px;
+      vertical-align: top;
+    }
+    .no-border td {
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>ललितपुर महानगरपालिका</h1>
+  <h2>नगर कार्यपालिकाको कार्यालय</h2>
+  <h3>पुल्चोक, ललितपुर<br>बागमती प्रदेश, नेपाल</h3>
+
+  <div class="section">
+    <p><strong>मितिः</strong> .........................</p>
+    <p><strong>विषयः</strong> योजना सम्झौता सम्बन्धमा</p>
+    <p><strong>टिप्पणी र आदेश</strong></p>
+  </div>
+
+  <div class="section">
+    <p>श्रीमान,</p>
+
+    <p>
+      यस महानगरपालिकाको आर्थिक वर्ष {{ fiscal_year }} को स्वीकृत वार्षिक कार्यक्रम अनुसार यस न.पा. को वडा नं. {{ ward_no }} मा देहाय वमोजिमको योजना/कार्यक्रम कार्यान्वयन गर्न वडा कार्यालयको सूचना वमोजिम प्रत्यक्ष लाभग्राहीको भेलाबाट उपभोक्ता समिति/समूह/AI गठन भई सम्झौता गर्ने निर्णयको प्रतिलिपि संलग्न राखी वडा कार्यालयबाट सम्झौताका लागि मिति २०../..../.... सिफारिश भई आएको छ।
+    </p>
+
+    <p>
+      प्रस्तुत विषयमा यस न.पा. वडाको मिति २०../..../.... को निर्णयानुसार / आदेशानुसार नगरस्तरीय / वडास्तरीय / सामाजिक विकास वजेट शिर्षकबाट खर्चिने गरी देहायको योजना सम्झौता हुन / गराउन मनासिव देखी सम्झौता फाराम तयार गरी निर्णयार्थ पेश गरेको छु।
+    </p>
+  </div>
+
+  <div class="section">
+  <table>
+    <tr>
+      <td><strong>आयोजना / कार्यक्रमको नामः</strong></td>
+      <td>{{ project_name }}</td>
+    </tr>
+    <tr>
+      <td><strong>वडा नं.</strong></td>
+      <td>{{ ward_no }}</td>
+    </tr>
+    <tr>
+      <td><strong>टोलवस्तीः</strong></td>
+      <td>{{ tole_basti|default:"......................." }}</td>
+    </tr>
+    <tr>
+      <td><strong>वडा कार्यालयको सूचना बमोजिमको प्रत्यक्ष लाभग्राहीको भेलाको निर्णय मितिः</strong></td>
+      <td>{{ decision_date|default:"२०../..../...." }}</td>
+    </tr>
+    <tr>
+      <td><strong>बजेट वर्ष (आ.व. {{ fiscal_year }})</strong></td>
+      <td>उपभोक्ता समितिको नाम र ठेगानाः {{ consumer_committee_name|default:"...................." }}</td>
+    </tr>
+    <tr>
+      <td><strong>वजेट शिर्षकः</strong></td>
+      <td>{{ budget_heading|default:"वडास्तरीय / नगरस्तरीय सामाजिक विकास" }}</td>
+    </tr>
+    <tr>
+      <td><strong>वडा कार्यालयको सिफारिश पत्रको च.नं. र मितिः</strong></td>
+      <td>{{ recommendation_letter|default:"...................." }}</td>
+    </tr>
+    <tr>
+      <td>
+        <strong>आयोजना सुरु हुने मितिः</strong> {{ start_date|default:"२०../..../...." }}<br>
+        <strong>वजेट श्रोतः</strong> नेपाल सरकार (संघीय) विनियोजित रु. {{ budget }}<br>
+        <strong>न.पा. ले व्यहोर्नु पर्नेः</strong> {{ municipality_percentage }}%<br>
+        <strong>जनश्रमदान/लागत सहभागिता:</strong> {{ public_participation_percentage }}%<br>
+        <strong>उपभोक्ताको नगद सहभागिता:</strong> रु.{{ public_participation_amount }}<br>
+      </td>
+      <td>
+        <strong>आयोजना सम्पन्न हुने मितिः</strong> {{ end_date|default:"२०../..../...." }}<br>
+        <strong>खर्च शिर्षक:</strong> {{ expense_heading|default:"वडा" }}<br>
+        <strong>अक्षरेपी:</strong> रु.{{ budget_in_words|default:"..............." }}<br>
+        <strong>रु:</strong> {{ budget }}<br>
+        <strong>उपभोक्ताको श्रम सहभागिता:</strong> रु.{{ public_labor_contribution}}<br>
+        <strong>वजेट अक्षरेपी:</strong> {{ budget_in_words|default:"...................." }}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        पुरातात्विक सम्पदा युक्त कार्यको हकमा (परम्परागत शैलीमा चुना, सुर्को प्रयोग गरी जिर्णोद्धार तथा पुनर्निर्माण हुने कार्यमा जनसहभागिता व्यहोर्नु पर्ने छैन।)
+      </td>
+      <td>
+        औं नगर सभाबाट पारित नीति पछिल्लो तथा कार्यक्रमको बुँदा नं..... र मध्यपुर थिमि नगरपालिकाको आर्थिक ऐन २०.... को दफा....... मा लेखिए वमोजिम उपभोक्ता समितिले लागत सहभागिता व्यहोर्न नपर्ने।
+      </td>
+    </tr>
+  </table>
+</div>
+
+</body>
+</html>
