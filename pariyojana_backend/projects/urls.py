@@ -42,6 +42,7 @@ from projects.views.ExtendedDeadline.extended_deadline import ExtendedDeadlineVi
 from projects.views.Cost_Estimate.cost_estimate_revision import CostEstimateRevisionViewSet
 from projects.views.progress_stage import ProjectProgressViewSet
 from projects.views.Documents.documents import DocumentViewSet
+from projects.views.Installment_Payment.first_installment import FirstInstallmentDocumentView, FirstInstallmentPDFView
 
 router = DefaultRouter()
 router.register(r'projects', ProjectViewSet, basename='project')
@@ -87,6 +88,10 @@ urlpatterns = [
     path('other-documents/<int:project_id>/', OtherDocumentListView.as_view(), name='other-documents-list'),
     path('other-documents/download/<int:serial_no>/<int:project_id>/', download_other_document_pdf, name='other-document-download'),
     path('other-documents/preview-template/<int:serial_no>/<int:project_id>/', preview_other_document_template, name='other-document-preview-template'),
+    
+    
+    path('installment-documents/', FirstInstallmentDocumentView.as_view(), name='installment-documents'),
+    path('installment-documents/pdf/<int:serial_number>/', FirstInstallmentPDFView.as_view(), name='installment-pdf'),
     
     
 
