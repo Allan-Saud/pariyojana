@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Public Expenditure Information Form</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  .container {
+    max-width: 800px;
+    margin: auto;
+    border: 1px solid #ddd;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    background-color: #fff;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .header h2, .header h3 {
+    margin: 5px 0;
+  }
+  .address {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .annex {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .section {
+    margin-bottom: 20px;
+  }
+  .section p {
+    margin: 5px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  table, th, td {
+    border: 1px solid black;
+  }
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+  .signature-section {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+  }
+  .signature-item {
+    flex: 1;
+  }
+  .statement {
+    margin-top: 20px;
+    text-align: justify;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+  <h2>बर्दगोरिया गाउँपालिका</h2>
+<h3>नगर कार्यपालिकाको कार्यालय</h3> 
+</div>
+
+<div class="address">
+  <p>मूडा, कैलाली</p>
+  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+</div>
+
+
+  <div class="annex">
+    <h3>अनुसूची ५</h3>
+    <p>(कार्यविधिको दफा १६ (८) सँग सम्वन्धित) खर्च सार्वजनिक सूचना फाराम)</p>
+  </div>
+
+  <p>मितिः</p>
+
+  <div class="section">
+    <p>१. आयोजनाको नामः- {{project_name}}</p>
+    <p>२. आयोजना स्थलः- {{location}}</p>
+    <p>३. विनियोजित वजेटः- रू{{total_cost}}</p>
+    <p>४. आयोजना स्विकृत भएको आ.वः {{fiscal_year}}</p>
+    <p>५. आयोजना सम्झौता भएको मितिः- {{work_order_date}}</p>
+    <p>६. काम सम्पन्न गर्नु पर्ने मितिः {{completion_date}}</p>
+    <p>७. काम सम्पन्न भएको मितिः-</p>
+    <p>८. उपभोक्ता समितिको बैठकले खर्च स्वीकृत गरेको मितिः-</p>
+  </div>
+
+  <h3>आम्दानी र खर्चको विवरण</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>विवरण</th>
+        <th>रकम रु</th>
+        <th>विवरण</th>
+        <th>रकम रु</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>प्रथम किस्ता</td>
+        <td></td>
+        <td>ज्याला</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>निर्माण सामाग्री खरिद</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>ढुवानी</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>दोश्रो किस्ता</td>
+        <td></td>
+        <td>ज्याला</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>निर्माण सामाग्री खरिद</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>ढुवानी</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>व्यवस्थापन खर्च</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>जनश्रमदान</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>वस्तुगत सहायता</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>लागत सहभागिता</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="statement">
+    <p>माथि उल्लेख भए अनुसारको आम्दानी तथा खर्च विवरण यथार्थ हो। यसमा सबै आम्दानी तथा खर्चहरु समावेश गरिएको छ। साथै उपभोक्ताहरुको प्रत्यक्ष सहभागितामा आयोजना कार्यान्वयन गरिएको छ। यसको एक प्रति वडा कार्यालयमा समेत पेश गरिएको छ।</p>
+  </div>
+
+  <div class="signature-section">
+    <div class="signature-item">
+      <p>कोषाध्यक्ष</p>
+    </div>
+    <div class="signature-item">
+      <p>सचिव</p>
+    </div>
+    <div class="signature-item">
+      <p>अध्यक्ष</p>
+    </div>
+  </div>
+  <p style="text-align: center; margin-top: 20px;">प्रमाणित गर्नेः वडा अध्यक्ष श्री</p>
+  <p style="text-align: center;">दस्तखत</p>
+
+</div>
+
+</body>
+</html>

@@ -29,6 +29,18 @@ from projects.views.Installment_Payment.first_installment import (
     download_first_installment_pdf,
     preview_first_installment_template
 )
+from projects.views.Installment_Payment.second_installment import (
+    SecondInstallmentListView,
+    second_installment_upload,
+    download_second_installment_pdf,
+    preview_template as preview_second_installment_template,
+)
+from projects.views.Installment_Payment.third_installment import (
+    ThirdInstallmentListView,
+    third_installment_upload,
+    download_third_installment_pdf,
+    preview_template as preview_third_installment_template,
+)
 from projects.views.Consumer_Committee.consumer_committee import preview_template
 from projects.views.Project_Aggrement.project_plan_tracker import preview_project_plan_tracker_template
 from projects.views.Project_Aggrement.project_aggrement_workorder import preview_project_aggrement_workorder_template
@@ -99,7 +111,20 @@ urlpatterns = [
     'first-installment/preview-template/<int:serial_no>/<int:project_id>/',
     preview_first_installment_template,
     name='first-installment-preview-template'
-),
+    ),
+    
+    
+    path('second-installment/<int:project_id>/', SecondInstallmentListView.as_view(), name='second-installment-list'),
+    path('second-installment/<int:project_id>/upload/', second_installment_upload, name='second-installment-upload'),
+    path('second-installment/generate-pdf/<int:serial_no>/<int:project_id>/', download_second_installment_pdf, name='download-second-installment-pdf'),
+    path('second-installment/preview-template/<int:serial_no>/<int:project_id>/', preview_second_installment_template, name='preview-second-installment-template'),
+    
+    
+    
+    path('third-installment/<int:project_id>/', ThirdInstallmentListView.as_view(), name='third-installment-list'),
+    path('third-installment/<int:project_id>/upload/', third_installment_upload, name='third-installment-upload'),
+    path('third-installment/generate-pdf/<int:serial_no>/<int:project_id>/', download_third_installment_pdf, name='download-third-installment-pdf'),
+    path('third-installment/preview-template/<int:serial_no>/<int:project_id>/', preview_third_installment_template, name='preview-third-installment-template'),
 
     
 

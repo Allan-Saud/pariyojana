@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>समितिको भौतिक तथा वित्तीय प्रगति प्रतिवेदन विवरण</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+  }
+  .container {
+    width: 80%;
+    margin: auto;
+    border: 1px solid #eee;
+    padding: 20px;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+  .subsection {
+    margin-left: 20px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  table, th, td {
+    border: 1px solid black;
+  }
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+  .footer {
+    margin-top: 30px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <p>बर्दगोरिया गाउँपालिका</p>
+    <p>नगर कार्यपालिकाको कार्यालय</p>
+    <p>मूडा, कैलाली</p>
+    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+    <p>अनुसूची-६</p>
+    <p>(कार्यविधिको दफा १६ (९) सँग सम्बन्धित)</p>
+  </div>
+
+  <p>समितिको भौतिक तथा वित्तीय प्रगति प्रतिवेदन विवरण पेश गरेको कार्यालयः ललितपुर महानगरपालिका/वडा</p>
+  <p>कार्यालय</p>
+
+  <div class="section">
+    <p class="section-title">१. आयोजनाको विवरण</p>
+    <p>आयोजनाको नामः {{project_name}}</p>
+    {% comment %} <p>उपभोक्ता समितिका अध्यक्षः ram</p>
+    <p>सचिवः sita</p> {% endcomment %}
+    <p>
+        {% for official in officials %}
+  {{ official.post }} श्री {{ official.full_name }}<br>
+{% empty %}
+  कोही पनि विवरण उपलब्ध छैन।
+{% endfor %}
+    </p>
+    <p>वडा नं.: {{ward_no}} टोल/बस्तीः</p>
+  </div>
+
+  <div class="section">
+    <p class="section-title">२. आयोजनाको लागतः प्राप्त अनुदान रकम रू. {{municipality_amount}} चन्दा रकम रु............</p>
+    <p>जनसहभागिता रकम रू. {{public_participation_amount}} गरी जम्मा रकम रु.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-title">३. हालसम्मको खर्च रू.</p>
+    <p>क. कार्यालयबाट प्राप्त रकम रू.........</p>
+    <div class="subsection">
+      <p>१. निर्माण सामग्रीमा खरिद (सिमेन्ट, छड, काठ, ढुंगा वा फुवा, गिट्टी, उपकरण आदि) रू..</p>
+      <p>२. ज्यालाः दक्ष कामदारलाई रूः-</p>
+      <p>अदक्ष कामदारलाई रू.</p>
+      <p>जम्मा रू.</p>
+      <p>३. मसलन्द सामान (कपि, कलम, मसी, कागज आदि) रू.</p>
+      <p>४. दैनिक भ्रमण भत्ता (सम्झौतामा स्वीकृत भए) रू.</p>
+      <p>५. प्राविधिक निरीक्षण बापत खर्च (सम्झौतामा स्वीकृत भए) रू.</p>
+      <p>६. अन्य</p>
+      <p>७. प्राविधिक प्रतिवेदन बमोजिम मुल्याकंन रकम रु</p>
+      <p>८. उपभोक्ता समुहको निर्णय वमोजिम समिक्षावाट खर्च देखिएको रु</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-title">९. योजना कार्यान्वयनको क्रममा देखिएका मुख्य समस्याहरु</p>
+                <p>१</p>
+                <p>२</p>
+  </div>
+
+  <div class="section">
+    <p class="section-title">१०. समाधानका उपायहरु</p>
+  </div>
+
+  <div class="section">
+    <p class="section-title">११. प्राप्त रकम अयोजना बाहेक अन्य कार्यमा खर्च गर्ने गराउने छैनौ ।</p>
+  </div>
+
+ <style>
+    .signature-line {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 40px;
+        gap: 10px;
+    }
+
+    .signature-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+    }
+
+    .dotted-line {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+</style>
+
+<div class="signature-line">
+    <div class="signature-box">
+        <div class="dotted-line">............................</div>
+        <p>कोषाध्यक्ष</p>
+    </div>
+    <div class="signature-box">
+        <div class="dotted-line">............................</div>
+        <p>प्रमाणित गर्नेः वडा अध्यक्ष श्री</p>
+    </div>
+    <div class="signature-box">
+        <div class="dotted-line">............................</div>
+        <p>सचिव</p>
+    </div>
+    {% comment %} <div class="signature-box">
+        <div class="dotted-line">............................</div>
+        <p>दस्तखत</p>
+    </div> {% endcomment %}
+    <div class="signature-box">
+        <div class="dotted-line">............................</div>
+        <p>अध्यक्ष</p>
+    </div>
+</div>
+
+
+</div>
+
+</body>
+</html>

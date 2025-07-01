@@ -84,6 +84,10 @@ TEMPLATES = [
                 BASE_DIR / 'projects' / 'pdfs' / 'project_aggrement_workorder' / 'templates',
                 BASE_DIR / 'projects' / 'pdfs' / 'other_documents' / 'templates',
                 BASE_DIR / 'projects' / 'pdfs' / 'First_Installment' / 'templates',
+                BASE_DIR / 'projects' / 'pdfs' / 'Second_Installment' / 'templates',
+                BASE_DIR / 'projects' / 'pdfs' / 'Third_Installment' / 'templates',
+                
+                
                 
                 
                 

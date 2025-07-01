@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Monitoring and Facilitation Committee Meeting Minutes</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  .container {
+    max-width: 800px;
+    margin: auto;
+    border: 1px solid #ddd;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    background-color: #fff;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .header h2, .header h3 {
+    margin: 5px 0;
+  }
+  .address {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .meeting-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .meeting-details {
+    margin-bottom: 30px;
+  }
+  .meeting-details p {
+    margin: 5px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  table, th, td {
+    border: 1px solid black;
+  }
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+  .agenda, .decisions {
+    margin-bottom: 20px;
+  }
+  .decision-content {
+    margin-left: 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+  <h2>बर्दगोरिया गाउँपालिका</h2>
+<h3>नगर कार्यपालिकाको कार्यालय</h3> 
+</div>
+
+<div class="address">
+  <p>मूडा, कैलाली</p>
+  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+</div>
+
+
+  <h2 class="meeting-title">अनुगमन तथा सहजीकरण समितिको वैठक नं २</h2>
+
+  <div class="meeting-details">
+    <p>आज मिति २०...... साल &nbsp;&nbsp; महिना....... गते &nbsp;&nbsp; वार &nbsp;&nbsp; बिहान/दिउसो &nbsp;&nbsp; वजे</p>
+    <p>यस अनुगमन तथा सहजिकरण समितिका संयोजक श्री ज्युको अध्यक्षतामा वसेको बैठकको उपस्थिति र निर्णयहरु देहाय वमोजिम छन ।</p>
+  </div>
+
+  <h3>उपस्थिती</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>पद</th>
+        <th>नाम थर</th>
+        <th>दस्तखत</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for official in officials %}
+    <tr>
+      <td>{{ official.post }}</td>
+      <td>श्री {{ official.full_name }}</td>
+      <td></td>
+    </tr>
+  {% empty %}
+    <tr>
+      <td colspan="2">कोही पनि विवरण उपलब्ध छैन।</td>
+    </tr>
+  {% endfor %}
+
+    </tbody>
+  </table>
+
+  <div class="agenda">
+    <h3>बैठकको छलफलको कार्यसुची</h3>
+    <ol>
+      <li>निर्माण कार्य सम्पन्न सम्वन्धमा ।</li>
+      <li>विविध अन्य विषय सम्वन्धमा ।</li>
+    </ol>
+  </div>
+
+  <div class="decisions">
+    <h3>निर्णय नं.१</h3>
+    <div class="decision-content">
+      <p>बैठकको कार्यसूची नं.१ को सम्वन्धमा छलफल हुँदा A योजनाको निर्माण कार्य सम्बन्धमा ललितपुर महानगरपालिका र उपभोक्ता समिति. ....ले सम्झौता गरि गरेको कामको सम्बन्धमा अनुगमन गर्दा प्राविधिक लागत अनुमान र प्रस्तावना अनुसार नै योजना/कार्यक्रमको काम सम्पन्न भएको स्थलगत अनुगमनको क्रममा देखिएको हुँदा कार्य सम्पन्न बमोजिमको रकम भुक्तानीको लागि महानगरपालिकाको कार्यालयमा सिफारिस गर्ने सर्वसम्मत निर्णय गरियो ।</p>
+    </div>
+  </div>
+
+  <table>
+    <tr>
+      <td>निर्णय नं.२</td>
+    </tr>
+  </table>
+
+</div>
+
+</body>
+</html>

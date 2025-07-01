@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Application for Remaining Installment</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  .container {
+    max-width: 800px;
+    margin: auto;
+    border: 1px solid #ddd;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    background-color: #fff;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .header h2, .header h3 {
+    margin: 5px 0;
+  }
+  .address {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .recipient-info {
+    margin-bottom: 20px;
+  }
+  .recipient-info p {
+    margin: 5px 0;
+  }
+  .date {
+    text-align: right;
+    margin-bottom: 20px;
+  }
+  .subject {
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  .content-paragraph {
+    margin-bottom: 20px;
+    text-align: justify;
+  }
+  .attachments {
+    margin-bottom: 30px;
+  }
+  .attachments ul {
+    list-style-type: decimal;
+    padding-left: 20px;
+  }
+  .applicant-details {
+    text-align: left;
+    margin-top: 30px;
+  }
+  .applicant-details p {
+    margin: 5px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+  <h2>बर्दगोरिया गाउँपालिका</h2>
+<h3>नगर कार्यपालिकाको कार्यालय</h3> 
+</div>
+
+<div class="address">
+  <p>मूडा, कैलाली</p>
+  <p>सुदूरपश्चिम प्रदेश,नेपाल</p>
+</div>
+
+
+  <div class="recipient-info">
+    <p>श्रीमान् प्रमुख प्रशासकीय अधिकृतज्यू/श्रीमान् सचिव ज्यू</p>
+    <p>नगर कार्यपालिकाको कार्यालय/वडा समितिको कार्यालय</p>
+  </div>
+
+  <div class="date">
+    <p>मितिः- २०८.../.../.....</p>
+  </div>
+
+  <div class="subject">
+    <p>विषयः-प्राविधिक नाँपजाँच सहित बाँकि किस्ता रकम उपलव्ध गराई पाउँ</p>
+  </div>
+
+  <div class="content-paragraph">
+    <p>उपर्युक्त विषयमा चालु आर्थिक वर्षको वडास्तरीय/नगरस्तरीय/विषयगत सामाजिक विकास तर्फको भैपरी वजेट शिर्षकमा <b>{{project_name}}</b> गर्ने सम्बन्धी योजनाको लागि मिति मा सम्झौता कार्यको भए अनुसारको रकम बराबरको निर्माण कार्य सम्पन्न गरि सकिएकोले उक्त पेश्की रकम फछ्यौट गरि प्राविधिक नाँपजाँच सहित बाँकी रकम उपलव्ध गराई पाउन यो निवेदन पेश गरेका छौ।</p>
+  </div>
+
+  <div class="attachments">
+    <p>संलग्न कागजातहरु</p>
+    <ul>
+      <li>उपभोक्ता समितिको योजना सम्पन्न सम्बन्धी निर्णय</li>
+      <li>अनुगमन तथा सहजिकरण समितिको निर्णय</li>
+      <li>वडा कार्यालयको सिफारिस</li>
+      <li>निर्माण कार्यको फोटोहरु</li>
+      <li>सार्वजनिक परिक्षण गरिएको विवरण / प्रतिवेदन</li>
+    </ul>
+  </div>
+
+  <div class="applicant-details">
+    <p>निवेदक</p>
+    {% comment %} <p>अध्यक्षः ram</p>
+    <p>सचिवः- sita</p>
+    <p>कोषाध्यक्षः - hari</p> {% endcomment %}
+     {% for official in officials %}
+  {{ official.post }} श्री {{ official.full_name }}<br>
+{% empty %}
+  कोही पनि विवरण उपलब्ध छैन।
+{% endfor %}
+  </div>
+
+</div>
+
+</body>
+</html>

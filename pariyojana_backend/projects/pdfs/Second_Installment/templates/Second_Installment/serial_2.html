@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>सम्झौता बमोजिमको दोश्रो किस्ता रकम उपलव्ध गराई पाउँ</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+  }
+  .container {
+    width: 80%;
+    margin: auto;
+    border: 1px solid #eee;
+    padding: 20px;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .content {
+    margin-bottom: 30px;
+  }
+  .attachments {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .applicant {
+    margin-top: 30px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+  <h2>बर्दगोरिया गाउँपालिका</h2>
+<h3>नगर कार्यपालिकाको कार्यालय</h3> 
+</div>
+
+<div class="address">
+  <p>मूडा, कैलाली</p>
+  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+</div>
+
+
+  <div class="content">
+    <p>श्रीमान् प्रमुख प्रशासकीय अधिकृतज्यू/श्रीमान् सचिव ज्यू</p>
+    <p>नगर कार्यपालिकाको कार्यालय/वडा समितिको कार्यालय</p>
+    <p>मितिः-...</p>
+    <p>विषयः- सम्झौता बमोजिमको दोश्रो किस्ता रकम उपलव्ध गराई पाउँ</p>
+    <p>उपर्युक्त विषयमा चालु आर्थिक वर्षको वडास्तरीय/नगरस्तरीय/विषयगत सामाजिक विकास तर्फको</p>
+    <p>भैपरी वजेट शिर्षकमा A गर्ने सम्बन्धी योजनाको लागि मिति .............. मा सम्झौता भए अनुसार</p>
+    <p>प्रथम किस्ता रकम बराबरको निर्माण कार्य सम्पन्न गरि सकिएकोले उक्त कार्यको प्राविधिक नाँपजाँच</p>
+    <p>गरि दोश्रो पेश्कि स्वरुप पेश्की रकम उपलव्ध गराई पाउन यो निवेदन पेश गरेका छौ।</p>
+  </div>
+
+  <div class="attachments">
+    <p>संलग्न कागजातहरु</p>
+    <p>१. उपभोक्ता समितिको किस्ता माग सम्बन्धी निर्णय</p>
+    <p>२. वडा कार्यालयको सिफारिस</p>
+    <p>३. निर्माण कार्यको फोटोहरु</p>
+  </div>
+
+  <div class="applicant">
+    <p>निवेदक</p>
+    {% comment %} <p>अध्यक्षः ram</p>
+    <p>सचिवः - sita</p>
+    <p>कोषाध्यक्षः - hari</p>  {% endcomment %}
+    {% for official in officials %}
+  {{ official.post }} श्री {{ official.full_name }}<br>
+{% empty %}
+  कोही पनि विवरण उपलब्ध छैन।
+{% endfor %}
+  </div>
+</div>
+
+</body>
+</html>

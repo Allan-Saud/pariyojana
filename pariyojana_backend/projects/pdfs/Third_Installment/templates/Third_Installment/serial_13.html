@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Project/Program Handover Form</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  .container {
+    max-width: 800px;
+    margin: auto;
+    border: 1px solid #ddd;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    background-color: #fff;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .header h2, .header h3 {
+    margin: 5px 0;
+  }
+  .address {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .form-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .intro-paragraph {
+    margin-bottom: 30px;
+    text-align: justify;
+  }
+  .section-details {
+    margin-bottom: 20px;
+  }
+  .section-details p {
+    margin: 5px 0;
+  }
+  .signature-section {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+  }
+  .signature-block {
+    flex: 1;
+    margin: 0 10px;
+  }
+  .signature-block p {
+    margin: 5px 0;
+  }
+  .witnesses {
+    margin-top: 30px;
+  }
+  .note {
+    font-size: 0.9em;
+    margin-top: 30px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+  <h2>बर्दगोरिया गाउँपालिका</h2>
+<h3>नगर कार्यपालिकाको कार्यालय</h3> 
+</div>
+
+<div class="address">
+  <p>मूडा, कैलाली</p>
+  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+</div>
+
+
+  <h2 class="form-title">योजना/कार्यक्रम हस्तान्तरण फाराम</h2>
+
+  <div class="intro-paragraph">
+    <p>ललितपुर महानगरपालिका वडा १ मा वार्षिक नगर विकास योजना अन्तर्गत संचालित तपसिलमा उल्लेखित योजना निर्माण, व्यवस्थापन तथा सन्चालनको लागि महानगरपालिका वडा कार्यालय र स्थानीय उपभोक्ता समिति विच सम्झौता भई उक्त कार्य सम्झौता वमोजिम कार्यसम्पन्न कार्य स्वीकार भएकोले स्थानीय उपभोक्ता समितिलाई सार्वजिनक खरिद नियमावली २०६४ को नियम ९७, उपनियम १२ वमोजिजम योजना मर्मत सम्भार लगायत रेखदेख गर्ने गरी आयोजना/कार्यक्रम हस्तान्तरण गरी दिईएको/लिईएको छ।</p>
+    <p>तपशिल</p>
+  </div>
+
+  <div class="section-details">
+    <p>आयोजना/योजनाको नामः {{project_name}}</p>
+    <p>आयोजना/योजना स्थलः ललितपुर महानगरपिलका वडा नं. {{ward_no}} को {{location}}</p>
+    <p>सम्झौता रकम रु. {{agreement_amount}}</p>
+    <p>लागत सहभागिता रकम रु.{{public_participation_amount}}</p>
+    <p>सम्झौता मितिः {{agreement_date}}</p>
+    <p>स्थानीय उपभोक्ता समितिको नामः {{consumer_committee_name}}</p>
+    <p>समितिको अध्यक्ष नामः {{chairman_name}}</p>
+    <p>आयोजना/योजना सम्पन्न रकम रु.:</p>
+    <p>जम्मा रकम रु. {{total_cost}}</p>
+    <p>कार्य सम्पन्न मितिः</p>
+  </div>
+
+  <div class="signature-section">
+    <div class="signature-block">
+      <p>हस्तान्तरण गरी लिनेको हस्ताक्षर</p>
+      <p>उपभोक्ता समितिको अध्यक्ष</p>
+    </div>
+    <div class="signature-block">
+      <p>हस्तान्तरण गरी दिनेको हस्ताक्षर</p>
+      <p>महानगरपालिका/वडा कार्यालय</p>
+    </div>
+  </div>
+
+  <div class="witnesses">
+    <p>साक्षीहरुः</p>
+    <p>नामः</p>
+    <p>पदः</p>
+    <p>नामः</p>
+    <p>पदः</p>
+  </div>
+
+  <div class="note">
+    <p>(माथि उल्लेखित योजना हामी उपभोता समितिलेनै मर्मत सम्भार तथा रेखदेख गर्ने गरि हस्तान्तरण गरि लियौं/दियौं)</p>
+  </div>
+
+</div>
+
+</body>
+</html>
