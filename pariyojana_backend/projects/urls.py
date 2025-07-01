@@ -22,11 +22,13 @@ from projects.views.Project_Aggrement.project_aggrement_workorder import (
 )
 
 from projects.views.Documents.other_document import OtherDocumentListView, download_other_document_pdf,preview_other_document_template
-
-
-    
-
-
+from projects.views.Installment_Payment.first_installment import (
+    FirstInstallmentListView,
+    upload_first_installment_file,
+    download_first_installment_file,
+    download_first_installment_pdf,
+    preview_first_installment_template
+)
 from projects.views.Consumer_Committee.consumer_committee import preview_template
 from projects.views.Project_Aggrement.project_plan_tracker import preview_project_plan_tracker_template
 from projects.views.Project_Aggrement.project_aggrement_workorder import preview_project_aggrement_workorder_template
@@ -42,7 +44,7 @@ from projects.views.ExtendedDeadline.extended_deadline import ExtendedDeadlineVi
 from projects.views.Cost_Estimate.cost_estimate_revision import CostEstimateRevisionViewSet
 from projects.views.progress_stage import ProjectProgressViewSet
 from projects.views.Documents.documents import DocumentViewSet
-from projects.views.Installment_Payment.first_installment import FirstInstallmentDocumentView, FirstInstallmentPDFView
+
 
 router = DefaultRouter()
 router.register(r'projects', ProjectViewSet, basename='project')
@@ -89,10 +91,16 @@ urlpatterns = [
     path('other-documents/download/<int:serial_no>/<int:project_id>/', download_other_document_pdf, name='other-document-download'),
     path('other-documents/preview-template/<int:serial_no>/<int:project_id>/', preview_other_document_template, name='other-document-preview-template'),
     
-    
-    path('installment-documents/', FirstInstallmentDocumentView.as_view(), name='installment-documents'),
-    path('installment-documents/pdf/<int:serial_number>/', FirstInstallmentPDFView.as_view(), name='installment-pdf'),
-    
+    path('first-installment/', FirstInstallmentListView.as_view(), name='first-installment-list'),
+    path('first-installment/upload/', upload_first_installment_file, name='first-installment-upload'),
+    path('first-installment/download-file/<int:serial_no>/', download_first_installment_file, name='first-installment-download-file'),
+    path('first-installment/generate-pdf/<int:serial_no>/<int:project_id>/', download_first_installment_pdf, name='first-installment-generate-pdf'),
+    path(
+    'first-installment/preview-template/<int:serial_no>/<int:project_id>/',
+    preview_first_installment_template,
+    name='first-installment-preview-template'
+),
+
     
 
 ]

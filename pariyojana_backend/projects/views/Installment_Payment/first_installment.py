@@ -1,55 +1,146 @@
+# projects/views/Installment_Payment/first_installment.py
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, parsers
-from projects.models.Installment_Payment.first_installment import FirstInstallmentDocument
-from projects.serializers.Installment_Payment.first_installment import FirstInstallmentDocumentSerializer
+from rest_framework import status
+from rest_framework.decorators import api_view, parser_classes, permission_classes
+from rest_framework.parsers import MultiPartParser, FormParser
+from django.http import Http404
+from datetime import date
 
-class FirstInstallmentDocumentView(APIView):
-    parser_classes = [parsers.MultiPartParser, parsers.FormParser]
+from projects.models.Installment_Payment.first_installment import FirstInstallmentUpload
+from projects.serializers.Installment_Payment.first_installment import FirstInstallmentRowSerializer
+from projects.constants import FIRST_INSTALLMENT_TITLES
+from rest_framework.permissions import AllowAny
+from django.http import HttpResponse
+from projects.models.project import Project
 
+
+class FirstInstallmentListView(APIView):
     def get(self, request):
-        # Make sure all 3 serials exist in DB to show
-        for i in range(1,4):
-            FirstInstallmentDocument.objects.get_or_create(serial_number=i)
+        today = date.today()
+        uploads = FirstInstallmentUpload.objects.all()
+        upload_map = {u.serial_no: u for u in uploads}
 
-        docs = FirstInstallmentDocument.objects.all().order_by('serial_number')
-        serializer = FirstInstallmentDocumentSerializer(docs, many=True)
+        response_data = []
+
+        for item in FIRST_INSTALLMENT_TITLES:
+            serial_no = item["serial_no"]
+            upload = upload_map.get(serial_no)
+
+            if upload:
+                status_text = "अपलोड गरिएको"
+                file_uploaded_name = upload.file.name.split('/')[-1]
+            else:
+                status_text = ""
+                file_uploaded_name = "No file uploaded"
+
+            response_data.append({
+                "serial_no": serial_no,
+                "title": item["title"],
+                "date": today,
+                "status": status_text,
+                "file_uploaded_name": file_uploaded_name,
+            })
+
+        serializer = FirstInstallmentRowSerializer(response_data, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
-        serial_number = request.data.get('serial_number')
-        if not serial_number:
-            return Response({"error": "serial_number is required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            serial_number = int(serial_number)
-            doc = FirstInstallmentDocument.objects.get(serial_number=serial_number)
-        except (ValueError, FirstInstallmentDocument.DoesNotExist):
-            return Response({"error": "Invalid serial_number"}, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def upload_first_installment_file(request):
+    serial_no = request.data.get('serial_no')
+    project_id = request.data.get('project_id')
+    file = request.FILES.get('file')
+    remarks = request.data.get('remarks')
 
-        serializer = FirstInstallmentDocumentSerializer(doc, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if not serial_no or not file or not project_id:
+        return Response({"detail": "serial_no, project_id, and file are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        project = Project.objects.get(id=project_id)
+    except Project.DoesNotExist:
+        return Response({"detail": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    obj, created = FirstInstallmentUpload.objects.update_or_create(
+        project=project,
+        serial_no=serial_no,
+        defaults={'file': file, 'remarks': remarks}
+    )
+    return Response({"detail": "File uploaded successfully."})
 
 
-from rest_framework.views import APIView
-from django.http import HttpResponse
-from django.template.loader import render_to_string
-import pdfkit  # Or use your existing PDF rendering utility
 
-class FirstInstallmentPDFView(APIView):
-    def get(self, request, serial_number):
-        try:
-            serial_number = int(serial_number)
-            doc = FirstInstallmentDocument.objects.get(serial_number=serial_number)
-        except (ValueError, FirstInstallmentDocument.DoesNotExist):
-            return Response({"error": "Invalid serial_number"}, status=status.HTTP_404_NOT_FOUND)
+# projects/views/Installment_Payment/first_installment.py
 
-        html = render_to_string(f'pdfs/consumer_committee/serial_{serial_number}.html', {'doc': doc})
-        pdf = pdfkit.from_string(html, False)
+import os
+from django.http import FileResponse
+from django.conf import settings
 
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="installment_{serial_number}.pdf"'
-        return response
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def download_first_installment_file(request, serial_no: int, project_id: int):
+    try:
+        upload = FirstInstallmentUpload.objects.get(project_id=project_id, serial_no=serial_no)
+        file_path = upload.file.path
+
+        if os.path.exists(file_path):
+            return FileResponse(open(file_path, 'rb'), as_attachment=True, filename=os.path.basename(file_path))
+        else:
+            raise Http404("File not found.")
+    except FirstInstallmentUpload.DoesNotExist:
+        raise Http404("No file uploaded for this serial number and project.")
+
+    
+    
+    
+    
+# projects/views/Installment_Payment/first_installment.py
+
+from projects.pdfs.First_Installment.utils import build_pdf_context
+from projects.pdfs.First_Installment.renderers import render_pdf 
+from django.template.loader import get_template
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def download_first_installment_pdf(request, serial_no: int, project_id: int):
+    template_map = {
+        1: "serial_1.html",
+        2: "serial_2.html",
+        3: "serial_3.html",
+    }
+
+    if serial_no not in template_map:
+        raise Http404("Template not available.")
+
+    context = build_pdf_context(serial_no, project_id)
+    content, filename = render_pdf(f"First_Installment/{template_map[serial_no]}", context, f"first_installment_{serial_no}_project_{project_id}.pdf")
+
+    if content is None:
+        raise Http404("PDF rendering failed.")
+
+    return HttpResponse(content, content_type='application/pdf', headers={
+        'Content-Disposition': f'attachment; filename="{filename}"',
+    })
+
+from django.template.loader import select_template
+from django.template.exceptions import TemplateDoesNotExist
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def preview_first_installment_template(request, serial_no: int, project_id: int):
+    context = build_pdf_context(serial_no, project_id)
+
+    templates = [
+        f"First_Installment/serial_{serial_no}.html",
+        f"serial_{serial_no}.html",  # fallback
+    ]
+
+    try:
+        template = select_template(templates)
+    except TemplateDoesNotExist:
+        raise Http404("Template not found.")
+
+    html = template.render(context)
+    return HttpResponse(html)
+
