@@ -10,5 +10,6 @@ urlpatterns = [
     path('api/projects/', include('projects.urls')),
     path('api/authentication/', include('authentication.urls')),
     path('api/inventory/', include('inventory.urls')),
+    path('api/planning/', include('planning.urls')),
 
 ]
