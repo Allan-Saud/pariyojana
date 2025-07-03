@@ -64,6 +64,16 @@ REST_FRAMEWORK = {
 }
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'saudallan99@gmail.com'  # replace with your email
+EMAIL_HOST_PASSWORD = 'nmjs qnef vfgt kpls'  # use app password, not Gmail password
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'saudallan99@gmail.com'
+
+
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
