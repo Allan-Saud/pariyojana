@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'project_settings',
     "projects",
     "inventory",
-    "planning"
+    "planning",
+
     
 ]
 AUTH_USER_MODEL = 'users.User'
