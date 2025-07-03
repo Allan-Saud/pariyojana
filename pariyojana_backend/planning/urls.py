@@ -2,8 +2,10 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from planning.PlanEntry.views import PlanEntryViewSet
 
+
 router = DefaultRouter()
 router.register(r'plan-entry', PlanEntryViewSet, basename='plan-entry')
+
 
 
 urlpatterns = [
@@ -13,6 +15,10 @@ urlpatterns = [
     path('municipality-executive/', include('planning.MunicipalityExecutiveOffice.PreAssemblyProject.urls')),
     path('municipal-assembly/', include('planning.MunicipalAssembly.SubmittedProjects.urls')),
     path('municipal-assembly-edit/', include('planning.MunicipalAssembly.ProjectsApprovedByMunicipal.urls')),
+    path('thematic/', include('planning.ThematicCommittee.urls')),
+    path('budget-committee/', include('planning.BudgetProgramcommittee.ThematicCommitteeProgram.urls')),
+    # path('budget-committee/', include('planning.MunicipalityExecutiveOffice.PreAssemblyProject.urls')),
+    
 
 
 

@@ -18,3 +18,11 @@ class WardLevelProject(models.Model):
 
     def __str__(self):
         return self.plan_name
+    
+    
+
+
+
+
+
+

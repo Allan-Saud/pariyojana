@@ -1,0 +1,23 @@
+from django.db import models
+from project_settings.models.thematic_area import ThematicArea
+from project_settings.models.sub_thematic_area import SubArea
+from project_settings.models.expenditure_center import ExpenditureCenter
+from project_settings.models.source import Source
+
+class ThematicCommitteeProgram(models.Model):
+    plan_name = models.CharField(max_length=255, verbose_name="योजना तथा कार्यक्रम")
+    thematic_area = models.ForeignKey(ThematicArea, on_delete=models.PROTECT, verbose_name="क्षेत्र")
+    sub_area = models.ForeignKey(SubArea, on_delete=models.PROTECT, verbose_name="उप-क्षेत्र")
+    source = models.ForeignKey(Source, on_delete=models.PROTECT, verbose_name="स्रोत")
+    expenditure_center = models.ForeignKey(ExpenditureCenter, on_delete=models.PROTECT, verbose_name="खर्च केन्द्र")
+    budget = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="बजेट")
+    ward_no = models.TextField(verbose_name="वडा नंं.")
+    
+    status = models.CharField(max_length=255, verbose_name="स्थिती")
+    priority_no = models.PositiveIntegerField(verbose_name="प्राथमिकता नम्बर", null=True, blank=True)
+    remarks = models.TextField(verbose_name="अन्य", blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.plan_name

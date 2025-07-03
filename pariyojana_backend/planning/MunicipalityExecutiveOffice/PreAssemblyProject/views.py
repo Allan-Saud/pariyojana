@@ -1,60 +1,5 @@
-from rest_framework import viewsets, status
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from planning.MunicipalityExecutiveOffice.PreAssemblyProject.models import PreAssemblyProject
-from planning.MunicipalAssembly.SubmittedProjects.models import SubmittedProjects
-from planning.MunicipalityExecutiveOffice.CouncilSubmittedProjects.models import CouncilSubmittedProject
-from .serializers import PreAssemblyProjectSerializer
+# views.py
 
-class PreAssemblyProjectViewSet(viewsets.ModelViewSet):
-    queryset = PreAssemblyProject.objects.all()
-    serializer_class = PreAssemblyProjectSerializer
-
-    @action(detail=True, methods=['post'], url_path='submit-to-municipal-assembly')
-    def submit_to_municipal_assembly(self, request, pk=None):
-        try:
-            project = self.get_object()
-
-            # Step 1: Transfer to SubmittedProjects
-            SubmittedProjects.objects.create(
-                plan_name=project.plan_name,
-                thematic_area=project.thematic_area,
-                sub_area=project.sub_area,
-                source=project.source,
-                expenditure_center=project.expenditure_center,
-                budget=project.budget,
-                ward_no=project.ward_no,
-                status="नगर सभा सिफारिस भएको परियोजना",
-                priority_no=project.priority_no,
-                remarks=project.remarks,
-            )
-
-            # Step 2: Also insert into CouncilSubmittedProjects
-            CouncilSubmittedProject.objects.create(
-                plan_name=project.plan_name,
-                thematic_area=project.thematic_area,
-                sub_area=project.sub_area,
-                source=project.source,
-                expenditure_center=project.expenditure_center,
-                budget=project.budget,
-                ward_no=project.ward_no,
-                status="नगर सभा सिफारिस भएको परियोजना",
-                priority_no=project.priority_no,
-                remarks=project.remarks,
-            )
-
-            # Step 3: Update status of current record
-            project.status = "नगर सभा सिफारिस भएको परियोजना"
-            project.save()
-
-            return Response({"message": "Successfully submitted to municipal assembly and council records."}, status=200)
-
-        except PreAssemblyProject.DoesNotExist:
-            return Response({"error": "Project not found"}, status=404)
-        
-        
-
-# views.py (PreAssemblyProject)
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -62,46 +7,39 @@ from rest_framework.response import Response
 from planning.MunicipalityExecutiveOffice.PreAssemblyProject.models import PreAssemblyProject
 from planning.MunicipalAssembly.SubmittedProjects.models import SubmittedProjects
 from planning.MunicipalityExecutiveOffice.CouncilSubmittedProjects.models import CouncilSubmittedProject
+
 from planning.MunicipalityExecutiveOffice.PreAssemblyProject.serializers import PreAssemblyProjectSerializer
 
+
 class PreAssemblyProjectViewSet(viewsets.ModelViewSet):
     queryset = PreAssemblyProject.objects.all()
     serializer_class = PreAssemblyProjectSerializer
+
+    def _copy_project_to(self, model_class, project):
+        """
+        Reusable method to copy project data into another model.
+        """
+        return model_class.objects.create(
+            plan_name=project.plan_name,
+            thematic_area=project.thematic_area,
+            sub_area=project.sub_area,
+            source=project.source,
+            expenditure_center=project.expenditure_center,
+            budget=project.budget,
+            ward_no=project.ward_no,
+            status="नगर सभा सिफारिस भएको परियोजना",
+            priority_no=project.priority_no,
+            remarks=project.remarks,
+        )
 
     @action(detail=True, methods=['post'], url_path='submit-to-assembly')
     def submit_to_assembly(self, request, pk=None):
         try:
             project = self.get_object()
 
-            # Create record in MunicipalAssembly SubmittedProjects
-            SubmittedProjects.objects.create(
-                plan_name=project.plan_name,
-                thematic_area=project.thematic_area,
-                sub_area=project.sub_area,
-                source=project.source,
-                expenditure_center=project.expenditure_center,
-                budget=project.budget,
-                ward_no=project.ward_no,
-                status="नगर सभा सिफारिस भएको परियोजना",
-                priority_no=project.priority_no,
-                remarks=project.remarks,
-            )
+            self._copy_project_to(SubmittedProjects, project)
+            self._copy_project_to(CouncilSubmittedProject, project)
 
-            # Also list in CouncilSubmittedProjects
-            CouncilSubmittedProject.objects.create(
-                plan_name=project.plan_name,
-                thematic_area=project.thematic_area,
-                sub_area=project.sub_area,
-                source=project.source,
-                expenditure_center=project.expenditure_center,
-                budget=project.budget,
-                ward_no=project.ward_no,
-                status="नगर सभा सिफारिस भएको परियोजना",
-                priority_no=project.priority_no,
-                remarks=project.remarks,
-            )
-
-            # Update original PreAssemblyProject's status
             project.status = "नगर सभा सिफारिस भएको परियोजना"
             project.save()
 
@@ -110,61 +48,18 @@ class PreAssemblyProjectViewSet(viewsets.ModelViewSet):
         except PreAssemblyProject.DoesNotExist:
             return Response({"error": "Project not found"}, status=404)
 
-# views.py inside MunicipalityExecutiveOffice/PreAssemblyProject/
+    @action(detail=True, methods=['post'], url_path='submit-to-council')
+    def submit_to_council(self, request, pk=None):
+        try:
+            project = self.get_object()
 
-# from rest_framework import viewsets, status
-# from rest_framework.decorators import action
-# from rest_framework.response import Response
+            self._copy_project_to(SubmittedProjects, project)
+            self._copy_project_to(CouncilSubmittedProject, project)
 
-# from planning.MunicipalityExecutiveOffice.PreAssemblyProject.models import PreAssemblyProject
-# from planning.MunicipalAssembly.ProjectsApprovedByMunicipal.models import ProjectsApprovedByMunicipal
-# from planning.MunicipalityExecutiveOffice.CouncilSubmittedProjects.models import CouncilSubmittedProject
+            project.status = "नगर सभा सिफारिस भएको परियोजना"
+            project.save()
 
-# from .serializers import PreAssemblyProjectSerializer
+            return Response({"message": "Submitted to Council & listed successfully."}, status=200)
 
-
-# class PreAssemblyProjectViewSet(viewsets.ModelViewSet):
-#     queryset = PreAssemblyProject.objects.all()
-#     serializer_class = PreAssemblyProjectSerializer
-
-#     @action(detail=True, methods=['post'], url_path='submit-to-assembly')
-#     def submit_to_assembly(self, request, pk=None):
-#         try:
-#             project = self.get_object()
-
-#             # Transfer to ProjectsApprovedByMunicipal
-#             ProjectsApprovedByMunicipal.objects.create(
-#                 plan_name=project.plan_name,
-#                 thematic_area=project.thematic_area,
-#                 sub_area=project.sub_area,
-#                 source=project.source,
-#                 expenditure_center=project.expenditure_center,
-#                 budget=project.budget,
-#                 ward_no=project.ward_no,
-#                 status="नगर सभा सिफारिस भएको परियोजना",
-#                 priority_no=project.priority_no,
-#                 remarks=project.remarks,
-#             )
-
-#             # Also list in CouncilSubmittedProjects
-#             CouncilSubmittedProject.objects.create(
-#                 plan_name=project.plan_name,
-#                 thematic_area=project.thematic_area,
-#                 sub_area=project.sub_area,
-#                 source=project.source,
-#                 expenditure_center=project.expenditure_center,
-#                 budget=project.budget,
-#                 ward_no=project.ward_no,
-#                 status="नगर सभा सिफारिस भएको परियोजना",
-#                 priority_no=project.priority_no,
-#                 remarks=project.remarks,
-#             )
-
-#             # Update status of current model
-#             project.status = "नगर सभा सिफारिस भएको परियोजना"
-#             project.save()
-
-#             return Response({"message": "Project submitted to assembly and council."}, status=200)
-
-#         except PreAssemblyProject.DoesNotExist:
-#             return Response({"error": "Project not found"}, status=404)
+        except PreAssemblyProject.DoesNotExist:
+            return Response({"error": "Project not found"}, status=404)
