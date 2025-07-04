@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from projects.models.project import Project
-from authentication.worker_model import Person  # Assuming worker info is here
+from authentication.worker_model import Person  
 
 class MapCostEstimate(models.Model):
     DOCUMENT_CHOICES = [
@@ -19,13 +19,12 @@ class MapCostEstimate(models.Model):
     file = models.FileField(upload_to='map_cost_estimates/', null=True, blank=True)
     remarks = models.TextField(null=True, blank=True)
 
-    status = models.CharField(max_length=100, default='', blank=True)  # अपलोड गरिएको, चेक जाँचको लागि पठाइएको
+    status = models.CharField(max_length=100, default='', blank=True)  
 
-    # प्रमाणिकरण info
     checker = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True, blank=True, related_name='checked_docs')
     approver = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True, blank=True, related_name='approved_docs')
 
-    is_verified = models.BooleanField(default=False)  # If प्रमाणिकरण is done
+    is_verified = models.BooleanField(default=False) 
     is_active = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
