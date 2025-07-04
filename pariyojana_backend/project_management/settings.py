@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "projects",
     "inventory",
     "planning",
+    'corsheaders',
 
     
 ]
@@ -73,6 +74,16 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'saudallan99@gmail.com'
 
 
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),  # or more
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+}
+
+
 
 
 MIDDLEWARE = [
@@ -83,7 +94,21 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React dev server
+]
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 ROOT_URLCONF = "project_management.urls"
 
