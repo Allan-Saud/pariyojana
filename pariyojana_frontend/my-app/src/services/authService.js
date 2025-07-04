@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// const BASE_URL = 'http://localhost:8000/api/auth'; 
 const BASE_URL='http://localhost:8000/api/auth'
 
 export const loginUser = async (email, password) => {
