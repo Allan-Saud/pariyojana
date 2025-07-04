@@ -1,4 +1,4 @@
-from authentication.worker_views import PersonViewSet
+# from authentication.worker_views import PersonViewSet
 
 
 from django.urls import path, include
