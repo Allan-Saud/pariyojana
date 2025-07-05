@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>उपभोत्ता अनुमान स्वीकृति टिप्पणी</title>
+    <style>
+        body { font-family: Preeti, sans-serif; line-height: 1.5; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .subject { text-align: center; font-weight: bold; margin: 15px 0; }
+        .content { margin: 15px 0; text-align: justify; }
+        .signature { margin-top: 50px; }
+        .left-sign { float: left; width: 40%; text-align: center; }
+        .right-sign { float: right; width: 40%; text-align: center; }
+        .clear { clear: both; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>{{ consumer_committee_name }}</h2>
+        <p>{{ location }}</p>
+        <p>मिति: {{ current_date }}</p>
+    </div>
+
+    <div class="subject">
+        <u>विषय: {{ project_name }} परियोजना अनुमान स्वीकृति सम्बन्धी टिप्पणी</u>
+    </div>
+
+    <div class="content">
+        <p>महोदय,</p>
+        
+        <p>{{ project_name }} परियोजना अन्तर्गत {{ work_description }} कार्य सम्पादन गर्न उपभोक्ता समितिले तयार गरेको अनुमानित लागत तथा कार्य योजना समितिको बैठकले विचार गरी निम्नानुसार स्वीकृत गर्दछ:</p>
+        
+        <ol>
+            <li>परियोजना को नाम: {{ project_name }}</li>
+            <li>परियोजना स्थल: {{ location }}</li>
+            <li>अनुमानित लागत: {{ total_cost }}</li>
+            <li>कार्य अवधि: {{ duration }}</li>
+            <li>कार्य सम्पादन विधि: {{ execution_method }}</li>
+            <li>उपभोक्ता समितिको निर्णय: {{ committee_decision }}</li>
+        </ol>
+
+        <p>{{ additional_remarks }}</p>
+    </div>
+
+    <div class="signature">
+        <div class="left-sign">
+            <p>...............................</p>
+            <p>{{ chairman_name }}</p>
+            <p>अध्यक्ष</p>
+            <p>{{ consumer_committee_name }}</p>
+            <p>सम्पर्क: {{ contact_number }}</p>
+        </div>
+        
+        <div class="right-sign">
+            <p>...............................</p>
+            <p>{{ secretary_name }}</p>
+            <p>सचिव</p>
+            <p>{{ consumer_committee_name }}</p>
+        </div>
+        
+        <div class="clear"></div>
+    </div>
+</body>
+</html>

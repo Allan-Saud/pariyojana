@@ -37,6 +37,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     role = models.CharField(max_length=50)
     phone = models.CharField(max_length=20)
     ward_no = models.PositiveIntegerField()
+    
+    # New fields
+    position = models.CharField(max_length=100, verbose_name="पद", null=True, blank=True)
+    department = models.CharField(max_length=100, verbose_name="महाशाखा", null=True, blank=True)
+    section = models.CharField(max_length=100, verbose_name="शाखा", null=True, blank=True)
+    administrative_level = models.CharField(max_length=100, verbose_name="रा. प्र. स्तह", null=True, blank=True)
+    
+    # Status and timestamps
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
@@ -49,3 +57,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.full_name
+
