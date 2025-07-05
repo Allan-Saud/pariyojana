@@ -1,0 +1,40 @@
+<div class="center">
+  <div class="header">
+    <h2>बर्दगोरिया गाउँपालिका</h2>
+    <h3>नगर कार्यपालिकाको कार्यालय</h3>
+  </div>
+  <div class="address">
+    <p>मूडा, कैलाली</p>
+    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+  </div>
+</div>
+
+<hr>
+
+<h2>भुक्तानी विवरण</h2>
+<p><strong>योजना: </strong>{{ project_name }}</p>
+<p><strong>वडा नं.: </strong>{{ ward_no }}</p>
+<p><strong>मिति: </strong>{{ today }}</p>
+
+<table border="1" cellspacing="0" cellpadding="5">
+  <thead>
+    <tr>
+      <th>शीर्षक</th>
+      <th>मिति</th>
+      <th>भुक्तानी रकम (रु.)</th>
+      <th>प्रतिशत (%)</th>
+      <th>भौतिक प्रगति (%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for payment in payments %}
+    <tr>
+      <td>{{ payment.title }}</td>
+      <td>{{ payment.issue_date }}</td>
+      <td>{{ payment.amount_paid }}</td>
+      <td>{{ payment.payment_percent }}</td>
+      <td>{{ payment.physical_progress }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

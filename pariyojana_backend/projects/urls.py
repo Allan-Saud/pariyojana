@@ -56,6 +56,9 @@ from projects.views.ExtendedDeadline.extended_deadline import ExtendedDeadlineVi
 from projects.views.Cost_Estimate.cost_estimate_revision import CostEstimateRevisionViewSet
 from projects.views.progress_stage import ProjectProgressViewSet
 from projects.views.Documents.documents import DocumentViewSet
+from projects.views.Cost_Estimate.cost_estimate_detail import generate_bill_pdf
+from projects.views.Installment_Payment.payment_related_details import generate_payment_bill_pdf
+
 
 
 router = DefaultRouter()
@@ -96,7 +99,7 @@ urlpatterns = [
     path('project-aggrement/', ProjectAgreementWorkorderListView.as_view(), name='project_agreement_list'),
     path('project-aggrement/upload/', project_agreement_workorder_upload, name='project_agreement_upload'),
     path('project-aggrement/download/<int:serial_no>/<int:project_id>/', download_project_agreement_workorder_pdf, name='project_agreement_pdf_download'),
-    path('project_aggrement_workorder/preview-template/<int:serial_no>/<int:project_id>/', preview_project_aggrement_workorder_template, name='project-plan-tracker-preview-template'),
+    path('project_aggrement_workorder/preview-template/<int:serial_no>/<int:project_id>/', preview_project_aggrement_workorder_template, name='project-aggrement-workorder-preview-template'),
     
     
     path('other-documents/<int:project_id>/', OtherDocumentListView.as_view(), name='other-documents-list'),
@@ -125,6 +128,16 @@ urlpatterns = [
     path('third-installment/<int:project_id>/upload/', third_installment_upload, name='third-installment-upload'),
     path('third-installment/generate-pdf/<int:serial_no>/<int:project_id>/', download_third_installment_pdf, name='download-third-installment-pdf'),
     path('third-installment/preview-template/<int:serial_no>/<int:project_id>/', preview_third_installment_template, name='preview-third-installment-template'),
+    
+    
+    path('bill/project/<int:project_id>/pdf/', generate_bill_pdf, name='generate-bill-pdf'),
+    
+   
+
+    path('installment/payment/project/<int:project_id>/pdf/', generate_payment_bill_pdf, name='generate-payment-bill-pdf'),
+
+
+    
 
     
 

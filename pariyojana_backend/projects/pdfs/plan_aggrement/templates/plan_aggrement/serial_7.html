@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8">
+  <title>टिप्पणी</title>
+  <style>
+    body {
+      font-family: 'Mangal', sans-serif;
+      line-height: 1.7;
+      margin: 40px;
+      background-color: #fdfdfd;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .header h2, .header h3 {
+      margin: 0;
+      padding: 0;
+    }
+
+    .address p {
+      margin: 0;
+    }
+
+    .tippani-box {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 30px;
+      margin-top: 30px;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .signature-section {
+      margin-top: 50px;
+    }
+
+    .signature {
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <div class="center">
+    <div class="header">
+      <h2>बर्दगोरिया गाउँपालिका</h2>
+      <h3>नगर कार्यपालिकाको कार्यालय</h3> 
+    </div>
+
+    <div class="address">
+      <p>मूडा, कैलाली</p>
+      <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+    </div>
+  </div>
+
+  <!-- Tippani Body -->
+  <div class="tippani-box">
+    <div class="section">
+      <strong>मिति:</strong> २०८१/०३/२१<br>
+      <strong>विषय:</strong> उपभोक्ता समितिलाई कार्यादेश दिने सम्बन्धमा ।
+    </div>
+
+    <div class="section">
+      <p>
+        उपभोक्ता समितिले प्रस्तुत गरेको योजनासम्बन्धी आवश्यक सम्पूर्ण कागजात जाँच गर्दा 
+        प्रक्रिया पूरा भएको देखिएकोले योजना कार्यान्वयनको लागि कार्यादेश दिन उपयुक्त 
+        देखिन्छ ।
+      </p>
+
+      <p>
+        तसर्थ, <strong>{{project_name}}</strong> योजनाको कार्यान्वयनको लागि 
+        <strong>{{ consumer_name }} उपभोक्ता समिति</strong> लाई कार्यादेश दिने 
+        सिफारिस गरिन्छ ।
+      </p>
+    </div>
+
+    <div class="signature-section">
+      <div class="signature">
+        <strong>सिफारिस गर्ने:</strong><br>
+        नाम: ____________________________<br>
+        पद: ____________________________<br>
+        मिति: ____________________________
+      </div>
+
+      <div class="signature">
+        <strong>स्वीकृत गर्ने:</strong><br>
+        नाम: ____________________________<br>
+        पद: अध्यक्ष<br>
+        मिति: ____________________________
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

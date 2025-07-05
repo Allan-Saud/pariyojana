@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8" />
+  <title>उपभोक्ता सम्झौता सम्बन्धी टिप्पणी</title>
+  <style>
+    html, body {
+      height: auto;
+      margin: 0;
+      padding: 0;
+      font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
+      line-height: 1.8;
+      direction: ltr;
+      display: block;
+      vertical-align: top;
+      text-align: left;
+    }
+    body {
+      margin: 40px;
+    }
+    .center {
+      text-align: center;
+    }
+    .header, .address {
+      margin-bottom: 10px;
+    }
+    .container {
+      margin-top: 20px;
+      padding-top: 0;
+      display: block;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="center">
+    <div class="header">
+      <h2>बर्दगोरिया गाउँपालिका</h2>
+      <h3>नगर कार्यपालिकाको कार्यालय</h3> 
+    </div>
+
+    <div class="address">
+      <p>मूडा, कैलाली</p>
+      <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <p><strong>योजना नाम:</strong> {{ project_name }}</p>
+    <p><strong>वडा नं:</strong> {{ ward_no }}</p>
+
+    <p><strong>टिप्पणी:</strong></p>
+    <p>
+      प्रस्तुत योजनाको कार्यान्वयन उपभोक्ता समितिमार्फत संचालन गरिनुपर्ने भएकोले, सम्बन्धित उपभोक्ता समितिले आवश्यक सबै प्रक्रिया पुरा गरी सम्झौता गर्न निवेदन दिएको छ। सो समितिले योजना संचालनका लागि आवश्यक बैठक गरी निर्णय पनि गरेको छ। समितिको तर्फबाट नयाँ बैंक खाता सञ्चालन, कार्यान्वयन स्थलको फोटो, र वडा कार्यालयको सिफारिस समेत प्राप्त भइसकेको छ।
+    </p>
+    <p>
+      उक्त सबै आधारमा योजना सम्झौता प्रक्रिया अगाडि बढाउन उपयुक्त देखिएकोले उपभोक्ता समितिसँग सम्झौता गर्न सिफारिस गर्दछु।
+    </p>
+
+    <p>..................................................</p>
+    <p><strong>सिफारिश गर्ने:</strong> {{ prepared_by }} <br />
+    पद: {{ position }} <br />
+    मिति: {{ agreement_date }}</p>
+  </div>
+
+</body>
+</html>

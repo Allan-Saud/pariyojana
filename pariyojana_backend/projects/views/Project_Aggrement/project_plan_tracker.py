@@ -95,10 +95,10 @@ def download_project_plan_tracker_pdf(request, serial_no: int, project_id: int):
     if serial_no not in template_map:
         raise Http404("Invalid serial_no")
 
-    # ✅ Build the base context
+  
     context = build_pdf_context(serial_no, project_id)
 
-    # ✅ Try to fetch file upload for this serial_no
+  
     upload = ProjectPlanTrackerUpload.objects.filter(serial_no=serial_no).first()
     if upload:
         context["file_uploaded_name"] = upload.file.name.split("/")[-1]
@@ -109,7 +109,6 @@ def download_project_plan_tracker_pdf(request, serial_no: int, project_id: int):
         context["upload_remarks"] = ""
         context["uploaded_at"] = ""
 
-    # ✅ Render and return PDF
     content, filename = render_pdf(
         template_map[serial_no],
         context,
@@ -125,7 +124,6 @@ def download_project_plan_tracker_pdf(request, serial_no: int, project_id: int):
 
     
 
-# from django.shortcuts import render, get_object_or_404
 from projects.models.project import Project
 from projects.pdfs.plan_aggrement.utils import build_pdf_context
 
@@ -134,14 +132,11 @@ from django.template.loader import select_template
 def preview_project_plan_tracker_template(request, serial_no, project_id):
     context = build_pdf_context(serial_no, project_id)
 
-    templates = [
-        f"project_aggrement_workorder/serial_{serial_no}.html",
-        f"serial_{serial_no}.html",
-    ]
+    templates = [f"plan_aggrement/serial_{serial_no}.html"]
     template = select_template(templates)
-    # print("Loading template:", template.template.name)
 
     html = template.render(context)
     return HttpResponse(html)
+
 
 

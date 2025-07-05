@@ -92,10 +92,8 @@ from django.template.loader import select_template
 
 def preview_project_aggrement_workorder_template(request, serial_no, project_id):
     context = build_pdf_context(serial_no, project_id)
-    templates = [
-        f"project_aggrement_workorder/serial_{serial_no}.html",
-        f"serial_{serial_no}.html",
-    ]
+
+    templates = [f"project_aggrement_workorder/serial_{serial_no}.html"]
     template = select_template(templates)
 
     html = template.render(context)

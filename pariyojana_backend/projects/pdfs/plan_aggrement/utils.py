@@ -4,7 +4,7 @@ from projects.models.Program_Details.program_detail import ProgramDetail
 from projects.models.Consumer_Committee.official_detail import OfficialDetail
 from projects.models.Consumer_Committee.monitoring_facilitation_committee import MonitoringFacilitationCommitteeMember
 from datetime import date
-
+from projects.models.Consumer_Committee.consumer_committee_details import ConsumerCommitteeDetail
 
 def build_pdf_context(serial_no: int, project_serial_number: int):
     try:
@@ -49,9 +49,9 @@ def build_pdf_context(serial_no: int, project_serial_number: int):
         return context
 
     elif serial_no == 2:
-    # Use project directly (no ProgramDetail needed)
+   
             project_name = project.project_name or "........"
-            budget = project.budget or "........"  # Make sure the Project model has a `budget` field
+            budget = project.budget or "........"  
 
             members = MonitoringFacilitationCommitteeMember.objects.filter(project=project).order_by("serial_no")
 
@@ -73,22 +73,22 @@ def build_pdf_context(serial_no: int, project_serial_number: int):
     elif serial_no == 4:
         officials = OfficialDetail.objects.filter(project=project).order_by("serial_no")
 
-        # Build list if needed, e.g., for signatures or multiple chairpersons
+      
         attendance_rows = []
         for official in officials:
             attendance_rows.append({
                 "post": official.post,
                 "name": f"श्री {official.full_name}",
-                "signature": "",  # You can fill if needed later
+                "signature": "",  
             })
 
-        # Get all chairpersons from officials (in case more than one)
+       
         chairpersons = [
             {"name": f"श्री {official.full_name}", "post": official.post}
             for official in officials if official.post == "अध्यक्ष"
         ]
 
-        # Project name fallback
+    
         project_name = getattr(project, 'name', None) or getattr(project, 'project_name', None) or "........"
 
         context = {
@@ -105,15 +105,53 @@ def build_pdf_context(serial_no: int, project_serial_number: int):
     
     
     elif serial_no == 5:
-        # Placeholder: adjust as per your PDF/template need
         return {
             "message": "No specific data needed for serial_no 5.",
             "project_name": getattr(project, 'project_name', '........')
         }
+        
 
+    if serial_no == 6:
+    
+        context = {
+            "project_name": getattr(project, 'project_name', '........'),
+            "ward_no": project.ward_no or "........",
+            "agreement_date": date.today().strftime('%Y-%m-%d'),  
+            "prepared_by": "........",  
+            "position": "........",
+        }
+        return context
 
+    elif serial_no == 7:
+        try:
+            consumer_committee = ConsumerCommitteeDetail.objects.get(project=project)
+            consumer_name = consumer_committee.consumer_committee_name
+        except ConsumerCommitteeDetail.DoesNotExist:
+            consumer_name = "........"
 
-
+        context = {
+            "project_name": project.project_name,
+            "consumer_name": consumer_name,
+            "ward_no": project.ward_no,
+            "tippani_date": date.today().strftime("%Y-%m-%d"),
+            "recommendation_by": "........",
+            "position": "........",
+            "remarks": "सम्पूर्ण प्रक्रिया पूरा भएको देखिएकोले उपभोक्ता समितिलाई कार्यादेश दिन सिफारिस गरिन्छ।"
+        }
+        return context
 
     else:
         raise NotImplementedError(f"Serial number {serial_no} not yet implemented.")
+
+
+
+
+
+
+
+    
+        
+    
+    
+    
+    

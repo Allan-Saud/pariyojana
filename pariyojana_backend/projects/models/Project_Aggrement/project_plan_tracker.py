@@ -1,5 +1,5 @@
 from django.db import models
-from projects.models.project import Project  # Adjust import path if needed
+from projects.models.project import Project  
 
 class ProjectPlanTrackerUpload(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='plan_tracker_uploads',null=True)
@@ -9,7 +9,6 @@ class ProjectPlanTrackerUpload(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('project', 'serial_no')  # One file per project per serial_no
-
+        unique_together = ('project', 'serial_no')  
     def __str__(self):
         return f"Upload for project {self.project.serial_number}, item {self.serial_no}"

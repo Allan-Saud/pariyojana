@@ -123,6 +123,10 @@ TEMPLATES = [
                 BASE_DIR / 'projects' / 'pdfs' / 'First_Installment' / 'templates',
                 BASE_DIR / 'projects' / 'pdfs' / 'Second_Installment' / 'templates',
                 BASE_DIR / 'projects' / 'pdfs' / 'Third_Installment' / 'templates',
+                BASE_DIR / 'projects' / 'pdfs' / 'Bill_Template' / 'templates',
+                BASE_DIR / 'projects' / 'pdfs' / 'Installment_Bill' / 'templates',
+                
+                
                 
                 
                 
