@@ -5,11 +5,23 @@ from projects.models.project import Project
 from projects.models.Program_Details.program_detail import ProgramDetail
 from projects.serializers.Program_Details.program_detail import ProgramDetailSerializer
 from rest_framework import viewsets
+from projects.serializers.project import ProjectSerializer
 
 
+# class ProgramDetailViewSet(viewsets.ModelViewSet):
+#     queryset = ProgramDetail.objects.all()
+#     serializer_class = ProgramDetailSerializer
 class ProgramDetailViewSet(viewsets.ModelViewSet):
-    queryset = ProgramDetail.objects.all()
     serializer_class = ProgramDetailSerializer
+
+    def get_queryset(self):
+        queryset = ProgramDetail.objects.all()
+        project_id = self.request.query_params.get('project_id')  
+
+        if project_id:
+            queryset = queryset.filter(project__serial_number=project_id)
+
+        return queryset
 
     @action(detail=False, methods=['post'], url_path='create-from-project')
     def create_from_project(self, request):
@@ -46,3 +58,13 @@ class ProgramDetailViewSet(viewsets.ModelViewSet):
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    @action(detail=False, methods=['get'], url_path='project-details/(?P<project_id>[^/.]+)')
+    def get_project_details(self, request, project_id=None):
+        try:
+            project = Project.objects.get(serial_number=project_id)
+        except Project.DoesNotExist:
+            return Response({'error': 'Project not found'}, status=404)
+
+        serializer = ProjectSerializer(project)
+        return Response(serializer.data)
