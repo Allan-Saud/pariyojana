@@ -8,6 +8,7 @@ from project_settings.models.fiscal_year import FiscalYear
 from project_settings.models.project_level import ProjectLevel
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from projects.models.Cost_Estimate.map_cost_estimate import MapCostEstimate
 User = get_user_model()
 
 class Project(models.Model):
@@ -28,7 +29,7 @@ class Project(models.Model):
         ('completed', 'सम्पन्न भएको'),
         ('not_started', 'सुरु नभएको'),
     ]
-    status = models.CharField("स्थिती", max_length=20, choices=STATUS_CHOICES, default='active')
+    status = models.CharField("स्थिती", max_length=20, choices=STATUS_CHOICES, default='not_started')
     fiscal_year = models.ForeignKey(FiscalYear, on_delete=models.PROTECT, verbose_name="आर्थिक वर्ष")
 
     location = models.CharField("योजना संचालन स्थान", max_length=255, null=True)
@@ -47,3 +48,22 @@ class Project(models.Model):
 
     def __str__(self):
         return f"{self.project_name} ({self.serial_number})"
+    
+    
+    
+    
+    def are_all_documents_approved(self):
+        """Check if all documents are approved for this project"""
+        documents = self.map_cost_estimates.all()
+        if not documents.exists():
+            return False
+            
+        required_titles = [choice[0] for choice in MapCostEstimate.DOCUMENT_CHOICES]
+        existing_titles = [doc.title for doc in documents]
+        
+        # Check all required documents are present
+        if not all(title in existing_titles for title in required_titles):
+            return False
+            
+        # Check all documents are approved
+        return all(doc.status == 'approved' for doc in documents)

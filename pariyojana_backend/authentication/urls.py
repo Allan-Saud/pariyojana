@@ -1,16 +1,51 @@
 # from authentication.worker_views import PersonViewSet
 
 
+# from django.urls import path, include
+# from rest_framework.routers import DefaultRouter
+# # from authentication.worker_views import PersonViewSet  
+# from authentication.views import VerificationLogViewSet
+
+# router = DefaultRouter()
+# # router.register(r'persons', PersonViewSet, basename='person')
+# router.register(r'verification-logs', VerificationLogViewSet, basename='verificationlog')
+# urlpatterns = [
+#     path('', include(router.urls)),
+# ]
+
+
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from authentication.worker_views import PersonViewSet  
-from authentication.views import VerificationLogViewSet
+# from .views import (
+#     VerificationLogViewSet,
+#     check_document,
+#     approve_document
+# )
+
+# router = DefaultRouter()
+# router.register(r'verification-logs', VerificationLogViewSet, basename='verification-log')
+
+# urlpatterns = [
+#     path('', include(router.urls)),
+#     path('documents/<int:document_id>/check/', check_document, name='check-document'),
+#     path('documents/<int:document_id>/approve/', approve_document, name='approve-document'),
+# ]
+
+
+
+# authentication/urls.py
+from django.urls import path
+from .views import (
+    VerificationLogViewSet,
+    check_document,
+    approve_document
+)
 
 router = DefaultRouter()
-router.register(r'persons', PersonViewSet, basename='person')
-router.register(r'verification-logs', VerificationLogViewSet, basename='verificationlog')
+router.register(r'verification-logs', VerificationLogViewSet)
+
 urlpatterns = [
     path('', include(router.urls)),
+    path('documents/<int:document_id>/check/', check_document, name='check-document'),
+    path('documents/<int:document_id>/approve/', approve_document, name='approve-document'),
 ]
-
-
