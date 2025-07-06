@@ -8,7 +8,7 @@ import string, random
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.permissions import AllowAny
-
+from rest_framework.permissions import IsAuthenticated
 
 # Custom JWT Serializer
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -49,4 +49,20 @@ class ForgotPasswordView(APIView):
         send_password_email(email, new_password)
 
         return Response({'detail': 'A new password has been sent to your email.'}, status=status.HTTP_200_OK)
+    
+    
+    
+class ResetPasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        new_password = request.data.get('new_password')
+        if not new_password:
+            return Response({'detail': 'New password is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.set_password(new_password)
+        user.save()
+
+        return Response({'detail': 'Password has been reset successfully.'}, status=status.HTTP_200_OK)
 
