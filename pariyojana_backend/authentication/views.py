@@ -29,7 +29,7 @@ class VerificationLogViewSet(viewsets.ModelViewSet):
                 status='checked'
             )
             
-        return queryset.none()  # Default for unauthorized users
+        return queryset.none()  
 
 
 

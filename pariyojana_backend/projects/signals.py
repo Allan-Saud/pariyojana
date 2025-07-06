@@ -1,21 +1,12 @@
 # # signals.py
-# from django.db.models.signals import post_save
-# from django.dispatch import receiver
-# from projects.models.Initiation_Process import initiation_process
 
-# @receiver(post_save, sender=initiation_process)
-# def update_project_status_on_confirmation(sender, instance, **kwargs):
-#     if instance.is_confirmed and instance.project.status != 'process_ensured':
-#         instance.project.status = 'process_ensured'
-#         instance.project.save()
-print("✅ projects/signals.py loaded")
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from projects.models.Initiation_Process.initiation_process import InitiationProcess
 from projects.models.Cost_Estimate.map_cost_estimate import MapCostEstimate
-from projects.models.Cost_Estimate.map_cost_estimate import MapCostEstimate  # Add this import
+from projects.models.Cost_Estimate.map_cost_estimate import MapCostEstimate  
 from projects.models.project import Project
-from authentication.models import VerificationLog  # Add this import
+from authentication.models import VerificationLog 
 
 @receiver(post_save, sender=InitiationProcess)
 def update_project_status_on_confirmation(sender, instance, **kwargs):
@@ -23,7 +14,6 @@ def update_project_status_on_confirmation(sender, instance, **kwargs):
     if instance.is_confirmed and instance.project.status != 'process_ensured':
         instance.project.status = 'process_ensured'
         instance.project.save()
-        print("✅ Project status updated to process_ensured")
 
 
 
@@ -54,7 +44,7 @@ def create_verification_log_for_cost_estimate(sender, instance, created, **kwarg
             status="pending",
             source_model="CostEstimateDetail",
             source_id=instance.id,
-            checker=instance.checker,  # Make sure these fields exist
+            checker=instance.checker,  
             approver=instance.approver,
             uploader_role="अपलोड कर्ता"
         )

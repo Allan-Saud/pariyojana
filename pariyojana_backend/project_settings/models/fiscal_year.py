@@ -1,7 +1,7 @@
 from django.db import models
 
 class FiscalYear(models.Model):
-    year = models.CharField(max_length=20)
+    year = models.CharField(max_length=20,blank=True,null=True)
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
     deleted_at = models.DateTimeField(null=True, blank=True)

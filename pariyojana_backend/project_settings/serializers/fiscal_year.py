@@ -5,3 +5,6 @@ class FiscalYearSerializer(serializers.ModelSerializer):
     class Meta:
         model = FiscalYear
         fields = '__all__'
+        extra_kwargs = {
+            'year': {'required': False, 'allow_null': True, 'allow_blank': True},
+        }
