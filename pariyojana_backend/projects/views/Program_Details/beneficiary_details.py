@@ -28,10 +28,10 @@ class BeneficiaryDetailViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         is_many = isinstance(request.data, list)
-        project_id = request.query_params.get('project_id')
+        project_id = self.kwargs.get('serial_number') or request.query_params.get('project_id')
 
         if not project_id:
-            raise ValidationError({"detail": "Query parameter 'project_id' is required."})
+            raise ValidationError({"detail": "Project ID is required either in URL or as query param."})
 
         try:
             project = Project.objects.get(serial_number=project_id)
@@ -42,14 +42,13 @@ class BeneficiaryDetailViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         if is_many:
-            for item in serializer.validated_data:
-                item['project'] = project
-            instances = [BeneficiaryDetail(**data) for data in serializer.validated_data]
+            instances = [BeneficiaryDetail(project=project, **data) for data in serializer.validated_data]
             BeneficiaryDetail.objects.bulk_create(instances)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(self.get_serializer(instances, many=True).data, status=status.HTTP_201_CREATED)
         else:
             serializer.save(project=project)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
     @action(detail=False, methods=['get'], url_path='by-project/(?P<project_id>\d+)')
     def by_project(self, request, project_id=None):
