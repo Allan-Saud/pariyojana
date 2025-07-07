@@ -8,6 +8,7 @@ from projects.models.Cost_Estimate.cost_estimate_detail import CostEstimateDetai
 from datetime import date
 from rest_framework.exceptions import ValidationError
 from projects.models.project import Project
+from rest_framework.response import Response
 
 class CostEstimateDetailViewSet(viewsets.ModelViewSet):
     queryset = CostEstimateDetail.objects.all()
@@ -21,19 +22,19 @@ class CostEstimateDetailViewSet(viewsets.ModelViewSet):
         if serial_number:
             queryset = queryset.filter(project__serial_number=serial_number)
 
-        # Support query param: ?project=6
-        project_sn = self.request.query_params.get('project')
-        if project_sn:
-            queryset = queryset.filter(project__serial_number=project_sn)
 
         return queryset
 
 
     def perform_create(self, serializer):
-        project_sn = self.request.query_params.get("project")
+        project_sn = (
+            self.kwargs.get("serial_number") or
+            self.request.query_params.get("project")
+        )
+
         if not project_sn:
-            raise ValidationError({"detail": "Query param 'project' is required."})
-        
+            raise ValidationError({"detail": "Project serial number is required."})
+
         try:
             project = Project.objects.get(serial_number=project_sn)
         except Project.DoesNotExist:
@@ -44,9 +45,35 @@ class CostEstimateDetailViewSet(viewsets.ModelViewSet):
 
         serializer.save(project=project)
 
-# POST http://localhost:8000/api/cost-estimate-details/?project=6
 
 
+
+    def bulk_update(self, request, serial_number=None):
+        data = request.data
+        if not isinstance(data, list):
+            return Response({"detail": "Expected a list of objects for bulk update."}, status=400)
+
+        updated = []
+
+        for item in data:
+            item_id = item.get('id')
+            if not item_id:
+                return Response({"detail": "Each item must contain an 'id' field."}, status=400)
+
+            try:
+                instance = CostEstimateDetail.objects.get(id=item_id, project__serial_number=serial_number)
+            except CostEstimateDetail.DoesNotExist:
+                return Response({"detail": f"Item with id {item_id} not found for project {serial_number}."}, status=404)
+
+            serializer = self.get_serializer(instance, data=item, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            updated.append(serializer.data)
+
+        return Response(updated, status=200)
+
+# get post patch same
+# http://127.0.0.1:8000/api/projects/6/cost-estimate-details/
 
 
     

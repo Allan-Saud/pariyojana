@@ -5,7 +5,7 @@ class BankAccountRecommendationSerializer(serializers.ModelSerializer):
     class Meta:
         model = BankAccountRecommendation
         fields = '__all__'
-        read_only_fields = ['created_at', 'updated_at', 'deleted_at', 'status']
+        read_only_fields = ['created_at', 'updated_at', 'deleted_at', 'status','project']
 
     def update(self, instance, validated_data):
         # Automatically update status if file is present

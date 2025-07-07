@@ -174,7 +174,7 @@ urlpatterns = [
 
     path(
         '<int:serial_number>/cost-estimate-details/',
-        CostEstimateDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
+        CostEstimateDetailViewSet.as_view({'get': 'list', 'post': 'create','patch': 'bulk_update'}),
         name='project-cost-estimate-details'
     ),
 
@@ -194,9 +194,21 @@ urlpatterns = [
 
     path(
         '<int:serial_number>/project-agreement-details/',
-        ProjectAgreementDetailsViewSet.as_view({'get': 'list', 'post': 'create'}),
+        ProjectAgreementDetailsViewSet.as_view({'get': 'list', 'post': 'create','patch': 'partial_update'}),
         name='project-agreement-details'
     ),
+    
+    
+    path(
+    '<int:serial_number>/project-agreement-details/<int:pk>/',
+    ProjectAgreementDetailsViewSet.as_view({
+        'get': 'retrieve',
+        'patch': 'partial_update',
+        'put': 'update',
+        'delete': 'destroy',
+    }),
+    name='project-agreement-detail'
+),
 
     path(
         '<int:serial_number>/operation-site-photos/',
@@ -205,17 +217,39 @@ urlpatterns = [
     ),
 
     
-    path(
-        '<int:serial_number>/bank-details/',
-        BankDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
-        name='project-bank-details'
+    
+        path(
+            '<int:serial_number>/bank-details/',
+            BankDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
+            name='bank-details-list'
+        ),
+        path(
+            '<int:serial_number>/bank-details/<int:pk>/',
+            BankDetailViewSet.as_view({'get': 'retrieve', 'patch': 'partial_update', 'put': 'update', 'delete': 'destroy'}),
+            name='bank-detail-detail'
     ),
 
+
+
     path(
-    '<int:serial_number>/bank-account-recommendation/',
-    BankAccountRecommendationViewSet.as_view({'get': 'list', 'post': 'create'}),
-    name='project-bank-account-recommendation'
+        '<int:serial_number>/bank-account-recommendation/',
+        BankAccountRecommendationViewSet.as_view({
+            'get': 'list',
+            'post': 'create',
+        }),
+        name='bank-account-recommendation-list'
     ),
+    path(
+        '<int:serial_number>/bank-account-recommendation/<int:pk>/',
+        BankAccountRecommendationViewSet.as_view({
+            'get': 'retrieve',
+            'patch': 'partial_update',
+            'put': 'update',
+            'delete': 'destroy',
+        }),
+        name='bank-account-recommendation-detail'
+    ),
+    
 
 
     path(
