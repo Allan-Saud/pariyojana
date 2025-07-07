@@ -29,9 +29,10 @@ class ConsumerCommitteeDetailViewSet(viewsets.ModelViewSet):
     
     
     def perform_create(self, serializer):
-        project_sn = self.request.query_params.get('project_id')
+        project_sn = self.kwargs.get('serial_number') or self.request.query_params.get('project_id')
+        
         if not project_sn:
-            raise ValidationError({"detail": "Project ID (serial_number) is required as query param `project_id`."})
+            raise ValidationError({"detail": "Project ID (serial_number) is required in URL or as query param `project_id`."})
         
         try:
             project = Project.objects.get(serial_number=project_sn)

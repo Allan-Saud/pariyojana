@@ -161,10 +161,21 @@ urlpatterns = [
     ),
 
     path(
-        '<int:serial_number>/consumer-committee-details/',
-        ConsumerCommitteeDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
-        name='project-consumer-committee-details'
-    ),
+    '<int:serial_number>/consumer-committee-details/<int:pk>/',
+    ConsumerCommitteeDetailViewSet.as_view({
+        'get': 'retrieve',
+        'patch': 'partial_update',
+        'put': 'update',
+        'delete': 'destroy',
+    }),
+    name='project-consumer-committee-detail'
+),
+    
+    path(
+    '<int:serial_number>/consumer-committee-details/',
+    ConsumerCommitteeDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
+    name='project-consumer-committee-details'
+),
 
     path(
         '<int:serial_number>/monitoring-committee/',
