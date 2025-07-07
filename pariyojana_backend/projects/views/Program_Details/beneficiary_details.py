@@ -50,8 +50,61 @@ class BeneficiaryDetailViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-    @action(detail=False, methods=['get'], url_path='by-project/(?P<project_id>\d+)')
+    from rest_framework import status
+
+    @action(detail=False, methods=['get'], url_path='by-project/(?P<project_id>\\d+)/')
     def by_project(self, request, project_id=None):
-        beneficiaries = BeneficiaryDetail.objects.filter(project__serial_number=project_id)
-        serializer = self.get_serializer(beneficiaries, many=True)
-        return Response(serializer.data)
+        if request.method == 'GET':
+            beneficiaries = BeneficiaryDetail.objects.filter(project__serial_number=project_id)
+            serializer = self.get_serializer(beneficiaries, many=True)
+            return Response(serializer.data)
+
+        elif request.method == 'PATCH':
+            data = request.data
+            if not isinstance(data, list):
+                return Response({"detail": "Expected a list of items for bulk update"}, status=status.HTTP_400_BAD_REQUEST)
+
+            response_data = []
+            for item in data:
+                beneficiary_id = item.get('id')
+                if not beneficiary_id:
+                    return Response({"detail": "Each item must contain 'id' field"}, status=status.HTTP_400_BAD_REQUEST)
+
+                try:
+                    beneficiary = BeneficiaryDetail.objects.get(id=beneficiary_id, project__serial_number=project_id)
+                except BeneficiaryDetail.DoesNotExist:
+                    return Response({"detail": f"Beneficiary with id {beneficiary_id} not found in this project."}, status=status.HTTP_404_NOT_FOUND)
+
+                serializer = self.get_serializer(beneficiary, data=item, partial=True)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                response_data.append(serializer.data)
+
+            return Response(response_data, status=status.HTTP_200_OK)
+        
+        
+        
+        
+    def bulk_update(self, request, serial_number=None):
+            data = request.data
+            if not isinstance(data, list):
+                return Response({"detail": "Expected a list of items for bulk update."}, status=400)
+
+            updated_items = []
+
+            for item in data:
+                beneficiary_id = item.get('id')
+                if not beneficiary_id:
+                    return Response({"detail": "Each item must contain 'id'."}, status=400)
+
+                try:
+                    instance = BeneficiaryDetail.objects.get(id=beneficiary_id, project__serial_number=serial_number)
+                except BeneficiaryDetail.DoesNotExist:
+                    return Response({"detail": f"Beneficiary {beneficiary_id} not found in project {serial_number}."}, status=404)
+
+                serializer = self.get_serializer(instance, data=item, partial=True)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                updated_items.append(serializer.data)
+
+            return Response(updated_items, status=status.HTTP_200_OK)

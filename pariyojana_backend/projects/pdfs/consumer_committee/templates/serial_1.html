@@ -3,73 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <style>
+        @page {
+            size: A4;
+            margin: 2.5cm;
+        }
+
         body {
             font-family: Kalimati, 'Noto Sans Devanagari', Devanagari, sans-serif;
             font-size: 14px;
             line-height: 1.8;
+            margin: 0;
         }
 
-        .center {
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            max-width: 80px;
+            height: auto;
+        }
+
+        .header-text {
+            flex: 1;
             text-align: center;
+            color: red;
+        }
+
+        .header-text h2, .header-text h3 {
+            margin: 0;
+        }
+
+        .address {
+            text-align: center;
+            margin-top: 4px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .fiscal-year {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .field {
+            margin-left: 40px;
+            margin-top: 8px;
+        }
+
+        .quote {
+            margin-top: 40px;
+            text-align: center;
+            font-style: italic;
         }
 
         .bold {
             font-weight: bold;
         }
 
-        .section {
-            margin-top: 20px;
+        hr {
+            border: 1px solid #999;
+            margin: 20px 0;
         }
 
-        .quote {
-            margin-top: 30px;
-            text-align: center;
-            font-style: italic;
-        }
-
-        .field {
-            margin-left: 30px;
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="center">
-        <div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>नगर कार्यपालिकाको कार्यालय</h3> 
-</div>
-
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
-
+    {% load static %}
+    <div class="header-container">
+        <div>
+            <img src="{% static 'images/nepal-govt.png' %}" alt="गाउँपालिका लोगो" class="logo">
+        </div>
+        <div class="header-text">
+            <h2>बर्दगोरिया गाउँपालिका</h2>
+            <h3>नगर कार्यपालिकाको कार्यालय</h3> 
+        </div>
+        <div style="width: 80px;"></div> <!-- Empty block to balance logo width -->
     </div>
 
-    <div class="section center bold">
-        योजना संचालन/सम्झौता पुस्तिका
+    <div class="address">
+        <p>मूडा, कैलाली</p>
+        <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
     </div>
 
-    <div class="section center">
+    <hr>
+
+    <div class="section-title">योजना संचालन/सम्झौता पुस्तिका</div>
+
+    <div class="subtitle">
         उपभोक्ता समिति गठन पंजीकरण तथा व्यवस्थापन कार्यविधि, २०७६ को दफा ७ (१) अनुसूची-२ बमोजिम संरचित
     </div>
 
-    <div class="section center bold">
-        आ.ब. 2081/82
-    </div>
+    <div class="fiscal-year">आ.ब. 2081/82</div>
 
     <div class="section">
-        <div class="field">१. योजनाको नाम:- {{ project_name }}</div>
-        <div class="field">२. योजना संचालन हुने स्थान:- {{ location }}</div>
+        <div class="field">१. योजनाको नाम :- {{ project_name }}</div>
+        <div class="field">२. योजना संचालन हुने स्थान :- {{ location }}</div>
         <div class="field">३. योजनाको कुल लागत :- {{ total_cost }}</div>
         <div class="field">४. बजेट शिर्षक :- {{ budget_title }}</div>
         <div class="field">५. योजना सम्झौता मिति :- {{ agreement_date }}</div>
         <div class="field">६. कार्यान्वयन मिति :- {{ execution_date|default:"-" }}</div>
         <div class="field">७. योजना सम्पन्न गर्नु पर्ने मिति :- {{ completion_date }}</div>
-        <div class="field">८. व्यय भए भएको भए व्यय भए भएको मिति :- {{ expense_date|default:"-" }}</div>
+        <div class="field">८. व्यय भए भएको मिति :- {{ expense_date|default:"-" }}</div>
         <div class="field">९. भुक्तानी भएको मिति :- {{ payment_date|default:"-" }}</div>
-        <div class="field">१०. उपभोक्ता समितिको अध्यक्षको नाम गर:- {{ chairman_name }}</div>
+        <div class="field">१०. उपभोक्ता समितिको अध्यक्षको नाम :- {{ chairman_name }}</div>
         <div class="field">११. सम्पर्क नं :- {{ contact_number }}</div>
     </div>
 

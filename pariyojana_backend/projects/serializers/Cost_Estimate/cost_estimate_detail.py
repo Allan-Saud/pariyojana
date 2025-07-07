@@ -4,14 +4,14 @@ from rest_framework import serializers
 from projects.models.Cost_Estimate.cost_estimate_detail import CostEstimateDetail
 
 class CostEstimateDetailSerializer(serializers.ModelSerializer):
-    allocated_budget = serializers.SerializerMethodField()  # from related project
+    allocated_budget = serializers.SerializerMethodField()  
 
     class Meta:
         model = CostEstimateDetail
         fields = [
             'id',
-            'project',
-            'allocated_budget',        # Fetched from project
+          
+            'allocated_budget',      
             'estimated_cost',
             'contingency_percent',
             'contingency_amount',
@@ -19,6 +19,7 @@ class CostEstimateDetailSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = [
             'allocated_budget',
+            ' project',
             'contingency_amount',
             'total_estimated_cost',
         ]

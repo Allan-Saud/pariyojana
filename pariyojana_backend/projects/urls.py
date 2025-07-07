@@ -143,7 +143,7 @@ urlpatterns = [
 
     path(
     '<int:serial_number>/beneficiaries/',
-    BeneficiaryDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
+    BeneficiaryDetailViewSet.as_view({'get': 'list', 'post': 'create','patch': 'bulk_update'}),
     name='project-beneficiaries'
     ),
 
@@ -162,7 +162,7 @@ urlpatterns = [
 
     path(
         '<int:serial_number>/consumer-committee-details/',
-        ConsumerCommitteeDetailViewSet.as_view({'get': 'list'}),
+        ConsumerCommitteeDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
         name='project-consumer-committee-details'
     ),
 
@@ -174,7 +174,7 @@ urlpatterns = [
 
     path(
         '<int:serial_number>/cost-estimate-details/',
-        CostEstimateDetailViewSet.as_view({'get': 'list'}),
+        CostEstimateDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
         name='project-cost-estimate-details'
     ),
 
@@ -194,7 +194,7 @@ urlpatterns = [
 
     path(
         '<int:serial_number>/project-agreement-details/',
-        ProjectAgreementDetailsViewSet.as_view({'get': 'list'}),
+        ProjectAgreementDetailsViewSet.as_view({'get': 'list', 'post': 'create'}),
         name='project-agreement-details'
     ),
 

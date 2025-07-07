@@ -6,6 +6,7 @@ class ProjectAgreementDetailsSerializer(serializers.ModelSerializer):
         model = ProjectAgreementDetails
         fields = '__all__'
         read_only_fields = [
+            'project',
             'cost_estimate', 'contingency_amount', 'contingency_percentage', 'total_cost_estimate',
             'municipality_percentage', 'public_participation_amount', 'public_participation_percentage',
             'created_at', 'updated_at',
