@@ -11,6 +11,21 @@ class InitiationProcessViewSet(viewsets.ModelViewSet):
     queryset = InitiationProcess.objects.all()
     serializer_class = InitiationProcessSerializer
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        # For nested route like /projects/<serial_number>/initiation-process/
+        serial_number = self.kwargs.get('serial_number')
+        if serial_number:
+            queryset = queryset.filter(project__serial_number=serial_number)
+
+        # For query param ?project_id=6
+        query_param = self.request.query_params.get('project_id')
+        if query_param:
+            queryset = queryset.filter(project__serial_number=query_param)
+
+        return queryset
+
     @action(detail=True, methods=["post"])
     def confirm_initiation(self, request, pk=None):
         instance = self.get_object()
@@ -28,3 +43,4 @@ class InitiationProcessViewSet(viewsets.ModelViewSet):
         return Response({
             "message": "प्रक्रिया पुष्टि गरिएको छैन। कृपया OK थिच्नुहोस्।"
         }, status=status.HTTP_400_BAD_REQUEST)
+

@@ -1,8 +1,10 @@
 from rest_framework import viewsets
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import ValidationError
 from projects.models.Operation_Location.operation_location import OperationSitePhoto
 from projects.serializers.Operatio_Location.operation_location import OperationSitePhotoSerializer
+from projects.models.project import Project
 
 class OperationSitePhotoViewSet(viewsets.ModelViewSet):
     queryset = OperationSitePhoto.objects.all()
@@ -12,7 +14,28 @@ class OperationSitePhotoViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        project_id = self.request.query_params.get('project')
-        if project_id:
-            qs = qs.filter(project_id=project_id)
+
+        # Try nested URL param first
+        serial_number = self.kwargs.get('serial_number')
+
+        # fallback to query param
+        if not serial_number:
+            serial_number = self.request.query_params.get('project')
+
+        if serial_number:
+            qs = qs.filter(project__serial_number=serial_number)
+
         return qs
+
+    def perform_create(self, serializer):
+        serial_number = self.kwargs.get('serial_number') or self.request.query_params.get('project')
+
+        if not serial_number:
+            raise ValidationError({"detail": "Project 'serial_number' is required as URL param or query param."})
+
+        try:
+            project = Project.objects.get(serial_number=serial_number)
+        except Project.DoesNotExist:
+            raise ValidationError({"detail": f"Project with serial_number={serial_number} not found."})
+
+        serializer.save(project=project)

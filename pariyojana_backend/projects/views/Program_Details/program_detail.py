@@ -8,15 +8,13 @@ from rest_framework import viewsets
 from projects.serializers.project import ProjectSerializer
 
 
-# class ProgramDetailViewSet(viewsets.ModelViewSet):
-#     queryset = ProgramDetail.objects.all()
-#     serializer_class = ProgramDetailSerializer
 class ProgramDetailViewSet(viewsets.ModelViewSet):
     serializer_class = ProgramDetailSerializer
 
     def get_queryset(self):
-        queryset = ProgramDetail.objects.all()
-        project_id = self.request.query_params.get('project_id')  
+        queryset = ProgramDetail.objects.all()  
+
+        project_id = self.request.query_params.get('project_id')
 
         if project_id:
             queryset = queryset.filter(project__serial_number=project_id)
@@ -38,20 +36,21 @@ class ProgramDetailViewSet(viewsets.ModelViewSet):
             return Response({'error': 'Project not found'}, status=status.HTTP_404_NOT_FOUND)
 
         program_detail_data = {
-            'project': project.serial_number,
-            'project_name': project.project_name,
-            'ward_no': project.ward_no,
-            'fiscal_year': project.fiscal_year.id if project.fiscal_year else None,
-            'area': project.area.id if project.area else None,
-            'sub_area': project.sub_area.id if project.sub_area else None,
-            'source': project.source.id if project.source else None,
-            'expenditure_center': project.expenditure_center.id if project.expenditure_center else None,
-            'outcome': project.outcome,
-            'budget': project.budget,
-            'location_gps': project.location_gps,
-            'status': project.status,
-            'project_level':project.project_level
-        }
+    'project': project.id,
+    'project_name': project.project_name,
+    'ward_no': project.ward_no,
+    'fiscal_year': project.fiscal_year.id if project.fiscal_year else None,
+    'area': project.area.id if project.area else None,
+    'sub_area': project.sub_area.id if project.sub_area else None,
+    'source': project.source.id if project.source else None,
+    'expenditure_center': project.expenditure_center.id if project.expenditure_center else None,
+    'outcome': project.outcome,
+    'budget': project.budget,
+    'location_gps': project.location_gps,
+    'status': project.status,
+    'project_level': project.project_level.id if project.project_level else None
+}
+
 
         serializer = self.get_serializer(data=program_detail_data)
         serializer.is_valid(raise_exception=True)

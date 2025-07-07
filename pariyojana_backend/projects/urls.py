@@ -138,6 +138,97 @@ urlpatterns = [
 
 
     
+    
+    # Nested project-specific endpoints (without affecting the DefaultRouter)
+
+    path(
+        '<int:serial_number>/beneficiaries/',
+        BeneficiaryDetailViewSet.as_view({'get': 'list'}),
+        name='project-beneficiaries'
+    ),
+
+    path(
+        '<int:serial_number>/initiation-process/',
+        InitiationProcessViewSet.as_view({'get': 'list'}),
+        name='project-initiation-process'
+    ),
+
+    path(
+        '<int:serial_number>/program-details/',
+        ProgramDetailViewSet.as_view({'get': 'list'}),
+        name='project-program-details'
+    ),
+
+    path(
+        '<int:serial_number>/consumer-committee-details/',
+        ConsumerCommitteeDetailViewSet.as_view({'get': 'list'}),
+        name='project-consumer-committee-details'
+    ),
+
+    path(
+        '<int:serial_number>/monitoring-committee/',
+        MonitoringFacilitationCommitteeViewSet.as_view({'get': 'list'}),
+        name='project-monitoring-committee'
+    ),
+
+    path(
+        '<int:serial_number>/cost-estimate-details/',
+        CostEstimateDetailViewSet.as_view({'get': 'list'}),
+        name='project-cost-estimate-details'
+    ),
+
+    path(
+        '<int:serial_number>/official-details/',
+        OfficialDetailViewSet.as_view({'get': 'list'}),
+        name='project-official-details'
+    ),
+
+    path(
+        '<int:serial_number>/documents/',
+        DocumentViewSet.as_view({'get': 'list'}),
+        name='project-documents'
+    ),
+    
+    
+
+    path(
+        '<int:serial_number>/project-agreement-details/',
+        ProjectAgreementDetailsViewSet.as_view({'get': 'list'}),
+        name='project-agreement-details'
+    ),
+
+    path(
+        '<int:serial_number>/operation-site-photos/',
+        OperationSitePhotoViewSet.as_view({'get': 'list'}),
+        name='project-operation-site-photos'
+    ),
+
+    
+    path(
+        '<int:serial_number>/bank-details/',
+        BankDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
+        name='project-bank-details'
+    ),
+
+    path(
+    '<int:serial_number>/bank-account-recommendation/',
+    BankAccountRecommendationViewSet.as_view({'get': 'list', 'post': 'create'}),
+    name='project-bank-account-recommendation'
+    ),
+
+
+    path(
+    '<int:serial_number>/account-photos/',
+    AccountPhotoViewSet.as_view({'get': 'list', 'post': 'create'}),
+    name='project-account-photos'
+),
+
+
+
+
+
+
+    
 
     
 

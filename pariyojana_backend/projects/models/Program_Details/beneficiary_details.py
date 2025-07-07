@@ -1,6 +1,6 @@
 from django.db import models
 from projects.models.Program_Details.program_detail import ProgramDetail
-
+from projects.models.project import Project
 class BeneficiaryDetail(models.Model):
     CATEGORY_CHOICES = [
         ('total_households', 'जम्मा परिवार'),
@@ -10,8 +10,7 @@ class BeneficiaryDetail(models.Model):
         ('children_population', 'बालबालिकाको जनसंख्या'),
         ('other_families', 'अन्य वर्गको परिवार संख्या'),
     ]
-
-    program_detail = models.ForeignKey(ProgramDetail, on_delete=models.CASCADE, related_name='beneficiaries')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='program_details',null=True,blank=True)
     title = models.CharField(max_length=255, choices=CATEGORY_CHOICES)
     female = models.PositiveIntegerField(null=True, blank=True, default=0)
     male = models.PositiveIntegerField(null=True, blank=True, default=0)

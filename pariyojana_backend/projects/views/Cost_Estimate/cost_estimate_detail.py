@@ -6,16 +6,45 @@ from projects.serializers.Cost_Estimate.cost_estimate_detail import CostEstimate
 from django.shortcuts import render, get_object_or_404
 from projects.models.Cost_Estimate.cost_estimate_detail import CostEstimateDetail
 from datetime import date
+from rest_framework.exceptions import ValidationError
+from projects.models.project import Project
 
 class CostEstimateDetailViewSet(viewsets.ModelViewSet):
     queryset = CostEstimateDetail.objects.all()
     serializer_class = CostEstimateDetailSerializer
 
     def get_queryset(self):
-        project_id = self.request.query_params.get("project")
-        if project_id:
-            return self.queryset.filter(project_id=project_id)
-        return self.queryset
+        queryset = super().get_queryset()
+
+        # Support nested URL: /projects/<serial_number>/cost-estimate-details/
+        serial_number = self.kwargs.get('serial_number')
+        if serial_number:
+            queryset = queryset.filter(project__serial_number=serial_number)
+
+        # Support query param: ?project=6
+        project_sn = self.request.query_params.get('project')
+        if project_sn:
+            queryset = queryset.filter(project__serial_number=project_sn)
+
+        return queryset
+
+
+    def perform_create(self, serializer):
+        project_sn = self.request.query_params.get("project")
+        if not project_sn:
+            raise ValidationError({"detail": "Query param 'project' is required."})
+        
+        try:
+            project = Project.objects.get(serial_number=project_sn)
+        except Project.DoesNotExist:
+            raise ValidationError({"detail": f"Project with serial_number={project_sn} not found."})
+
+        if CostEstimateDetail.objects.filter(project=project).exists():
+            raise ValidationError({"detail": f"Cost estimate already exists for project {project_sn}."})
+
+        serializer.save(project=project)
+
+# POST http://localhost:8000/api/cost-estimate-details/?project=6
 
 
 
