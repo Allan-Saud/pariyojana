@@ -4,16 +4,19 @@ from rest_framework.response import Response
 from planning.WardOffice.PrioritizedWardLevelProjects.models import PrioritizedWardLevelProject
 from planning.BudgetProgramcommittee.WardLevelProgram.models import BudgetProgramCommitteeWardLevelProgram
 from planning.WardOffice.PrioritizedWardLevelProjects.serializers import PrioritizedWardLevelProjectSerializer
-
+from django.utils import timezone
 class PrioritizedWardLevelProjectViewSet(viewsets.ModelViewSet):
-    queryset = PrioritizedWardLevelProject.objects.all()
+    # queryset = PrioritizedWardLevelProject.objects.all()
     serializer_class = PrioritizedWardLevelProjectSerializer
-
+    def get_queryset(self):
+        return PrioritizedWardLevelProject.objects.filter(is_deleted=False)
+    
     @action(detail=True, methods=['post'], url_path='recommend-to-budget-committee')
     def recommend_to_budget_committee(self, request, pk=None):
         try:
             prioritized_project = self.get_object()
 
+            # Copy to budget program committee model
             BudgetProgramCommitteeWardLevelProgram.objects.create(
                 plan_name=prioritized_project.plan_name,
                 thematic_area=prioritized_project.thematic_area,
@@ -27,10 +30,13 @@ class PrioritizedWardLevelProjectViewSet(viewsets.ModelViewSet):
                 remarks=prioritized_project.remarks,
             )
 
-            # Update status in current model
-            prioritized_project.status = "बजेट तथा कार्यक्रम तर्जुमा समितिमा सिफारिस भएको वडा स्तरीय परियोजना"
+            # Soft delete the prioritized project
+            prioritized_project.is_deleted = True
+            prioritized_project.deleted_at = timezone.now()
             prioritized_project.save()
 
-            return Response({"message": "Recommended to budget committee successfully."}, status=status.HTTP_200_OK)
+            return Response({"message": "Recommended to budget committee and soft-deleted successfully."}, status=status.HTTP_200_OK)
+
         except PrioritizedWardLevelProject.DoesNotExist:
             return Response({"error": "Project not found"}, status=404)
+

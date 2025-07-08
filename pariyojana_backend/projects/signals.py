@@ -10,10 +10,17 @@ from authentication.models import VerificationLog
 
 @receiver(post_save, sender=InitiationProcess)
 def update_project_status_on_confirmation(sender, instance, **kwargs):
-    if instance.is_confirmed and instance.project:
-        if instance.project.status != 'process_ensured':
-            instance.project.status = 'process_ensured'
-            instance.project.save()
+
+    if instance.is_confirmed and instance.project.status != 'process_ensured':
+        instance.project.status = 'process_ensured'
+        instance.project.save()
+# @receiver(post_save, sender=InitiationProcess)
+# def update_project_status_on_confirmation(sender, instance, **kwargs):
+#     if instance.is_confirmed and instance.project and instance.project.status != 'process_ensured':
+#         instance.project.status = 'process_ensured'
+#         instance.project.save()
+
+
 
 
 

@@ -3,13 +3,11 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
 from planning.MunicipalityExecutiveOffice.PreAssemblyProject.models import PreAssemblyProject
 from planning.MunicipalAssembly.SubmittedProjects.models import SubmittedProjects
 from planning.MunicipalityExecutiveOffice.CouncilSubmittedProjects.models import CouncilSubmittedProject
-
 from planning.MunicipalityExecutiveOffice.PreAssemblyProject.serializers import PreAssemblyProjectSerializer
-
+from django.utils import timezone
 
 class PreAssemblyProjectViewSet(viewsets.ModelViewSet):
     queryset = PreAssemblyProject.objects.all()
@@ -31,22 +29,25 @@ class PreAssemblyProjectViewSet(viewsets.ModelViewSet):
             priority_no=project.priority_no,
             remarks=project.remarks,
         )
-
     @action(detail=True, methods=['post'], url_path='submit-to-assembly')
     def submit_to_assembly(self, request, pk=None):
         try:
             project = self.get_object()
 
+            # Copy data to both models
             self._copy_project_to(SubmittedProjects, project)
             self._copy_project_to(CouncilSubmittedProject, project)
 
-            project.status = "नगर सभा सिफारिस भएको परियोजना"
+            # Soft delete the current project
+            project.is_deleted = True
+            project.deleted_at = timezone.now()
             project.save()
 
-            return Response({"message": "Project submitted to assembly and council list updated."}, status=200)
+            return Response({"message": "Project submitted to assembly and soft-deleted from pre-assembly list."}, status=200)
 
         except PreAssemblyProject.DoesNotExist:
             return Response({"error": "Project not found"}, status=404)
+
 
     @action(detail=True, methods=['post'], url_path='submit-to-council')
     def submit_to_council(self, request, pk=None):

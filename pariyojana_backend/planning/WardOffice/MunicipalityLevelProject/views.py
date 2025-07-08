@@ -5,10 +5,12 @@ from planning.WardOffice.MunicipalityLevelProject.models import MunicipalityLeve
 from planning.BudgetProgramcommittee.MunicipalityLevelProgram.models import MunicipalityLevelProgram
 from planning.WardOffice.MunicipalityLevelProject.serializers import MunicipalityLevelProjectSerializer
 from planning.BudgetProgramcommittee.MunicipalityLevelProgram.serializers import MunicipalityLevelProgramSerializer
-
+from django.utils import timezone
 class MunicipalityLevelProjectViewSet(viewsets.ModelViewSet):
-    queryset = MunicipalityLevelProject.objects.all()
+    # queryset = MunicipalityLevelProject.objects.all()
     serializer_class = MunicipalityLevelProjectSerializer
+    def get_queryset(self):
+        return MunicipalityLevelProject.objects.filter(is_deleted=False)
 
     @action(detail=True, methods=['post'], url_path='recommend-to-budget-committee')
     def recommend_to_budget_committee(self, request, pk=None):
@@ -28,13 +30,17 @@ class MunicipalityLevelProjectViewSet(viewsets.ModelViewSet):
                 remarks=project.remarks
             )
 
+            # Soft delete the original project
+            project.is_deleted = True
+            project.deleted_at = timezone.now()
             project.status = "बजेट तथा कार्यक्रम तर्जुमा समितिमा सिफारिस भएको नगर स्तरीय परियोजना"
             project.save()
 
-            return Response({"message": "Project sent to budget committee."}, status=200)
+            return Response({"message": "Project sent to budget committee and soft-deleted."}, status=200)
 
         except MunicipalityLevelProject.DoesNotExist:
             return Response({"error": "Project not found"}, status=404)
+
 
 
 

@@ -1,42 +1,15 @@
-# from rest_framework import viewsets, status
-# from rest_framework.decorators import action
-# from rest_framework.response import Response
-# from .models import BudgetProgramWardLevelProject
-# from .serializers import BudgetProgramWardLevelProjectSerializer
-# from planning.MunicipalityExecutiveOffice.PreAssemblyProject.models import ExecutivePreAssemblyProject
-
-# class BudgetProgramWardLevelProjectViewSet(viewsets.ModelViewSet):
-#     queryset = BudgetProgramWardLevelProject.objects.all()
-#     serializer_class = BudgetProgramWardLevelProjectSerializer
-
-#     @action(detail=True, methods=['post'], url_path='submit-to-executive')
-#     def submit_to_executive(self, request, pk=None):
-#         instance = self.get_object()
-#         ExecutivePreAssemblyProject.objects.create(
-#             plan_name=instance.plan_name,
-#             thematic_area=instance.thematic_area,
-#             sub_area=instance.sub_area,
-#             source=instance.source,
-#             expenditure_center=instance.expenditure_center,
-#             budget=instance.budget,
-#             ward_no=instance.ward_no,
-#             status="बजेट तथा कार्यक्रम तर्जुमा समितिले सिफारिस गरेका परियोजना",
-#             priority_no=instance.priority_no,
-#             remarks=instance.remarks
-#         )
-#         return Response({"message": "Submitted to Executive Office."})
-
-
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from planning.BudgetProgramcommittee.WardLevelProgram.models import BudgetProgramCommitteeWardLevelProgram
 from planning.MunicipalityExecutiveOffice.PreAssemblyProject.models import PreAssemblyProject
 from .serializers import BudgetProgramCommitteeWardLevelProgramSerializer
-
+from django.utils import timezone
 class BudgetProgramCommitteeWardLevelProgramViewSet(viewsets.ModelViewSet):
-    queryset = BudgetProgramCommitteeWardLevelProgram.objects.all()
+    # queryset = BudgetProgramCommitteeWardLevelProgram.objects.all()
     serializer_class = BudgetProgramCommitteeWardLevelProgramSerializer
+    def get_queryset(self):
+        return BudgetProgramCommitteeWardLevelProgram.objects.filter(is_deleted=False)
 
     @action(detail=True, methods=['post'], url_path='recommend-to-municipality-executive')
     def recommend_to_municipality_executive(self, request, pk=None):
@@ -57,11 +30,13 @@ class BudgetProgramCommitteeWardLevelProgramViewSet(viewsets.ModelViewSet):
                 remarks=current_project.remarks,
             )
 
-            # Update status on current project
-            current_project.status = "बजेट तथा कार्यक्रम तर्जुमा समितिले सिफारिस गरेका परियोजना"
+            # Soft delete the current project
+            current_project.is_deleted = True
+            current_project.deleted_at = timezone.now()
             current_project.save()
 
-            return Response({"message": "Project forwarded to municipality executive office."}, status=200)
+            return Response({"message": "Project forwarded to municipality executive office and soft-deleted."}, status=status.HTTP_200_OK)
 
         except BudgetProgramCommitteeWardLevelProgram.DoesNotExist:
-            return Response({"error": "Project not found"}, status=404)
+            return Response({"error": "Project not found"}, status=status.HTTP_404_NOT_FOUND)
+

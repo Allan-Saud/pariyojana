@@ -2,7 +2,8 @@ from rest_framework import viewsets
 from projects.models.Cost_Estimate.map_cost_estimate import MapCostEstimate
 from projects.serializers.Cost_Estimate.map_cost_estimate import MapCostEstimateSerializer
 from authentication.models import VerificationLog 
-
+from django.shortcuts import get_object_or_404
+from projects.models.project import Project
 class MapCostEstimateViewSet(viewsets.ModelViewSet):
     queryset = MapCostEstimate.objects.all().order_by('-date')
     serializer_class = MapCostEstimateSerializer
@@ -24,3 +25,8 @@ class MapCostEstimateViewSet(viewsets.ModelViewSet):
                 source_model='MapCostEstimate',
                 source_id=instance.id
             )
+            
+    def perform_create(self, serializer):
+        project_id = self.kwargs.get('serial_number')  # or whatever your URL param is
+        project = get_object_or_404(Project, pk=project_id)
+        serializer.save(project=project)

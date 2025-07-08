@@ -3,15 +3,18 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
+from django.utils import timezone
 from planning.MunicipalAssembly.SubmittedProjects.models import SubmittedProjects
 from planning.MunicipalAssembly.SubmittedProjects.serializers import SubmittedProjectsSerializer
 from planning.MunicipalAssembly.ProjectsApprovedByMunicipal.models import ProjectsApprovedByMunicipal
 
 
 class SubmittedProjectViewSet(viewsets.ModelViewSet):
-    queryset = SubmittedProjects.objects.all()
+    # queryset = SubmittedProjects.objects.all()
     serializer_class = SubmittedProjectsSerializer
+    def get_queryset(self):
+        return SubmittedProjects.objects.filter(is_deleted=False)
+
 
     def _copy_to_approved(self, project):
         """Internal method to copy project data to ApprovedProjects model."""
@@ -28,6 +31,8 @@ class SubmittedProjectViewSet(viewsets.ModelViewSet):
             remarks=project.remarks,
         )
 
+    
+
     @action(detail=True, methods=['post'], url_path='approve')
     def approve(self, request, pk=None):
         try:
@@ -35,11 +40,14 @@ class SubmittedProjectViewSet(viewsets.ModelViewSet):
 
             self._copy_to_approved(project)
 
-            # Update the original SubmittedProjects status
+            # Soft delete the original SubmittedProjects record
+            project.is_deleted = True
+            project.deleted_at = timezone.now()
             project.status = "सभाद्वारा स्वीकृत भएको"
             project.save()
 
-            return Response({"message": "Project approved and transferred."}, status=200)
+            return Response({"message": "Project approved, transferred and soft-deleted."}, status=200)
 
         except SubmittedProjects.DoesNotExist:
             return Response({"error": "Project not found"}, status=404)
+

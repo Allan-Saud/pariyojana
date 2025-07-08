@@ -3,6 +3,7 @@ from project_settings.models.thematic_area import ThematicArea
 from project_settings.models.sub_thematic_area import SubArea
 from project_settings.models.expenditure_center import ExpenditureCenter
 from project_settings.models.source import Source
+from planning.PlanEntry.models import PlanEntry
 
 class WardLevelProject(models.Model):
     plan_name = models.CharField(max_length=255)
@@ -15,7 +16,8 @@ class WardLevelProject(models.Model):
     status = models.CharField(max_length=255, default="प्रविष्टी भएको वडा स्तरीय परियोजना")
     priority_no = models.PositiveIntegerField(null=True, blank=True)
     remarks = models.TextField(blank=True, null=True)
-
+    is_deleted = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(null=True, blank=True)
     def __str__(self):
         return self.plan_name
     

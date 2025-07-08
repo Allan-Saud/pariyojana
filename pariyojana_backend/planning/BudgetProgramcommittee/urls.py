@@ -5,8 +5,10 @@ from planning.BudgetProgramcommittee.MunicipalityLevelProgram.views import Munic
 
 router = DefaultRouter()
 
-router.register(r'municipality-programs', MunicipalityLevelProgramViewSet)
-router.register(r'budget-ward-projects', BudgetProgramCommitteeWardLevelProgramViewSet)
+router.register(r'municipality-programs', MunicipalityLevelProgramViewSet,basename='municipalityprograms')
+# router.register(r'budget-ward-projects', BudgetProgramCommitteeWardLevelProgramViewSet)
+router.register(r'budget-ward-projects', BudgetProgramCommitteeWardLevelProgramViewSet, basename='budgetwardproject')
+
 
 urlpatterns = [
     path('', include(router.urls)),
