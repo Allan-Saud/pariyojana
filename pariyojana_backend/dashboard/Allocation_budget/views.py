@@ -7,10 +7,10 @@ from projects.models.project import Project
 def budget_allocation_by_area(request):
     projects_qs = Project.objects.filter(is_active=True, is_deleted=False)
 
-    # Sum of budget grouped by area name
+    # here  it is based on Sum of budget grouped by area name
     area_budgets = projects_qs.values('area__name').annotate(total_budget=Sum('budget'))
 
-    # Total budget sum across all projects (avoid division by zero)
+    # here the conspet is Total budget sum across all projects (avoid division by zero)
     total_budget = projects_qs.aggregate(total=Sum('budget'))['total'] or 1
 
     result = []

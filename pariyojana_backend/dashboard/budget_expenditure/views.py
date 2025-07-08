@@ -6,12 +6,12 @@ from projects.models.Installment_Payment.payment_related_details import PaymentR
 
 class ProjectBudgetSummaryAPIView(APIView):
     def get(self, request):
-        # Sum budget from all active, not deleted projects
+        # here I have done Sum budget from all active, not deleted projects
         total_budget = Project.objects.filter(is_active=True, is_deleted=False).aggregate(
             total=Sum('budget')
         )['total'] or 0
 
-        # Sum paid amounts from all active payment details linked to active projects
+        # similarly here Sum paid amounts from all active payment details linked to active projects
         expenditure = PaymentRelatedDetail.objects.filter(
             is_active=True,
             project__is_active=True,

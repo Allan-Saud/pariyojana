@@ -13,7 +13,7 @@ class InitiationProcess(models.Model):
 
     project = models.OneToOneField("projects.Project", on_delete=models.CASCADE,null=True)
     initiation_method = models.CharField(max_length=100, choices=INITIATION_CHOICES)
-    is_confirmed = models.BooleanField(default=False)  # when OK is clicked
+    is_confirmed = models.BooleanField(default=False) 
     started_at = models.DateTimeField(null=True, blank=True)
 
     # Flags for enabling steps

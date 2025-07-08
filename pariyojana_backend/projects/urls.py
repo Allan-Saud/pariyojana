@@ -150,7 +150,7 @@ urlpatterns = [
 
     path(
         '<int:serial_number>/initiation-process/',
-        InitiationProcessViewSet.as_view({'get': 'list'}),
+        InitiationProcessViewSet.as_view({'get': 'list','post': 'create'}),
         name='project-initiation-process'
     ),
 

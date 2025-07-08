@@ -5,7 +5,7 @@ from projects.models.project import Project
 from django.db.models import Sum
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])  # Optional
+@permission_classes([IsAuthenticated]) 
 def wardwise_budget_distribution(request):
     result = (
         Project.objects
