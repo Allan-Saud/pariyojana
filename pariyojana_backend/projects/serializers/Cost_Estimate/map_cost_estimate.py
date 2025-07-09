@@ -5,7 +5,7 @@ class MapCostEstimateSerializer(serializers.ModelSerializer):
     class Meta:
         model = MapCostEstimate
         fields = '__all__'
-        read_only_fields = ['created_at', 'updated_at', 'status', 'is_verified']
+        read_only_fields = ['created_at', 'updated_at', 'status', 'is_verified','project']
 
     def update(self, instance, validated_data):
         file = validated_data.get('file', instance.file)

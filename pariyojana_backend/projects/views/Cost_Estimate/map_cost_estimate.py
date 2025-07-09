@@ -11,7 +11,7 @@ class MapCostEstimateViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         instance = serializer.save()
 
-        # If verified, log it into authentication app
+        
         if instance.is_verified:
             VerificationLog.objects.create(
                 project=instance.project,
@@ -26,7 +26,11 @@ class MapCostEstimateViewSet(viewsets.ModelViewSet):
                 source_id=instance.id
             )
             
+    # def perform_create(self, serializer):
+    #     project_id = self.kwargs.get('serial_number')  
+    #     project = get_object_or_404(Project, pk=project_id)
+    #     serializer.save(project=project)
     def perform_create(self, serializer):
-        project_id = self.kwargs.get('serial_number')  # or whatever your URL param is
-        project = get_object_or_404(Project, pk=project_id)
+        serial_number = self.kwargs.get('serial_number')
+        project = get_object_or_404(Project, serial_number=serial_number)
         serializer.save(project=project)

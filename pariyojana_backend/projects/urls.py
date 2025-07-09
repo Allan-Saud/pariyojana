@@ -271,6 +271,24 @@ urlpatterns = [
 
 
 
+path(
+    '<int:serial_number>/map-cost-estimate/',
+    MapCostEstimateViewSet.as_view({'get': 'list', 'post': 'create'}),
+    name='project-map-cost-estimate-list'
+),
+path(
+    '<int:serial_number>/map-cost-estimate/<int:pk>/',
+    MapCostEstimateViewSet.as_view({
+        'get': 'retrieve',
+        'patch': 'partial_update',
+        'put': 'update',
+        'delete': 'destroy',
+    }),
+    name='project-map-cost-estimate-detail'
+),
+
+
+
 
 
 
