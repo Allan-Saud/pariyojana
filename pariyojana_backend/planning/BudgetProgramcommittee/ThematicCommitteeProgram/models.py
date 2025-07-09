@@ -18,6 +18,8 @@ class ThematicCommitteeProgram(models.Model):
     remarks = models.TextField(verbose_name="अन्य", blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
+    is_deleted = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.plan_name

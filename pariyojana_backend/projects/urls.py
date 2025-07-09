@@ -200,10 +200,16 @@ urlpatterns = [
     name='cost-estimate-detail'
 ),
 
+    
     path(
         '<int:serial_number>/official-details/',
-        OfficialDetailViewSet.as_view({'get': 'list'}),
-        name='project-official-details'
+        OfficialDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
+        name='official-detail-list'
+    ),
+    path(
+        '<int:serial_number>/official-details/<int:pk>/',
+        OfficialDetailViewSet.as_view({'patch': 'partial_update'}),
+        name='official-detail-update'
     ),
 
     path(

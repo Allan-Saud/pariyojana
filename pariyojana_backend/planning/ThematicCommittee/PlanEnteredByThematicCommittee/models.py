@@ -15,6 +15,7 @@ class PlanEnteredByThematicCommittee(models.Model):
     status = models.CharField(max_length=255, default="विषयगत समितिमा प्रविष्टी भएको")
     priority_no = models.PositiveIntegerField(null=True, blank=True)
     remarks = models.TextField(blank=True, null=True)
-
+    is_deleted = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(null=True, blank=True)
     def __str__(self):
         return self.plan_name
