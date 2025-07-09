@@ -48,29 +48,29 @@ class CostEstimateDetailViewSet(viewsets.ModelViewSet):
 
 
 
-    def bulk_update(self, request, serial_number=None):
-        data = request.data
-        if not isinstance(data, list):
-            return Response({"detail": "Expected a list of objects for bulk update."}, status=400)
+    # def bulk_update(self, request, serial_number=None):
+    #     data = request.data
+    #     if not isinstance(data, list):
+    #         return Response({"detail": "Expected a list of objects for bulk update."}, status=400)
 
-        updated = []
+    #     updated = []
 
-        for item in data:
-            item_id = item.get('id')
-            if not item_id:
-                return Response({"detail": "Each item must contain an 'id' field."}, status=400)
+    #     for item in data:
+    #         item_id = item.get('id')
+    #         if not item_id:
+    #             return Response({"detail": "Each item must contain an 'id' field."}, status=400)
 
-            try:
-                instance = CostEstimateDetail.objects.get(id=item_id, project__serial_number=serial_number)
-            except CostEstimateDetail.DoesNotExist:
-                return Response({"detail": f"Item with id {item_id} not found for project {serial_number}."}, status=404)
+    #         try:
+    #             instance = CostEstimateDetail.objects.get(id=item_id, project__serial_number=serial_number)
+    #         except CostEstimateDetail.DoesNotExist:
+    #             return Response({"detail": f"Item with id {item_id} not found for project {serial_number}."}, status=404)
 
-            serializer = self.get_serializer(instance, data=item, partial=True)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            updated.append(serializer.data)
+    #         serializer = self.get_serializer(instance, data=item, partial=True)
+    #         serializer.is_valid(raise_exception=True)
+    #         serializer.save()
+    #         updated.append(serializer.data)
 
-        return Response(updated, status=200)
+    #     return Response(updated, status=200)
 
 # get post patch same
 # http://127.0.0.1:8000/api/projects/6/cost-estimate-details/

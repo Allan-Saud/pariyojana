@@ -185,9 +185,15 @@ urlpatterns = [
 
     path(
         '<int:serial_number>/cost-estimate-details/',
-        CostEstimateDetailViewSet.as_view({'get': 'list', 'post': 'create','patch': 'bulk_update'}),
+        CostEstimateDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
         name='project-cost-estimate-details'
     ),
+    
+    path(
+    'cost-estimate-details/<int:pk>/',
+    CostEstimateDetailViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update'}),
+    name='cost-estimate-detail'
+),
 
     path(
         '<int:serial_number>/official-details/',
