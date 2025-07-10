@@ -251,7 +251,7 @@ urlpatterns = [
 
     path(
         '<int:serial_number>/operation-site-photos/',
-        OperationSitePhotoViewSet.as_view({'get': 'list'}),
+        OperationSitePhotoViewSet.as_view({'get': 'list','post':'create'}),
         name='project-operation-site-photos'
     ),
 
