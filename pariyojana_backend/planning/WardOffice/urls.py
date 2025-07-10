@@ -5,7 +5,7 @@ from planning.WardOffice.PrioritizedWardLevelProjects.views import PrioritizedWa
 from planning.WardOffice.PrioritizedWardLevelThematic.views import PrioritizedWardLevelThematicProjectViewSet
 from planning.WardOffice.MunicipalityLevelProject.views import MunicipalityLevelProjectViewSet
 from planning.WardOffice.WardThematicCommitteeProjects.views import WardThematicCommitteeProjectViewSet
-
+from planning.WardOffice.reports.wardlevelproject import DoughnutChartData
 router = DefaultRouter()
 
 # router.register(r'ward-projects', WardLevelProjectViewSet)
@@ -17,6 +17,18 @@ router.register(r'municipality-projects', MunicipalityLevelProjectViewSet,basena
 
 
 
+
+
+
+
 urlpatterns = [
     path('', include(router.urls)),
+    path('wardlevel-chart/', DoughnutChartData.as_view(), name='wardlevelchart'),
+    path('wardlevelthemtic-chart/', DoughnutChartData.as_view(), name='wardlevelthematicchart'),
+    path('municipalitylevel-chart/', DoughnutChartData.as_view(), name='municipalitylevelchart'),
+    path('prioritizedward-chart/', DoughnutChartData.as_view(), name='prioritizedwardchart'),
+    path('prioritizedwardthematic-chart/', DoughnutChartData.as_view(), name='prioritizedwardthematicchart'),
+    
+    
+    
 ]
