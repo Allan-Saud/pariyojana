@@ -179,9 +179,21 @@ urlpatterns = [
 
     path(
         '<int:serial_number>/monitoring-committee/',
-        MonitoringFacilitationCommitteeViewSet.as_view({'get': 'list'}),
+        MonitoringFacilitationCommitteeViewSet.as_view({'get': 'list','post':'create'}),
         name='project-monitoring-committee'
     ),
+    
+    path(
+    '<int:serial_number>/monitoring-committee/<int:pk>/',
+    MonitoringFacilitationCommitteeViewSet.as_view({
+        'get': 'retrieve',
+        'put': 'update',
+        'patch': 'partial_update',
+        'delete': 'destroy'
+    }),
+    name='project-monitoring-committee-detail'
+),
+
 
     path(
         '<int:serial_number>/cost-estimate-details/',
