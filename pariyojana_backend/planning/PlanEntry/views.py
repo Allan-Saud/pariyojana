@@ -5,6 +5,10 @@ from planning.WardOffice.WardLevelProject.models import WardLevelProject
 from planning.WardOffice.MunicipalityLevelProject.models import MunicipalityLevelProject  # ✅ import
 from planning.ThematicCommittee.PlanEnteredByThematicCommittee.models import PlanEnteredByThematicCommittee
 from planning.WardOffice.WardThematicCommitteeProjects.models import WardThematicCommitteeProject
+from planning.MunicipalityPrideProject.models import MunicipalityPrideProject
+from planning.BudgetProgramcommittee.ProvinciallyTransferredProgram.models import ProvinciallytransferredProgram
+from planning.BudgetProgramcommittee.FederalGovernmentProject.models import BudgetProgramFederalGovernmentProgram
+
 
 class PlanEntryViewSet(viewsets.ModelViewSet):
     queryset = PlanEntry.objects.all()
@@ -55,7 +59,7 @@ class PlanEntryViewSet(viewsets.ModelViewSet):
                 remarks=plan.remarks
             )
             
-        elif plan.plan_type == "ward_request_thematic":
+        elif plan.plan_type == "ward_requested_thematic":
             latest = WardThematicCommitteeProject.objects.order_by("-priority_no").first()
             next_priority = (latest.priority_no + 1) if latest and latest.priority_no else 1
 
@@ -71,3 +75,44 @@ class PlanEntryViewSet(viewsets.ModelViewSet):
                 priority_no=next_priority,
                 remarks=plan.remarks
             )
+            
+        elif plan.plan_type == "pride_project":
+            MunicipalityPrideProject.objects.create(
+                plan_name=plan.plan_name,
+                thematic_area=plan.thematic_area,
+                sub_area=plan.sub_area,
+                source=plan.source,
+                expenditure_center=plan.expenditure_center,
+                budget=plan.proposed_amount,
+                ward_no=plan.ward_no,
+                status="प्राइड परियोजना अन्तर्गत प्रविष्टी भएको",  
+                remarks=plan.remarks
+            )
+        
+        elif plan.plan_type == "provincial":
+         ProvinciallytransferredProgram.objects.create(
+            plan_name=plan.plan_name,
+            thematic_area=plan.thematic_area,
+            sub_area=plan.sub_area,
+            source=plan.source,
+            expenditure_center=plan.expenditure_center,
+            budget=plan.proposed_amount,
+            ward_no=plan.ward_no,
+            status="प्रदेश परियोजना अन्तर्गत प्रविष्टी भएको",
+            remarks=plan.remarks
+        )
+        
+        elif plan.plan_type == "federal":
+            BudgetProgramFederalGovernmentProgram.objects.create(
+                plan_name=plan.plan_name,
+                thematic_area=plan.thematic_area,
+                sub_area=plan.sub_area,
+                source=plan.source,
+                expenditure_center=plan.expenditure_center,
+                budget=plan.proposed_amount,
+                ward_no=plan.ward_no,
+                status="संघीय सरकार अन्तर्गतको परियोजना",
+                remarks=plan.remarks
+            )
+
+

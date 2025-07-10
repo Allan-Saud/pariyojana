@@ -16,7 +16,10 @@ urlpatterns = [
     path('municipal-assembly/', include('planning.MunicipalAssembly.SubmittedProjects.urls')),
     path('municipal-assembly-edit/', include('planning.MunicipalAssembly.ProjectsApprovedByMunicipal.urls')),
     path('thematic/', include('planning.ThematicCommittee.urls')),
-    path('budget-committee/', include('planning.BudgetProgramcommittee.ThematicCommitteeProgram.urls')),
+    path('budget-committee/', include('planning.BudgetProgramcommittee.ThematicCommitteeProgram.urls')),    
+    path('municipality-pride-project/', include('planning.MunicipalityPrideProject.urls'))
+    
+
 
     
 
