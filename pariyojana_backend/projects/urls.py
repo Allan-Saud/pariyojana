@@ -214,9 +214,20 @@ urlpatterns = [
 
     path(
         '<int:serial_number>/documents/',
-        DocumentViewSet.as_view({'get': 'list'}),
+        DocumentViewSet.as_view({'get': 'list','post': 'create'}),
         name='project-documents'
     ),
+    path(
+        '<int:serial_number>/documents/',
+        DocumentViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'
+}),
+        name='project-documents'
+    ),
+    
     
     
 
