@@ -218,7 +218,7 @@ urlpatterns = [
         name='project-documents'
     ),
     path(
-        '<int:serial_number>/documents/',
+        '<int:serial_number>/documents/<int:pk>/',
         DocumentViewSet.as_view({
     'get': 'retrieve',
     'put': 'update',
