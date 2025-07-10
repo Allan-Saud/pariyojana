@@ -266,6 +266,18 @@ urlpatterns = [
         OperationSitePhotoViewSet.as_view({'get': 'list','post':'create'}),
         name='project-operation-site-photos'
     ),
+    
+    path(
+    '<int:serial_number>/operation-site-photos/<int:pk>/',
+    OperationSitePhotoViewSet.as_view({
+        'get': 'retrieve',
+        'put': 'update',
+        'patch': 'partial_update',
+        'delete': 'destroy'
+    }),
+    name='project-operation-site-photo-detail'
+),
+
 
     
     
