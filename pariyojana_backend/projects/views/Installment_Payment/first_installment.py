@@ -14,9 +14,13 @@ from projects.constants import FIRST_INSTALLMENT_TITLES
 from rest_framework.permissions import AllowAny
 from django.http import HttpResponse
 from projects.models.project import Project
+from rest_framework import viewsets
 
-
-class FirstInstallmentListView(APIView):
+# class FirstInstallmentListView(APIView):
+class FirstInstallmentUploadViewSet(viewsets.ModelViewSet):
+    queryset = FirstInstallmentUpload.objects.all()
+    serializer_class = FirstInstallmentRowSerializer
+    parser_classes = [MultiPartParser, FormParser]
     def get(self, request):
         today = date.today()
         uploads = FirstInstallmentUpload.objects.all()
@@ -69,6 +73,18 @@ def upload_first_installment_file(request):
         defaults={'file': file, 'remarks': remarks}
     )
     return Response({"detail": "File uploaded successfully."})
+
+
+
+
+
+# Method	URL	Action
+# GET	/first-installment/	            List all uploads
+# POST	/first-installment/	             Upload file (via ViewSet)
+# GET	/first-installment/<id>/	    Get by ID
+# PATCH	/first-installment/<id>/	       Update by ID
+# POST	/first-installment/upload/	      Upload (custom view, same logic)
+
 
 
 

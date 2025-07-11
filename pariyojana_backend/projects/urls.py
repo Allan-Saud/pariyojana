@@ -23,7 +23,7 @@ from projects.views.Project_Aggrement.project_aggrement_workorder import (
 
 from projects.views.Documents.other_document import OtherDocumentListView, download_other_document_pdf,preview_other_document_template
 from projects.views.Installment_Payment.first_installment import (
-    FirstInstallmentListView,
+    FirstInstallmentUploadViewSet,
     upload_first_installment_file,
     download_first_installment_file,
     download_first_installment_pdf,
@@ -81,6 +81,7 @@ router.register(r'extended-deadlines', ExtendedDeadlineViewSet, basename='extend
 router.register(r'cost-estimate-revisions', CostEstimateRevisionViewSet, basename='cost-estimate-revision')
 router.register(r'project-progress', ProjectProgressViewSet, basename='project-progress')
 router.register(r'documents', DocumentViewSet, basename='document')
+router.register(r'first-installment', FirstInstallmentUploadViewSet, basename='first-installment')
 urlpatterns = [
     path('', include(router.urls)),
 
@@ -106,7 +107,7 @@ urlpatterns = [
     path('other-documents/download/<int:serial_no>/<int:project_id>/', download_other_document_pdf, name='other-document-download'),
     path('other-documents/preview-template/<int:serial_no>/<int:project_id>/', preview_other_document_template, name='other-document-preview-template'),
     
-    path('first-installment/', FirstInstallmentListView.as_view(), name='first-installment-list'),
+    # path('first-installment/', FirstInstallmentUploadViewSet.as_view(), name='first-installment-list'),
     path('first-installment/upload/', upload_first_installment_file, name='first-installment-upload'),
     path('first-installment/download-file/<int:serial_no>/', download_first_installment_file, name='first-installment-download-file'),
     path('first-installment/generate-pdf/<int:serial_no>/<int:project_id>/', download_first_installment_pdf, name='first-installment-generate-pdf'),
@@ -140,7 +141,6 @@ urlpatterns = [
     
     
     # Nested project-specific endpoints (without affecting the DefaultRouter)
-
     path(
     '<int:serial_number>/beneficiaries/',
     BeneficiaryDetailViewSet.as_view({'get': 'list', 'post': 'create','patch': 'bulk_update'}),
