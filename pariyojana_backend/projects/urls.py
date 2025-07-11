@@ -73,7 +73,7 @@ router.register(r'cost-estimate-details', CostEstimateDetailViewSet, basename='c
 router.register(r'project-agreement-details', ProjectAgreementDetailsViewSet, basename='project-agreement-details')
 router.register(r'operation-site-photos', OperationSitePhotoViewSet, basename='operation-site-photos')
 router.register(r'bank-details', BankDetailViewSet, basename='bank-detail')
-router.register(r'payment-details', PaymentRelatedDetailViewSet)
+router.register(r'payment-details', PaymentRelatedDetailViewSet,basename='payment-related-details')
 router.register(r'bank-account-recommendation', BankAccountRecommendationViewSet, basename='bank-recommendation')
 router.register(r'account-photos', AccountPhotoViewSet, basename='account-photos')
 router.register(r'map-cost-estimate', MapCostEstimateViewSet)
@@ -340,8 +340,21 @@ path(
 ),
 
 
-
-
+ path(
+    '<int:project_id>/payment-details/',
+    PaymentRelatedDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
+    name='project-payment-details'
+),
+path(
+    '<int:project_id>/payment-details/<int:pk>/',
+    PaymentRelatedDetailViewSet.as_view({
+        'get': 'retrieve',
+        'put': 'update',
+        'patch': 'partial_update',
+        'delete': 'destroy'
+    }),
+    name='project-payment-details-detail'
+),
 
 
     

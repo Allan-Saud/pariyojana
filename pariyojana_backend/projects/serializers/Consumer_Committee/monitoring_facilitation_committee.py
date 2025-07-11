@@ -1,5 +1,3 @@
-# projects/serializers/monitoring_facilitation_committee.py
-
 from rest_framework import serializers
 from projects.models.Consumer_Committee.monitoring_facilitation_committee import MonitoringFacilitationCommitteeMember
 
@@ -10,12 +8,13 @@ class MonitoringFacilitationCommitteeSerializer(serializers.ModelSerializer):
     class Meta:
         model = MonitoringFacilitationCommitteeMember
         fields = [
-            'id', 'project', 'serial_no', 'post', 'full_name',
+            'id','serial_no', 'post', 'full_name',
             'gender', 'address', 'citizenship_no', 'contact_no',
             'citizenship_front', 'citizenship_back',
             'citizenship_front_url', 'citizenship_back_url',
             'created_at', 'updated_at',
         ]
+        read_only_fields = ['project']  
 
     def get_citizenship_front_url(self, obj):
         return obj.citizenship_front.url if obj.citizenship_front else None

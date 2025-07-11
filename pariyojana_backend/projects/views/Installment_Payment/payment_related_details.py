@@ -4,17 +4,27 @@ from rest_framework.decorators import action
 from projects.models.Installment_Payment.payment_related_details import PaymentRelatedDetail
 from projects.serializers.Installment_Payment.payment_related_details import PaymentRelatedDetailSerializer
 from projects.models.project import Project
+from django.shortcuts import get_object_or_404
 class PaymentRelatedDetailViewSet(viewsets.ModelViewSet):
-    queryset = PaymentRelatedDetail.objects.filter(is_active=True).order_by('-created_at')
     serializer_class = PaymentRelatedDetailSerializer
 
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        instance.soft_delete()
-        return Response({"detail": "Deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+    def get_queryset(self):
+        project_id = self.kwargs.get("project_id")
+        return PaymentRelatedDetail.objects.filter(project__serial_number=project_id, is_active=True).order_by('-created_at')
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        project_id = self.kwargs.get("project_id")
+        project = get_object_or_404(Project, serial_number=project_id)
+        context['project'] = project
+        return context
+
+    def perform_create(self, serializer):
+        project = self.get_serializer_context()['project']
+        serializer.save(project=project)
+
     
-    
-    
+
     
 from django.http import HttpResponse
 from django.template.loader import render_to_string

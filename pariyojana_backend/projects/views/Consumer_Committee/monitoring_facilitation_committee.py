@@ -27,13 +27,13 @@ class MonitoringFacilitationCommitteeViewSet(viewsets.ModelViewSet):
 
 
     def perform_create(self, serializer):
-        project_sn = self.request.query_params.get('project')
-        if not project_sn:
-            raise ValidationError({"detail": "Missing required query parameter: project (serial_number)."})
+        serial_number = self.kwargs.get('serial_number')
+        if not serial_number:
+            raise ValidationError({"detail": "Missing project serial_number in URL."})
 
         try:
-            project = Project.objects.get(serial_number=project_sn)
+            project = Project.objects.get(serial_number=serial_number)
         except Project.DoesNotExist:
-            raise ValidationError({"detail": f"Project with serial_number={project_sn} not found."})
+            raise ValidationError({"detail": f"Project with serial_number={serial_number} not found."})
 
         serializer.save(project=project)
