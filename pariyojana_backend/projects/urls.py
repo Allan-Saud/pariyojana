@@ -81,7 +81,7 @@ router.register(r'extended-deadlines', ExtendedDeadlineViewSet, basename='extend
 router.register(r'cost-estimate-revisions', CostEstimateRevisionViewSet, basename='cost-estimate-revision')
 router.register(r'project-progress', ProjectProgressViewSet, basename='project-progress')
 router.register(r'documents', DocumentViewSet, basename='document')
-router.register(r'first-installment', FirstInstallmentUploadViewSet, basename='first-installment')
+# router.register(r'first-installment', FirstInstallmentUploadViewSet, basename='first-installment')
 urlpatterns = [
     path('', include(router.urls)),
 
