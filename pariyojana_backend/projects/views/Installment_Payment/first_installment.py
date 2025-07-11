@@ -64,7 +64,7 @@ def upload_first_installment_file(request, project_id):
         return Response({"detail": "serial_no is required."}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        project = Project.objects.get(id=project_id)
+        project = Project.objects.get(serial_number=project_id)
     except Project.DoesNotExist:
         return Response({"detail": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
 
