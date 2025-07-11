@@ -7,7 +7,9 @@ from rest_framework.decorators import api_view, parser_classes, permission_class
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.http import Http404
 from datetime import date
-
+import os
+from django.http import FileResponse
+from django.conf import settings
 from projects.models.Installment_Payment.first_installment import FirstInstallmentUpload
 from projects.serializers.Installment_Payment.first_installment import FirstInstallmentRowSerializer
 from projects.constants import FIRST_INSTALLMENT_TITLES
@@ -17,13 +19,11 @@ from projects.models.project import Project
 from rest_framework import viewsets
 
 # class FirstInstallmentListView(APIView):
-class FirstInstallmentUploadViewSet(viewsets.ModelViewSet):
-    queryset = FirstInstallmentUpload.objects.all()
-    serializer_class = FirstInstallmentRowSerializer
-    parser_classes = [MultiPartParser, FormParser]
-    def get(self, request):
+class FirstInstallmentListView(APIView):
+    def get(self, request, project_id):
         today = date.today()
-        uploads = FirstInstallmentUpload.objects.all()
+
+        uploads = FirstInstallmentUpload.objects.filter(project_id=project_id)
         upload_map = {u.serial_no: u for u in uploads}
 
         response_data = []
@@ -34,10 +34,12 @@ class FirstInstallmentUploadViewSet(viewsets.ModelViewSet):
 
             if upload:
                 status_text = "अपलोड गरिएको"
-                file_uploaded_name = upload.file.name.split('/')[-1]
+                file_uploaded_name = upload.file.name.split('/')[-1] if upload.file else ""
+                remarks = getattr(upload, 'remarks', None)
             else:
                 status_text = ""
-                file_uploaded_name = "No file uploaded"
+                file_uploaded_name = ""
+                remarks = None
 
             response_data.append({
                 "serial_no": serial_no,
@@ -45,22 +47,21 @@ class FirstInstallmentUploadViewSet(viewsets.ModelViewSet):
                 "date": today,
                 "status": status_text,
                 "file_uploaded_name": file_uploaded_name,
+                "remarks": remarks,
             })
 
         serializer = FirstInstallmentRowSerializer(response_data, many=True)
         return Response(serializer.data)
 
-
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
-def upload_first_installment_file(request):
+def upload_first_installment_file(request, project_id):
     serial_no = request.data.get('serial_no')
-    project_id = request.data.get('project_id')
     file = request.FILES.get('file')
     remarks = request.data.get('remarks')
 
-    if not serial_no or not project_id:
-        return Response({"detail": "serial_no and project_id are required."}, status=status.HTTP_400_BAD_REQUEST)
+    if not serial_no:
+        return Response({"detail": "serial_no is required."}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         project = Project.objects.get(id=project_id)
@@ -78,50 +79,11 @@ def upload_first_installment_file(request):
     )
 
     return Response({"detail": "File uploaded successfully."})
-# def upload_first_installment_file(request):
-#     serial_no = request.data.get('serial_no')
-#     project_id = request.data.get('project_id')
-#     file = request.FILES.get('file')
-#     remarks = request.data.get('remarks')
 
-#     if not serial_no or not file or not project_id:
-#         return Response({"detail": "serial_no, project_id, and file are required."}, status=status.HTTP_400_BAD_REQUEST)
-
-#     try:
-#         project = Project.objects.get(id=project_id)
-#     except Project.DoesNotExist:
-#         return Response({"detail": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
-
-#     obj, created = FirstInstallmentUpload.objects.update_or_create(
-#         project=project,
-#         serial_no=serial_no,
-#         defaults={'file': file, 'remarks': remarks}
-#     )
-#     return Response({"detail": "File uploaded successfully."})
-
-
-
-
-
-# Method	URL	Action
-# GET	/first-installment/	            List all uploads
-# POST	/first-installment/	             Upload file (via ViewSet)
-# GET	/first-installment/<id>/	    Get by ID
-# PATCH	/first-installment/<id>/	       Update by ID
-# POST	/first-installment/upload/	      Upload (custom view, same logic)
-
-
-
-
-# projects/views/Installment_Payment/first_installment.py
-
-import os
-from django.http import FileResponse
-from django.conf import settings
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def download_first_installment_file(request, serial_no: int, project_id: int):
+def download_first_installment_file(request, project_id, serial_no):
     try:
         upload = FirstInstallmentUpload.objects.get(project_id=project_id, serial_no=serial_no)
         file_path = upload.file.path
@@ -133,7 +95,15 @@ def download_first_installment_file(request, serial_no: int, project_id: int):
     except FirstInstallmentUpload.DoesNotExist:
         raise Http404("No file uploaded for this serial number and project.")
 
-    
+
+
+
+# Method	URL	Action
+# GET	/first-installment/	            List all uploads
+# POST	/first-installment/	             Upload file (via ViewSet)
+# GET	/first-installment/<id>/	    Get by ID
+# PATCH	/first-installment/<id>/	       Update by ID
+# POST	/first-installment/upload/	      Upload (custom view, same logic)  
     
     
     

@@ -23,7 +23,7 @@ from projects.views.Project_Aggrement.project_aggrement_workorder import (
 
 from projects.views.Documents.other_document import OtherDocumentListView, download_other_document_pdf,preview_other_document_template
 from projects.views.Installment_Payment.first_installment import (
-    FirstInstallmentUploadViewSet,
+    FirstInstallmentListView,
     upload_first_installment_file,
     download_first_installment_file,
     download_first_installment_pdf,
@@ -107,9 +107,9 @@ urlpatterns = [
     path('other-documents/download/<int:serial_no>/<int:project_id>/', download_other_document_pdf, name='other-document-download'),
     path('other-documents/preview-template/<int:serial_no>/<int:project_id>/', preview_other_document_template, name='other-document-preview-template'),
     
-    # path('first-installment/', FirstInstallmentUploadViewSet.as_view(), name='first-installment-list'),
+    path('first-installment/<int:project_id>/', FirstInstallmentListView.as_view(), name='first-installment-list'),
     path('first-installment/<int:project_id>/upload/', upload_first_installment_file, name='first-installment-upload'),
-    path('first-installment/download-file/<int:serial_no>/', download_first_installment_file, name='first-installment-download-file'),
+    path('first-installment/<int:project_id>/download/<int:serial_no>/', download_first_installment_file, name='first-installment-download'),
     path('first-installment/generate-pdf/<int:serial_no>/<int:project_id>/', download_first_installment_pdf, name='first-installment-generate-pdf'),
     path(
     'first-installment/preview-template/<int:serial_no>/<int:project_id>/',
