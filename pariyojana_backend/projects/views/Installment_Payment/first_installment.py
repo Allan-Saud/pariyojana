@@ -59,20 +59,45 @@ def upload_first_installment_file(request):
     file = request.FILES.get('file')
     remarks = request.data.get('remarks')
 
-    if not serial_no or not file or not project_id:
-        return Response({"detail": "serial_no, project_id, and file are required."}, status=status.HTTP_400_BAD_REQUEST)
+    if not serial_no or not project_id:
+        return Response({"detail": "serial_no and project_id are required."}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         project = Project.objects.get(id=project_id)
     except Project.DoesNotExist:
         return Response({"detail": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
 
+    defaults = {'remarks': remarks}
+    if file:
+        defaults['file'] = file
+
     obj, created = FirstInstallmentUpload.objects.update_or_create(
         project=project,
         serial_no=serial_no,
-        defaults={'file': file, 'remarks': remarks}
+        defaults=defaults
     )
+
     return Response({"detail": "File uploaded successfully."})
+# def upload_first_installment_file(request):
+#     serial_no = request.data.get('serial_no')
+#     project_id = request.data.get('project_id')
+#     file = request.FILES.get('file')
+#     remarks = request.data.get('remarks')
+
+#     if not serial_no or not file or not project_id:
+#         return Response({"detail": "serial_no, project_id, and file are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+#     try:
+#         project = Project.objects.get(id=project_id)
+#     except Project.DoesNotExist:
+#         return Response({"detail": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
+
+#     obj, created = FirstInstallmentUpload.objects.update_or_create(
+#         project=project,
+#         serial_no=serial_no,
+#         defaults={'file': file, 'remarks': remarks}
+#     )
+#     return Response({"detail": "File uploaded successfully."})
 
 
 

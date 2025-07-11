@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from projects.models.Program_Details.beneficiary_details import BeneficiaryDetail
 
-
 class BeneficiaryDetailSerializer(serializers.ModelSerializer):
     female = serializers.IntegerField(required=False, allow_null=False, default=0)
     male = serializers.IntegerField(required=False, allow_null=False, default=0)
@@ -10,3 +9,4 @@ class BeneficiaryDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = BeneficiaryDetail
         fields = '__all__'
+        read_only_fields = ['project','total']  # 👈 Make project read-only

@@ -108,7 +108,7 @@ urlpatterns = [
     path('other-documents/preview-template/<int:serial_no>/<int:project_id>/', preview_other_document_template, name='other-document-preview-template'),
     
     # path('first-installment/', FirstInstallmentUploadViewSet.as_view(), name='first-installment-list'),
-    path('first-installment/upload/', upload_first_installment_file, name='first-installment-upload'),
+    path('first-installment/<int:project_id>/upload/', upload_first_installment_file, name='first-installment-upload'),
     path('first-installment/download-file/<int:serial_no>/', download_first_installment_file, name='first-installment-download-file'),
     path('first-installment/generate-pdf/<int:serial_no>/<int:project_id>/', download_first_installment_pdf, name='first-installment-generate-pdf'),
     path(

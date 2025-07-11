@@ -47,6 +47,7 @@ class BeneficiaryDetailViewSet(viewsets.ModelViewSet):
 
         return Response(result)
 
+    
     def create(self, request, *args, **kwargs):
         is_many = isinstance(request.data, list)
         serial_number = self.kwargs.get('serial_number') or request.query_params.get('serial_number')
@@ -63,12 +64,30 @@ class BeneficiaryDetailViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         if is_many:
-            instances = [BeneficiaryDetail(project=project, **data) for data in serializer.validated_data]
+            instances = []
+            for data in serializer.validated_data:
+                female = data.get('female', 0) or 0
+                male = data.get('male', 0) or 0
+                other = data.get('other', 0) or 0
+                total = female + male + other
+
+                instance = BeneficiaryDetail(
+                    project=project,
+                    title=data['title'],
+                    female=female,
+                    male=male,
+                    other=other,
+                    total=total
+                )
+                instances.append(instance)
+
             BeneficiaryDetail.objects.bulk_create(instances)
             return Response(self.get_serializer(instances, many=True).data, status=status.HTTP_201_CREATED)
+
         else:
             serializer.save(project=project)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
     def bulk_update(self, request, serial_number=None):
         data = request.data
