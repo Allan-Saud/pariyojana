@@ -1,16 +1,15 @@
-# views.py
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Sum, Count
-from planning.MunicipalityPrideProject.SubmittedProjectsToBudgetCommittee.models import SubmittedToBudgetMunicipalityPrideProject
+from planning.ThematicCommittee.WardRecommendedProjects.models import WardRecommendedProjects
 
-class SubmittedToBudgetMunicipalityPrideProjectChart(APIView):
+
+class WardrecommendetChart(APIView):
     def get(self, request):
-        # Query all active projects
-        projects = SubmittedToBudgetMunicipalityPrideProject.objects.filter(is_deleted=False)
+        # Get all non-deleted entries
+        projects = WardRecommendedProjects.objects.filter(is_deleted=False)
 
-        # 1. thematic_area__name-wise Budget Distribution
+        # 1. Sector-wise Budget Distribution
         budget_data = (
             projects.values('thematic_area__name')
             .annotate(total_budget=Sum('budget'))
@@ -28,7 +27,7 @@ class SubmittedToBudgetMunicipalityPrideProjectChart(APIView):
             for item in budget_data
         ]
 
-        # 2. thematic_area__name-wise Project Count
+        # 2. Sector-wise Project Count
         count_data = (
             projects.values('thematic_area__name')
             .annotate(project_count=Count('id'))

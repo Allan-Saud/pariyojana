@@ -4,7 +4,7 @@ from django.db.models import Sum, Count
 from planning.ThematicCommittee.PlanEnteredByThematicCommittee.models import PlanEnteredByThematicCommittee
 
 
-class PPlanEnteredByThematicCommitteeChartData(APIView):
+class PlanEnteredByThematicCommitteeChartData(APIView):
     def get(self, request):
         # Get all non-deleted entries
         projects = PlanEnteredByThematicCommittee.objects.filter(is_deleted=False)

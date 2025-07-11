@@ -3,12 +3,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Sum, Count
-from planning.MunicipalityPrideProject.SubmittedProjectsToBudgetCommittee.models import SubmittedToBudgetMunicipalityPrideProject
+from planning.BudgetProgramcommittee.WardLevelProgram.models import BudgetProgramCommitteeWardLevelProgram
 
-class SubmittedToBudgetMunicipalityPrideProjectChart(APIView):
+class BudgetProgramCommitteeWardLevelProgramChart(APIView):
     def get(self, request):
         # Query all active projects
-        projects = SubmittedToBudgetMunicipalityPrideProject.objects.filter(is_deleted=False)
+        projects = BudgetProgramCommitteeWardLevelProgram.objects.filter(is_deleted=False)
 
         # 1. thematic_area__name-wise Budget Distribution
         budget_data = (

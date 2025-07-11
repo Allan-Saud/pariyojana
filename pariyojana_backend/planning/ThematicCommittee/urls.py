@@ -3,8 +3,10 @@ from rest_framework.routers import DefaultRouter
 from planning.ThematicCommittee.PlanEnteredByThematicCommittee.views import PlanEnteredByThematicCommitteeViewSet
 from planning.ThematicCommittee.PrioritizedThematicCommittee.views import PrioritizedThematicCommitteeViewSet
 from planning.ThematicCommittee.WardRecommendedProjects.views import WardRecommendedProjectsViewSet
-from planning.ThematicCommittee.reports.planenteredthemantic import PPlanEnteredByThematicCommitteeChartData
 from planning.ThematicCommittee.reports.prioritizedthemantic import PrioritizedWardThematicChartData
+from planning.ThematicCommittee.reports.planenteredthemantic import PlanEnteredByThematicCommitteeChartData
+from planning.ThematicCommittee.reports.wardrecommended import WardrecommendetChart
+
 
 
 
@@ -18,8 +20,8 @@ router.register(r'wardrecommend-project', WardRecommendedProjectsViewSet,basenam
 
 urlpatterns = [
     path('', include(router.urls)),
-     path('wardlevel-chart/', PPlanEnteredByThematicCommitteeChartData.as_view(), name='wardlevelchart'),
+    path('wardlevel-chart/', PlanEnteredByThematicCommitteeChartData.as_view(), name='wardlevelchart'),
     path('wardlevelthemtic-chart/', PrioritizedWardThematicChartData.as_view(), name='wardlevelthematicchart'),
-    # path('municipalitylevel-chart/', DoughnutChartData.as_view(), name='municipalitylevelchart'),
+    path('Wardrecommended-chart/', WardrecommendetChart.as_view(), name='municipalitylevelchart'),
     
 ]
