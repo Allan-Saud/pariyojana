@@ -11,15 +11,15 @@ class AccountPhotoViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        project_sn = self.request.query_params.get('project')
+        project_sn = self.kwargs.get('serial_number')  # from URL path
         if project_sn:
             qs = qs.filter(project__serial_number=project_sn)
         return qs
 
     def perform_create(self, serializer):
-        project_sn = self.request.query_params.get('project')
+        project_sn = self.kwargs.get('serial_number')  # from URL path
         if not project_sn:
-            raise ValidationError({"detail": "Query parameter 'project' is required."})
+            raise ValidationError({"detail": "Project serial_number is required in URL."})
 
         try:
             project = Project.objects.get(serial_number=project_sn)
@@ -27,6 +27,7 @@ class AccountPhotoViewSet(viewsets.ModelViewSet):
             raise ValidationError({"detail": f"Project with serial_number={project_sn} not found."})
 
         serializer.save(project=project)
+
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
