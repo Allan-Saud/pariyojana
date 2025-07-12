@@ -42,34 +42,48 @@ class MapCostEstimateViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         project = self.get_project()
         existing_records = self.queryset.filter(project=project)
-        
-        # Create a dictionary keyed by title
         existing_map = {obj.title: obj for obj in existing_records}
+
+        # Build a list with serial_no and title from your DOCUMENT_CHOICES
+        document_list = [
+            {"serial_no": idx + 1, "title": title_value}
+            for idx, (title_value, _) in enumerate(MapCostEstimate.DOCUMENT_CHOICES)
+        ]
 
         response_list = []
 
-        for title_value, title_display in MapCostEstimate.DOCUMENT_CHOICES:
-            if title_value in existing_map:
-                # Serialize the actual record
-                serializer = self.get_serializer(existing_map[title_value])
-                response_list.append(serializer.data)
+        for item in document_list:
+            serial_no = item["serial_no"]
+            title = item["title"]
+
+            instance = existing_map.get(title)
+
+            if instance:
+                serializer = self.get_serializer(instance)
+                data = serializer.data
             else:
-                # Add a blank record for this title
-                response_list.append({
+                data = {
                     "id": None,
                     "project": project.pk,
-                    "title": title_value,
+                    "title": title,
                     "date": None,
                     "file": None,
                     "remarks": None,
-                    "status": "pending",
+                    "status": None,
                     "checker": None,
                     "approver": None,
                     "is_verified": False,
                     "is_active": True,
                     "created_at": None,
                     "updated_at": None,
-                })
+                }
+
+            data["serial_no"] = serial_no  
+
+            response_list.append(data)
 
         return Response(response_list)
+
+
+
 
