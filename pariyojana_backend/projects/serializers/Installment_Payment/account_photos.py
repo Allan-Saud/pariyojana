@@ -5,7 +5,7 @@ class AccountPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = AccountPhoto
         fields = '__all__'
-        read_only_fields = ['created_at', 'updated_at', 'check_photo', "project"]  # check_photo auto-filled from recommendation
+        read_only_fields = ['created_at', 'updated_at',"recommendation" ,"project"]  # check_photo auto-filled from recommendation
 
     def create(self, validated_data):
         instance = AccountPhoto(**validated_data)

@@ -6,7 +6,7 @@ from projects.models.Installment_Payment.account_photos import AccountPhoto
 from projects.serializers.Installment_Payment.account_photos import AccountPhotoSerializer
 
 class AccountPhotoViewSet(viewsets.ModelViewSet):
-    queryset = AccountPhoto.objects.filter(is_active=True)
+    queryset = AccountPhoto.objects.all()
     serializer_class = AccountPhotoSerializer
 
     def get_queryset(self):
