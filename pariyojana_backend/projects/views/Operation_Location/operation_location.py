@@ -34,8 +34,41 @@ class OperationSitePhotoViewSet(viewsets.ModelViewSet):
 
         serializer.save(project=project)
 
+    # def list(self, request, *args, **kwargs):
+    #     serial_number = self.kwargs.get('serial_number') or self.request.query_params.get('project')
+
+    #     if not serial_number:
+    #         return Response({"detail": "Project 'serial_number' is required as URL param or query param."}, status=400)
+
+    #     try:
+    #         project = Project.objects.get(serial_number=serial_number)
+    #     except Project.DoesNotExist:
+    #         return Response({"detail": f"Project with serial_number={serial_number} not found."}, status=404)
+
+    #     # Get existing photos
+    #     existing_photos = OperationSitePhoto.objects.filter(project=project)
+    #     existing_map = {photo.serial_no: photo for photo in existing_photos}
+
+    #     # Import your serial choices from model
+    #     from projects.models.Operation_Location.operation_location import SERIAL_CHOICES
+
+    #     result = []
+    #     for serial, label in SERIAL_CHOICES:
+    #         if serial in existing_map:
+    #             instance = existing_map[serial]
+    #             result.append(self.get_serializer(instance).data)
+    #         else:
+    #             result.append({
+    #                 "serial": serial,
+    #                 "caption": "",
+    #                 "image": None,
+    #                 "project": project.serial_number
+    #             })
+
+    #     return Response(result)
+    
     def list(self, request, *args, **kwargs):
-        serial_number = self.kwargs.get('serial_number') or self.request.query_params.get('project')
+        serial_number = self.kwargs.get('serial_number') or request.query_params.get('project')
 
         if not serial_number:
             return Response({"detail": "Project 'serial_number' is required as URL param or query param."}, status=400)
@@ -45,11 +78,9 @@ class OperationSitePhotoViewSet(viewsets.ModelViewSet):
         except Project.DoesNotExist:
             return Response({"detail": f"Project with serial_number={serial_number} not found."}, status=404)
 
-        # Get existing photos
         existing_photos = OperationSitePhoto.objects.filter(project=project)
         existing_map = {photo.serial_no: photo for photo in existing_photos}
 
-        # Import your serial choices from model
         from projects.models.Operation_Location.operation_location import SERIAL_CHOICES
 
         result = []
@@ -59,10 +90,15 @@ class OperationSitePhotoViewSet(viewsets.ModelViewSet):
                 result.append(self.get_serializer(instance).data)
             else:
                 result.append({
-                    "serial": serial,
-                    "caption": "",
-                    "image": None,
-                    "project": project.serial_number
+                    'id': None,
+                    'project': project.serial_number, 
+                    'serial_no': serial,
+                    'title': label,
+                    'photo': None,
+                    'photo_name': None,
+                    'description': "",
+                    'uploaded_at': None
                 })
 
         return Response(result)
+

@@ -64,7 +64,7 @@ from openpyxl.styles import Font, Alignment
 from planning.WardOffice.PrioritizedWardLevelThematic.models import PrioritizedWardLevelThematicProject
 
 
-class MunicipalityLevelDownloadReport(APIView):
+class PrioritizedWardLevelThematicProjectDownloadReport(APIView):
     def get_queryset(self, request):
         queryset = PrioritizedWardLevelThematicProject.objects.filter(is_deleted=False)
 

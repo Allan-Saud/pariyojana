@@ -10,6 +10,12 @@ from planning.WardOffice.reports.municipalitylevelproject import MunicipalityLev
 from planning.WardOffice.reports.prioritizedwardlevel import PrioritizedWardLevelChartData
 from planning.WardOffice.reports.prioritizedwardlevelthematic import PrioritizedWardThematicChartData
 from planning.WardOffice.reports.wardthematicproject import WardThematicChartData
+from planning.WardOffice.reports.wardthematicproject import WardThematicCommitteeProjectDownloadReport
+from planning.WardOffice.reports.wardlevelproject import WardLevelProjectDownloadReport
+from planning.WardOffice.reports.prioritizedwardlevelthematic import PrioritizedWardLevelThematicProjectDownloadReport
+from planning.WardOffice.reports.municipalitylevelproject import MunicipalityLevelDownloadReport
+from planning.WardOffice.reports.prioritizedwardlevel import PrioritizedWardLevelProjectDownloadReport
+
 
 
 router = DefaultRouter()
@@ -31,6 +37,13 @@ urlpatterns = [
     path('municipalitylevel-chart/', MunicipalityLevelChartData.as_view(), name='municipalitylevelchart'),
     path('prioritizedward-chart/', PrioritizedWardLevelChartData.as_view(), name='prioritizedwardchart'),
     path('prioritizedwardthematic-chart/', PrioritizedWardThematicChartData.as_view(), name='prioritizedwardthematicchart'),
+    
+    
+    path('ward-thematic/report/', WardThematicCommitteeProjectDownloadReport.as_view(), name='ward-thematic-report'),
+    path('ward-level/report/', WardLevelProjectDownloadReport.as_view(), name='ward-level-report'),
+    path('municipality/report/', MunicipalityLevelDownloadReport.as_view(), name='municipality-report'),
+    path('prioritized-ward-thematic/report/', PrioritizedWardThematicChartData.as_view(), name='prioritized-ward-thematic-report'),
+    path('prioritized-ward/report/', PrioritizedWardLevelChartData.as_view(), name='prioritized-ward-report'),
     
     
     

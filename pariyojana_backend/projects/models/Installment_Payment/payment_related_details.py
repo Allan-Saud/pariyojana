@@ -11,11 +11,11 @@ class PaymentRelatedDetail(models.Model):
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="payment_details")
     title = models.CharField(max_length=100, choices=TITLE_CHOICES)
-    issue_date = models.DateField(default=timezone.localdate)
-    amount_paid = models.DecimalField(max_digits=12, decimal_places=2)
+    issue_date = models.DateField(default=timezone.localdate,null=True,blank=True)
+    amount_paid = models.DecimalField(max_digits=12, decimal_places=2,null=True,blank=True)
     payment_percent = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    physical_progress = models.DecimalField(max_digits=5, decimal_places=2)
-
+    physical_progress = models.DecimalField(max_digits=5, decimal_places=2,null=True,blank=True)
+    uploaded_file = models.FileField(upload_to='payment_related_files/', blank=True, null=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

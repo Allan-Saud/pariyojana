@@ -5,8 +5,30 @@ from projects.models.Installment_Payment.payment_related_details import PaymentR
 from projects.serializers.Installment_Payment.payment_related_details import PaymentRelatedDetailSerializer
 from projects.models.project import Project
 from django.shortcuts import get_object_or_404
+from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
+
+# class PaymentRelatedDetailViewSet(viewsets.ModelViewSet):
+#     serializer_class = PaymentRelatedDetailSerializer
+#     parser_classes = [JSONParser, MultiPartParser, FormParser]
+#     def get_queryset(self):
+#         project_id = self.kwargs.get("project_id")
+#         return PaymentRelatedDetail.objects.filter(project__serial_number=project_id, is_active=True).order_by('-created_at')
+
+#     def get_serializer_context(self):
+#         context = super().get_serializer_context()
+#         project_id = self.kwargs.get("project_id")
+#         project = get_object_or_404(Project, serial_number=project_id)
+#         context['project'] = project
+#         return context
+
+#     def perform_create(self, serializer):
+#         project = self.get_serializer_context()['project']
+#         serializer.save(project=project)
+
+    
 class PaymentRelatedDetailViewSet(viewsets.ModelViewSet):
     serializer_class = PaymentRelatedDetailSerializer
+    parser_classes = [JSONParser, MultiPartParser, FormParser]  # <- Add JSONParser here
 
     def get_queryset(self):
         project_id = self.kwargs.get("project_id")
@@ -22,9 +44,41 @@ class PaymentRelatedDetailViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         project = self.get_serializer_context()['project']
         serializer.save(project=project)
-
+        
     
+    def list(self, request, *args, **kwargs):
+        project   = self.get_serializer_context()["project"]
+        existing  = self.get_queryset()
+        existing_titles = set(existing.values_list("title", flat=True))
 
+        # All possible titles
+        all_titles = [choice[0] for choice in PaymentRelatedDetail.TITLE_CHOICES]
+
+        # Unsaved “dummy” instance
+        def _dummy(title):
+            return PaymentRelatedDetail(
+                id=None,
+                project=project,
+                title=title,
+                issue_date=None,
+                amount_paid=None,
+                payment_percent=None,
+                physical_progress=None,
+                uploaded_file=None,
+                is_active=False,
+            )
+
+        # Combine actual and placeholder records
+        combined = list(existing) + [
+            _dummy(t) for t in all_titles if t not in existing_titles
+        ]
+
+        serializer = self.get_serializer(combined, many=True)
+        return Response(serializer.data)
+
+        
+        
+        
     
 from django.http import HttpResponse
 from django.template.loader import render_to_string

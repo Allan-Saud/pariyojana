@@ -5,6 +5,7 @@ from projects.models.Installment_Payment.payment_related_details import PaymentR
 
 class PaymentRelatedDetailSerializer(serializers.ModelSerializer):
     agreement_amount = serializers.SerializerMethodField()
+    uploaded_file = serializers.FileField(required=False, allow_null=True)
 
     class Meta:
         model = PaymentRelatedDetail
@@ -18,6 +19,7 @@ class PaymentRelatedDetailSerializer(serializers.ModelSerializer):
             'is_active',
             'created_at',
             'updated_at',
+            'uploaded_file',
             'deleted_at',
             'agreement_amount' 
         )

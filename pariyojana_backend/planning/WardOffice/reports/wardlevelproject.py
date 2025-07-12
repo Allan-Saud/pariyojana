@@ -62,12 +62,12 @@ from xhtml2pdf import pisa
 import openpyxl
 from openpyxl.styles import Font, Alignment
 
-from planning.WardOffice.MunicipalityLevelProject.models import MunicipalityLevelProject
+from planning.WardOffice.WardLevelProject.models import WardLevelProject
 
 
-class MunicipalityLevelDownloadReport(APIView):
+class WardLevelProjectDownloadReport(APIView):
     def get_queryset(self, request):
-        queryset = MunicipalityLevelProject.objects.filter(is_deleted=False)
+        queryset = WardLevelProject.objects.filter(is_deleted=False)
 
         # Filtering by thematic area (क्षेत्र) and sub-area (उप-क्षेत्र)
         thematic = request.GET.get('thematic_area')

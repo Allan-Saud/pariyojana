@@ -62,11 +62,27 @@ from django.template.loader import render_to_string
 from xhtml2pdf import pisa
 import openpyxl
 from openpyxl.styles import Font, Alignment
-
 from planning.WardOffice.WardThematicCommitteeProjects.models import WardThematicCommitteeProject
+import os
+from django.conf import settings
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from xhtml2pdf.default import DEFAULT_FONT
+import reportlab.rl_config
 
 
-class MunicipalityLevelDownloadReport(APIView):
+reportlab.rl_config.warnOnMissingFontGlyphs = 0
+reportlab.rl_config.defaultEncoding = 'utf-8'
+
+
+
+font_path = os.path.join(settings.BASE_DIR, 'static', 'fonts', 'NotoSansDevanagari-Regular.ttf')
+
+# Register the font with ReportLab
+pdfmetrics.registerFont(TTFont('NotoDevanagari', font_path))
+
+DEFAULT_FONT['face'] = 'NotoDevanagari'
+class WardThematicCommitteeProjectDownloadReport(APIView):
     def get_queryset(self, request):
         queryset = WardThematicCommitteeProject.objects.filter(is_deleted=False)
 
@@ -136,15 +152,22 @@ class MunicipalityLevelDownloadReport(APIView):
             'budget': obj.budget,
         } for i, obj in enumerate(queryset)]
 
-        html = render_to_string('report_template.html', {
+        html = render_to_string('planning/report_template.html', {
             'title': 'बर्दगोरिया गाउँपालिका',
             'projects': data
         })
 
+        css_path = os.path.join(settings.BASE_DIR, 'static', 'css', 'pdf_styles.css')
+        with open(css_path, 'r', encoding='utf-8') as f:
+            css = f.read()
+
         result = io.BytesIO()
-        pdf = pisa.pisaDocument(io.BytesIO(html.encode("UTF-8")), result)
+        pdf = pisa.pisaDocument(io.BytesIO(html.encode("UTF-8")), result, default_css=css)
 
         if not pdf.err:
-            return FileResponse(result, content_type='application/pdf', filename='ward_thematic_report.pdf')
+            response = HttpResponse(result.getvalue(), content_type='application/pdf')
+            response['Content-Disposition'] = 'inline; filename="ward_thematic_report.pdf"'
+            return response
         else:
             return HttpResponse('Error generating PDF', status=500)
+
