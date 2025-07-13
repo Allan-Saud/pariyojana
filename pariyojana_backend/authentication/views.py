@@ -15,6 +15,9 @@ class VerificationLogViewSet(viewsets.ModelViewSet):
         queryset = super().get_queryset()
         user = self.request.user
         
+        if self.request.query_params.get('all') == 'true':
+            return queryset
+        
         # For checkers - show only their pending documents
         if hasattr(user, 'verification_checked'):
             return queryset.filter(

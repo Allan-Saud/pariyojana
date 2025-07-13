@@ -43,16 +43,38 @@ def check_all_documents_approved(sender, instance, **kwargs):
         project.save()
 
 
+# @receiver(post_save, sender=MapCostEstimate)
+# def create_verification_log_for_cost_estimate(sender, instance, created, **kwargs):
+#     if created:
+#         VerificationLog.objects.create(
+#             project=instance.project,
+#             file_title=f"Cost Estimate - {instance.title}",
+#             status="pending",
+#             source_model="CostEstimateDetail",
+#             source_id=instance.id,
+#             checker=instance.checker,  
+#             approver=instance.approver,
+#             uploader_role="अपलोड कर्ता"
+#         )
+
 @receiver(post_save, sender=MapCostEstimate)
 def create_verification_log_for_cost_estimate(sender, instance, created, **kwargs):
-    if created:
-        VerificationLog.objects.create(
-            project=instance.project,
-            file_title=f"Cost Estimate - {instance.title}",
-            status="pending",
+    # Only create log if this is an update (not creation)
+    # and checker and approver are both set
+    if not created and instance.checker and instance.approver:
+        # Check if VerificationLog already exists to avoid duplicates
+        exists = VerificationLog.objects.filter(
             source_model="CostEstimateDetail",
-            source_id=instance.id,
-            checker=instance.checker,  
-            approver=instance.approver,
-            uploader_role="अपलोड कर्ता"
-        )
+            source_id=instance.id
+        ).exists()
+        if not exists:
+            VerificationLog.objects.create(
+                project=instance.project,
+                file_title=f"Cost Estimate - {instance.title}",
+                status=instance.status,
+                source_model="CostEstimateDetail",
+                source_id=instance.id,
+                checker=instance.checker,
+                approver=instance.approver,
+                uploader_role="अपलोड कर्ता"
+            )

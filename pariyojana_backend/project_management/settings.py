@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "inventory",
     "planning",
     'corsheaders',
+    'import_export',
 
     
 ]

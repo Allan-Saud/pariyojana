@@ -9,7 +9,8 @@ User = get_user_model()
 class VerificationLog(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='verification_logs', null=True)
     file_title = models.CharField(max_length=255)
-    uploader_role = models.CharField(max_length=100, default="अपलोड कर्ता")
+    uploader_role = models.CharField(max_length=100, blank=True, null=True)
+    uploader_name = models.CharField(max_length=255, blank=True, null=True)
     file_path = models.TextField(blank=True)
     
     STATUS_CHOICES = [
