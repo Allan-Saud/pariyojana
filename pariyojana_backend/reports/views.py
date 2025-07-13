@@ -3,6 +3,10 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from projects.models.project import Project
+from django.db.models import Q
+from django.utils.encoding import smart_str
+import datetime
 
 # Thematic Area
 from project_settings.models.thematic_area import ThematicArea
@@ -24,7 +28,7 @@ from project_settings.serializers.fiscal_year import FiscalYearSerializer
 import openpyxl
 from openpyxl.utils import get_column_letter
 from django.http import HttpResponse
-
+report_counter = 0
 
 class ReportsDropdownsView(APIView):
     def get(self, request):
@@ -35,7 +39,6 @@ class ReportsDropdownsView(APIView):
             "प्रगति रिपोर्ट"
         ]
         statuses = [
-            "सञ्‍चालित",
             "सम्पन्न भएको",
             "सुचारु प्रक्रिया सुनिस्चित भएको",
             "सुरु नभएको"
@@ -62,40 +65,121 @@ class ReportsDropdownsView(APIView):
 
 
 class ExportReportExcelView(APIView):
-    def get(self, request):
-        # You can receive filters from query parameters like:
-        report_type = request.query_params.get('report_type')
-        ward = request.query_params.get('ward')
-        status = request.query_params.get('status')
+    def post(self, request):
+        fiscal_year = request.data.get('fiscal_year')
+        status = request.data.get('status')
+        ward = request.data.get('ward')
+        area = request.data.get('area')
+        sub_area = request.data.get('sub_area')
+        source = request.data.get('source')
+        expenditure_center = request.data.get('expenditure_center')
+        report_type = request.data.get('report_type')
 
-        # Replace this with real DB data later based on filters
-        data = [
-            ['Project Name', 'Ward No.', 'Status', 'Thematic Area'],
-            ['Water Supply', 'वडा नं.-1', 'सञ्‍चालित', 'शिक्षा'],
-            ['Drainage Project', 'वडा नं.-3', 'सम्पन्न भएको', 'पुर्वाधार'],
+        filters = Q(is_active=True, is_deleted=False)
+
+        if fiscal_year:
+            filters &= Q(fiscal_year__id=fiscal_year)
+        if status:
+            filters &= Q(status=status)
+        if ward:
+            filters &= Q(ward_no=int(ward))
+        if area:
+            filters &= Q(area__id=area)
+        if sub_area:
+            filters &= Q(sub_area__id=sub_area)
+        if source:
+            filters &= Q(source__id=source)
+        if expenditure_center:
+            filters &= Q(expenditure_center__id=expenditure_center)
+
+        if report_type == "सम्पन्न नभएको परियोजनाहरू":
+            filters &= ~Q(status="completed")
+        elif report_type == "सम्पन्न भएको":
+            filters &= Q(status="completed")
+
+        # print("FILTERS APPLIED:", filters)
+        # project_count = Project.objects.filter(filters).count()
+        # print("MATCHING PROJECTS COUNT:", project_count)
+
+        projects = Project.objects.filter(filters).select_related(
+            'area', 'sub_area', 'source', 'expenditure_center', 'fiscal_year'
+        )
+
+        headers = [
+            'ID', 'Project Name', 'Fiscal Year', 'Status', 'Ward No.',
+            'Area', 'Sub Area', 'Source', 'Expenditure Center', 'Budget'
         ]
 
-        # Create Excel workbook
+        data = [headers]
+        # for proj in projects:
+        #     data.append([
+        #         proj.serial_number,
+        #         smart_str(proj.project_name),
+        #         proj.fiscal_year.year if proj.fiscal_year else '',
+        #         dict(Project.STATUS_CHOICES).get(proj.status, proj.status),
+        #         f"वडा नंं. {proj.ward_no}",
+        #         proj.area.name if proj.area else '',
+        #         proj.sub_area.name if proj.sub_area else '',
+        #         proj.source.name if proj.source else '',
+        #         proj.expenditure_center.name if proj.expenditure_center else '',
+        #         float(proj.budget),
+        #     ])
+        
+        for proj in projects:
+            try:
+            #     print("Processing project:", proj.serial_number)
+                fiscal_year_val = str(proj.fiscal_year.year[0]) if proj.fiscal_year and isinstance(proj.fiscal_year.year, (list, tuple)) else proj.fiscal_year.year if proj.fiscal_year else ''
+                status_val = dict(Project.STATUS_CHOICES).get(proj.status, proj.status)
+                ward_val = f"वडा नंं. {proj.ward_no}"
+                area_val = proj.area.name if proj.area else ''
+                sub_area_val = proj.sub_area.name if proj.sub_area else ''
+                source_val = proj.source.name if proj.source else ''
+                exp_center_val = proj.expenditure_center.name if proj.expenditure_center else ''
+                budget_val = float(proj.budget)
+
+                # print(" → Values:", fiscal_year_val, status_val, ward_val)
+
+                data.append([
+                    proj.serial_number,
+                    smart_str(proj.project_name),
+                    fiscal_year_val,
+                    status_val,
+                    ward_val,
+                    area_val,
+                    sub_area_val,
+                    source_val,
+                    exp_center_val,
+                    budget_val,
+                ])
+            except Exception as e:
+                # print(f"❌ Error processing project {proj.serial_number}: {e}")
+                pass
+
+
+
         wb = openpyxl.Workbook()
         ws = wb.active
-        ws.title = "Report"
+        ws.title = "Filtered Projects"
 
         for row in data:
             ws.append(row)
 
-        # Optional: auto column width
         for col in ws.columns:
             max_length = 0
             column = get_column_letter(col[0].column)
             for cell in col:
-                if cell.value and len(str(cell.value)) > max_length:
-                    max_length = len(str(cell.value))
+                if cell.value:
+                    max_length = max(max_length, len(str(cell.value)))
             ws.column_dimensions[column].width = max_length + 2
 
-        # Send as response
         response = HttpResponse(
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
-        response['Content-Disposition'] = 'attachment; filename=report.xlsx'
+        response['Content-Disposition'] = 'attachment; filename=projects_report.xlsx'
+        now_str = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"projects_report_{now_str}.xlsx"
+
+        response['Content-Disposition'] = f'attachment; filename={filename}'
         wb.save(response)
         return response
+
