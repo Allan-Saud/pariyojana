@@ -38,10 +38,10 @@ def build_pdf_context(serial_no, project_id):
         "officials": officials,
         "municipality_amount": agreement.municipality_amount if agreement else 0,
         "public_participation_amount": agreement.public_participation_amount if agreement else 0,
-        "consumer_committee_name":committee.consumer_committee_name,
+        "consumer_committee_name": committee.consumer_committee_name if committee else "-",
         "estimated_cost": cost_estimate.estimated_cost if cost_estimate else 0,
-        "work_order_date":agreement.work_order_date,
-        "end_date":agreement.completion_date,
+        "work_order_date": agreement.work_order_date if agreement else None,
+        "end_date": agreement.completion_date if agreement else None,
         "chairman_name": chairman_name,
         "secretary_name": secretary_name,
     }

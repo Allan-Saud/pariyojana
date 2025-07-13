@@ -5,8 +5,10 @@ from rest_framework.decorators import api_view, parser_classes, permission_class
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny
 from datetime import date
+from django.template.loader import render_to_string
 from django.http import HttpResponse, Http404
-from django.template.loader import get_template
+from rest_framework.permissions import AllowAny
+from weasyprint import HTML
 
 from projects.models.Project_Aggrement.project_plan_tracker import ProjectPlanTrackerUpload
 from projects.serializers.Project_Aggrement.project_plan_tracker import ProjectPlanTrackerRowSerializer
@@ -80,25 +82,66 @@ def upload_project_plan_tracker(request):
 #         'Content-Disposition': f'attachment; filename="{filename}"',
 #     })
 
+# @api_view(['GET'])
+# @permission_classes([AllowAny])
+# def download_project_plan_tracker_pdf(request, serial_no: int, project_id: int):
+#     template_map = {
+#         1: "serial_1.html",
+#         2: "serial_2.html",
+#         3: "serial_3.html",
+#         4: "serial_4.html",
+#         5: "serial_5.html",
+#         6: "serial_6.html",
+#     }
+
+#     if serial_no not in template_map:
+#         raise Http404("Invalid serial_no")
+
+  
+#     context = build_pdf_context(serial_no, project_id)
+
+  
+#     upload = ProjectPlanTrackerUpload.objects.filter(serial_no=serial_no).first()
+#     if upload:
+#         context["file_uploaded_name"] = upload.file.name.split("/")[-1]
+#         context["upload_remarks"] = upload.remarks
+#         context["uploaded_at"] = upload.uploaded_at.strftime("%Y-%m-%d")
+#     else:
+#         context["file_uploaded_name"] = "No file uploaded"
+#         context["upload_remarks"] = ""
+#         context["uploaded_at"] = ""
+
+#     content, filename = render_pdf(
+#         template_map[serial_no],
+#         context,
+#         f"serial_{serial_no}_project_{project_id}.pdf"
+#     )
+
+#     if content is None:
+#         raise Http404("PDF rendering failed.")
+
+#     return HttpResponse(content, content_type='application/pdf', headers={
+#         'Content-Disposition': f'attachment; filename="{filename}"',
+#     })
+
+
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def download_project_plan_tracker_pdf(request, serial_no: int, project_id: int):
     template_map = {
-        1: "serial_1.html",
-        2: "serial_2.html",
-        3: "serial_3.html",
-        4: "serial_4.html",
-        5: "serial_5.html",
-        6: "serial_6.html",
+        1: "plan_aggrement/serial_1.html",
+        2: "plan_aggrement/serial_2.html",
+        3: "plan_aggrement/serial_3.html",
+        4: "plan_aggrement/serial_4.html",
+        5: "plan_aggrement/serial_5.html",
+        6: "plan_aggrement/serial_6.html",
     }
 
     if serial_no not in template_map:
         raise Http404("Invalid serial_no")
 
-  
     context = build_pdf_context(serial_no, project_id)
 
-  
     upload = ProjectPlanTrackerUpload.objects.filter(serial_no=serial_no).first()
     if upload:
         context["file_uploaded_name"] = upload.file.name.split("/")[-1]
@@ -109,19 +152,21 @@ def download_project_plan_tracker_pdf(request, serial_no: int, project_id: int):
         context["upload_remarks"] = ""
         context["uploaded_at"] = ""
 
-    content, filename = render_pdf(
-        template_map[serial_no],
-        context,
-        f"serial_{serial_no}_project_{project_id}.pdf"
-    )
+    # Render HTML to string
+    html_string = render_to_string(template_map[serial_no], context)
 
-    if content is None:
+    # Generate PDF bytes using WeasyPrint
+    pdf_file = HTML(string=html_string).write_pdf()
+
+    filename = f"serial_{serial_no}_project_{project_id}.pdf"
+
+    if not pdf_file:
         raise Http404("PDF rendering failed.")
 
-    return HttpResponse(content, content_type='application/pdf', headers={
-        'Content-Disposition': f'attachment; filename="{filename}"',
-    })
+    response = HttpResponse(pdf_file, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
+    return response
     
 
 from projects.models.project import Project

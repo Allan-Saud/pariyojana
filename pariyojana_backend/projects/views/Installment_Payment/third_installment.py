@@ -69,38 +69,83 @@ def third_installment_upload(request, project_id):
     )
     return Response({"detail": "File uploaded successfully."})
 
+# @api_view(['GET'])
+# def download_third_installment_pdf(request, serial_no: int, project_id: int):
+#     if not 1 <= serial_no <= 15:
+#         raise Http404("Template not available.")
+
+#     template_map = {
+#         1: "serial_1.html",
+#         2: "serial_2.html",
+#         3: "serial_3.html",
+#         4: "serial_4.html",
+#         5: "serial_5.html",
+#         6: "serial_6.html",
+#         7: "serial_7.html",
+#         8: "serial_8.html",
+#         9: "serial_9.html",
+#         10:"serial_10.html",
+#         11:"serial_11.html",
+#         12:"serial_12.html",
+#         13:"serial_13.html",
+#         14:"serial_14.html",
+#         15:"serial_15.html"
+#     }
+
+#     context = build_pdf_context(serial_no, project_id)
+#     content, filename = render_pdf(template_map[serial_no], context, f"third_installment_{serial_no}_project_{project_id}.pdf")
+
+#     if content is None:
+#         raise Http404("PDF rendering failed.")
+
+#     return HttpResponse(content, content_type='application/pdf', headers={
+#         'Content-Disposition': f'attachment; filename="{filename}"',
+#     })
+
+
+from django.http import HttpResponse, Http404
+from django.template.loader import render_to_string
+from rest_framework.decorators import api_view
+from weasyprint import HTML
+
 @api_view(['GET'])
 def download_third_installment_pdf(request, serial_no: int, project_id: int):
     if not 1 <= serial_no <= 15:
         raise Http404("Template not available.")
 
     template_map = {
-         1: "serial_1.html",
-        2: "serial_2.html",
-        3: "serial_3.html",
-        4: "serial_4.html",
-        5: "serial_5.html",
-        6: "serial_6.html",
-        7: "serial_7.html",
-        8: "serial_8.html",
-        9: "serial_9.html",
-        10:"serial_10.html",
-        11:"serial_11.html",
-        12:"serial_12.html",
-        13:"serial_13.html",
-        14:"serial_14.html",
-        15:"serial_15.html"
+        1: "Third_Installment/serial_1.html",
+        2: "Third_Installment/serial_2.html",
+        3: "Third_Installment/serial_3.html",
+        4: "Third_Installment/serial_4.html",
+        5: "Third_Installment/serial_5.html",
+        6: "Third_Installment/serial_6.html",
+        7: "Third_Installment/serial_7.html",
+        8: "Third_Installment/serial_8.html",
+        9: "Third_Installment/serial_9.html",
+        10:"Third_Installment/serial_10.html",
+        11:"Third_Installment/serial_11.html",
+        12:"Third_Installment/serial_12.html",
+        13:"Third_Installment/serial_13.html",
+        14:"Third_Installment/serial_14.html",
+        15:"Third_Installment/serial_15.html"
     }
 
     context = build_pdf_context(serial_no, project_id)
-    content, filename = render_pdf(template_map[serial_no], context, f"third_installment_{serial_no}_project_{project_id}.pdf")
 
-    if content is None:
+    html_string = render_to_string(template_map[serial_no], context)
+    pdf_file = HTML(string=html_string).write_pdf()
+
+    filename = f"third_installment_{serial_no}_project_{project_id}.pdf"
+
+    if not pdf_file:
         raise Http404("PDF rendering failed.")
 
-    return HttpResponse(content, content_type='application/pdf', headers={
-        'Content-Disposition': f'attachment; filename="{filename}"',
-    })
+    response = HttpResponse(pdf_file, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+    return response
+
 
 def preview_template(request, serial_no=1, project_id=1):
     context = build_pdf_context(serial_no, project_id)

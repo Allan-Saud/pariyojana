@@ -9,6 +9,10 @@ from rest_framework.decorators import api_view, parser_classes, permission_class
 from rest_framework.permissions import AllowAny
 from django.http import HttpResponse, Http404
 from projects.constants import CONSUMER_COMMITTEE_TITLES
+from rest_framework.permissions import AllowAny
+from weasyprint import HTML
+from django.template.loader import render_to_string
+
 
 from django.template.loader import get_template
 from projects.models.Consumer_Committee.consumer_committee_details import ConsumerCommitteeDetail
@@ -167,6 +171,33 @@ def consumer_committee_upload(request):
     return Response({"detail": "File uploaded successfully."})
 
 
+# @api_view(['GET'])
+# @permission_classes([AllowAny])
+# def download_consumer_committee_pdf(request, serial_no: int, project_id: int):
+#     if not 1 <= serial_no <= 6:
+#         raise Http404("Template not available.")
+
+#     template_map = {
+#         1: "serial_1.html",
+#         2: "serial_2.html",
+#         3: "serial_3.html",
+#         4: "serial_4.html",
+#         5: "serial_5.html",
+#         6: "serial_6.html",
+#         7:"serial_7.html"
+#     }
+
+#     context = build_pdf_context(serial_no, project_id)
+#     content, filename = render_pdf(template_map[serial_no], context, f"serial_{serial_no}_project_{project_id}.pdf")
+
+#     if content is None:
+#         raise Http404("PDF rendering failed.")
+
+#     return HttpResponse(content, content_type='application/pdf', headers={
+#         'Content-Disposition': f'attachment; filename="{filename}"',
+#     })
+
+
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def download_consumer_committee_pdf(request, serial_no: int, project_id: int):
@@ -180,18 +211,27 @@ def download_consumer_committee_pdf(request, serial_no: int, project_id: int):
         4: "serial_4.html",
         5: "serial_5.html",
         6: "serial_6.html",
-        7:"serial_7.html"
+        7: "serial_7.html"
     }
 
+    # Build the context for the template (assuming you have this function)
     context = build_pdf_context(serial_no, project_id)
-    content, filename = render_pdf(template_map[serial_no], context, f"serial_{serial_no}_project_{project_id}.pdf")
 
-    if content is None:
+    # Render the HTML template to a string
+    html_string = render_to_string(template_map[serial_no], context)
+
+    # Use WeasyPrint to convert HTML to PDF bytes
+    pdf_file = HTML(string=html_string).write_pdf()
+
+    filename = f"serial_{serial_no}_project_{project_id}.pdf"
+
+    if not pdf_file:
         raise Http404("PDF rendering failed.")
 
-    return HttpResponse(content, content_type='application/pdf', headers={
-        'Content-Disposition': f'attachment; filename="{filename}"',
-    })
+    response = HttpResponse(pdf_file, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+    return response
 
 
 def preview_template(request, serial_no=1, project_id=4):

@@ -7,6 +7,10 @@ from projects.serializers.Documents.other_document import OtherDocumentSerialize
 from projects.pdfs.other_documents.utils import build_pdf_context
 from projects.pdfs.other_documents.renderers import render_pdf
 from projects.models.project import Project
+from django.http import HttpResponse, Http404
+from django.template.loader import render_to_string
+from rest_framework.decorators import api_view
+from weasyprint import HTML
 
 DOCUMENT_TITLES = [
     {"serial_no": 1, "title": "योजना कार्यन्वयन चेक लिष्ट"},
@@ -48,6 +52,29 @@ class OtherDocumentListView(APIView):
         return Response(serializer.errors, status=400)
 
 
+# @api_view(["GET"])
+# def download_other_document_pdf(request, serial_no, project_id):
+#     if serial_no not in [1, 2, 3]:
+#         raise Http404("Template not available")
+
+#     template_map = {
+#         1: "other_documents/serial_1.html",
+#         2: "other_documents/serial_2.html",
+#         3: "other_documents/serial_3.html",
+#     }
+
+#     context = build_pdf_context(serial_no, project_id)
+#     content, filename = render_pdf(template_map[serial_no], context, f"serial_{serial_no}_project_{project_id}.pdf")
+
+#     if content is None:
+#         raise Http404("PDF rendering failed.")
+
+#     return HttpResponse(content, content_type="application/pdf", headers={
+#         'Content-Disposition': f'attachment; filename="{filename}"'
+#     })
+
+
+
 @api_view(["GET"])
 def download_other_document_pdf(request, serial_no, project_id):
     if serial_no not in [1, 2, 3]:
@@ -60,14 +87,20 @@ def download_other_document_pdf(request, serial_no, project_id):
     }
 
     context = build_pdf_context(serial_no, project_id)
-    content, filename = render_pdf(template_map[serial_no], context, f"serial_{serial_no}_project_{project_id}.pdf")
 
-    if content is None:
+    html_string = render_to_string(template_map[serial_no], context)
+    pdf_file = HTML(string=html_string).write_pdf()
+
+    filename = f"serial_{serial_no}_project_{project_id}.pdf"
+
+    if not pdf_file:
         raise Http404("PDF rendering failed.")
 
-    return HttpResponse(content, content_type="application/pdf", headers={
-        'Content-Disposition': f'attachment; filename="{filename}"'
-    })
+    response = HttpResponse(pdf_file, content_type="application/pdf")
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+    return response
+
     
     
 from django.template.loader import select_template

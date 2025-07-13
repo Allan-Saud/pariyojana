@@ -11,6 +11,8 @@ from rest_framework import status
 from projects.pdfs.project_aggrement_workorder.renderers import render_pdf
 from projects.pdfs.project_aggrement_workorder.utils import build_pdf_context
 from django.http import HttpResponse, Http404
+from django.template.loader import render_to_string
+from weasyprint import HTML
 
 class ProjectAgreementWorkorderListView(APIView):
     def get(self, request):
@@ -63,27 +65,56 @@ def project_agreement_workorder_upload(request):
 
 
 
+# @api_view(['GET'])
+# def download_project_agreement_workorder_pdf(request, serial_no: int, project_id: int):
+#     if serial_no not in [1, 2, 3, 4]:
+#         raise Http404("Template not available.")
+
+#     template_map = {
+#         1: "serial_1.html",
+#         2: "serial_2.html",
+#         3: "serial_3.html",
+#         4: "serial_4.html",
+#     }
+
+#     context = build_pdf_context(serial_no, project_id)
+#     content, filename = render_pdf(template_map[serial_no], context, f"serial_{serial_no}_project_{project_id}.pdf")
+
+#     if content is None:
+#         raise Http404("PDF rendering failed.")
+
+#     return HttpResponse(content, content_type='application/pdf', headers={
+#         'Content-Disposition': f'attachment; filename="{filename}"',
+#     })
+
+
 @api_view(['GET'])
 def download_project_agreement_workorder_pdf(request, serial_no: int, project_id: int):
     if serial_no not in [1, 2, 3, 4]:
         raise Http404("Template not available.")
 
     template_map = {
-        1: "serial_1.html",
-        2: "serial_2.html",
-        3: "serial_3.html",
-        4: "serial_4.html",
+        1: "project_aggrement_workorder/serial_1.html",
+        2: "project_aggrement_workorder/serial_2.html",
+        3: "project_aggrement_workorder/serial_3.html",
+        4: "project_aggrement_workorder/serial_4.html",
     }
 
     context = build_pdf_context(serial_no, project_id)
-    content, filename = render_pdf(template_map[serial_no], context, f"serial_{serial_no}_project_{project_id}.pdf")
 
-    if content is None:
+    html_string = render_to_string(template_map[serial_no], context)
+    pdf_file = HTML(string=html_string).write_pdf()
+
+    filename = f"serial_{serial_no}_project_{project_id}.pdf"
+
+    if not pdf_file:
         raise Http404("PDF rendering failed.")
 
-    return HttpResponse(content, content_type='application/pdf', headers={
-        'Content-Disposition': f'attachment; filename="{filename}"',
-    })
+    response = HttpResponse(pdf_file, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+    return response
+
 
 
 
