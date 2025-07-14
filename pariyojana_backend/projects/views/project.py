@@ -38,7 +38,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.filter(is_deleted=False)
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]  # for file upload
+    parser_classes = [MultiPartParser, FormParser]  
 
     def perform_create(self, serializer):
         serializer.save()
@@ -59,11 +59,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def export(self, request):
         resource = ProjectResource()
 
-        # Create an empty dataset with headers only (no rows)
+       
         dataset = Dataset(headers=resource.get_export_headers())
 
         response = HttpResponse(
-            dataset.export('xlsx'),  # export dataset as xlsx bytes
+            dataset.export('xlsx'),  
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
         response['Content-Disposition'] = 'attachment; filename="projects_template.xlsx"'
@@ -88,7 +88,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         if result.has_errors():
             return Response({'error': 'Import errors', 'details': str(result.row_errors())}, status=status.HTTP_400_BAD_REQUEST)
 
-        resource.import_data(imported_data, dry_run=False)  # Actually import now
+        resource.import_data(imported_data, dry_run=False) 
 
         return Response({'success': 'Projects imported successfully'}, status=status.HTTP_200_OK)
 

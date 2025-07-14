@@ -59,34 +59,16 @@ class WardThematicChartData(APIView):
 import io
 from django.http import FileResponse, HttpResponse
 from django.template.loader import render_to_string
-from xhtml2pdf import pisa
-import openpyxl
-from openpyxl.styles import Font, Alignment
 from planning.WardOffice.WardThematicCommitteeProjects.models import WardThematicCommitteeProject
 import os
 from django.conf import settings
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-from xhtml2pdf.default import DEFAULT_FONT
-import reportlab.rl_config
-
-
-reportlab.rl_config.warnOnMissingFontGlyphs = 0
-reportlab.rl_config.defaultEncoding = 'utf-8'
+from weasyprint import HTML, CSS
 
 
 
-font_path = os.path.join(settings.BASE_DIR, 'static', 'fonts', 'NotoSansDevanagari-Regular.ttf')
-
-# Register the font with ReportLab
-pdfmetrics.registerFont(TTFont('NotoDevanagari', font_path))
-
-DEFAULT_FONT['face'] = 'NotoDevanagari'
 class WardThematicCommitteeProjectDownloadReport(APIView):
     def get_queryset(self, request):
         queryset = WardThematicCommitteeProject.objects.filter(is_deleted=False)
-
-        # Filtering by thematic area (क्षेत्र) and sub-area (उप-क्षेत्र)
         thematic = request.GET.get('thematic_area')
         sub_thematic = request.GET.get('sub_thematic_area')
 
@@ -98,20 +80,20 @@ class WardThematicCommitteeProjectDownloadReport(APIView):
         return queryset
 
     def get(self, request, format=None):
-        file_type = request.GET.get('type', 'pdf')  # 'pdf' or 'excel'
+        file_type = request.GET.get('type', 'pdf') 
         queryset = self.get_queryset(request)
 
         if file_type == 'excel':
             return self.generate_excel(queryset)
         else:
-            return self.generate_pdf(queryset)
+            return self.generate_pdf(request, queryset)
 
     def generate_excel(self, queryset):
         wb = openpyxl.Workbook()
         ws = wb.active
         ws.title = "Report"
 
-        # Title
+
         ws.merge_cells('A1:F1')
         ws['A1'] = "बर्दगोरिया गाउँपालिका"
         ws['A1'].font = Font(bold=True, size=14)
@@ -142,7 +124,9 @@ class WardThematicCommitteeProjectDownloadReport(APIView):
         response['Content-Disposition'] = 'attachment; filename=ward_thematic_report.xlsx'
         return response
 
-    def generate_pdf(self, queryset):
+    
+
+    def generate_pdf(self, request, queryset):
         data = [{
             'index': i + 1,
             'ward_no': obj.ward_no,
@@ -152,22 +136,20 @@ class WardThematicCommitteeProjectDownloadReport(APIView):
             'budget': obj.budget,
         } for i, obj in enumerate(queryset)]
 
-        html = render_to_string('planning/report_template.html', {
+        html_string = render_to_string('planning/report_template.html', {
             'title': 'बर्दगोरिया गाउँपालिका',
             'projects': data
         })
 
         css_path = os.path.join(settings.BASE_DIR, 'static', 'css', 'pdf_styles.css')
-        with open(css_path, 'r', encoding='utf-8') as f:
-            css = f.read()
 
-        result = io.BytesIO()
-        pdf = pisa.pisaDocument(io.BytesIO(html.encode("UTF-8")), result, default_css=css)
+        # Generate PDF using WeasyPrint
+        pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(
+            stylesheets=[CSS(filename=css_path)]
+        )
 
-        if not pdf.err:
-            response = HttpResponse(result.getvalue(), content_type='application/pdf')
-            response['Content-Disposition'] = 'inline; filename="ward_thematic_report.pdf"'
-            return response
-        else:
-            return HttpResponse('Error generating PDF', status=500)
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="ward_thematic_report.pdf"'
+        return response
+
 

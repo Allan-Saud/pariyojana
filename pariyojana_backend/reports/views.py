@@ -32,7 +32,6 @@ report_counter = 0
 
 class ReportsDropdownsView(APIView):
     def get(self, request):
-        # Hardcoded values
         report_types = [
             "सम्पन्न नभएको परियोजनाहरू",
             "परियोजना अनुसार बजेट",
@@ -45,7 +44,6 @@ class ReportsDropdownsView(APIView):
         ]
         wards = [f"वडा नं.-{i}" for i in range(1, 9)]
 
-        # Dynamic values
         thematic_areas = ThematicAreaSerializer(ThematicArea.objects.filter(is_active=True), many=True).data
         sub_areas = SubAreaSerializer(SubArea.objects.filter(is_active=True), many=True).data
         sources = SourceSerializer(Source.objects.filter(is_active=True), many=True).data
@@ -97,10 +95,6 @@ class ExportReportExcelView(APIView):
         elif report_type == "सम्पन्न भएको":
             filters &= Q(status="completed")
 
-        # print("FILTERS APPLIED:", filters)
-        # project_count = Project.objects.filter(filters).count()
-        # print("MATCHING PROJECTS COUNT:", project_count)
-
         projects = Project.objects.filter(filters).select_related(
             'area', 'sub_area', 'source', 'expenditure_center', 'fiscal_year'
         )
@@ -111,23 +105,9 @@ class ExportReportExcelView(APIView):
         ]
 
         data = [headers]
-        # for proj in projects:
-        #     data.append([
-        #         proj.serial_number,
-        #         smart_str(proj.project_name),
-        #         proj.fiscal_year.year if proj.fiscal_year else '',
-        #         dict(Project.STATUS_CHOICES).get(proj.status, proj.status),
-        #         f"वडा नंं. {proj.ward_no}",
-        #         proj.area.name if proj.area else '',
-        #         proj.sub_area.name if proj.sub_area else '',
-        #         proj.source.name if proj.source else '',
-        #         proj.expenditure_center.name if proj.expenditure_center else '',
-        #         float(proj.budget),
-        #     ])
-        
+       
         for proj in projects:
             try:
-            #     print("Processing project:", proj.serial_number)
                 fiscal_year_val = str(proj.fiscal_year.year[0]) if proj.fiscal_year and isinstance(proj.fiscal_year.year, (list, tuple)) else proj.fiscal_year.year if proj.fiscal_year else ''
                 status_val = dict(Project.STATUS_CHOICES).get(proj.status, proj.status)
                 ward_val = f"वडा नंं. {proj.ward_no}"
@@ -137,7 +117,6 @@ class ExportReportExcelView(APIView):
                 exp_center_val = proj.expenditure_center.name if proj.expenditure_center else ''
                 budget_val = float(proj.budget)
 
-                # print(" → Values:", fiscal_year_val, status_val, ward_val)
 
                 data.append([
                     proj.serial_number,
@@ -152,7 +131,6 @@ class ExportReportExcelView(APIView):
                     budget_val,
                 ])
             except Exception as e:
-                # print(f"❌ Error processing project {proj.serial_number}: {e}")
                 pass
 
 

@@ -6,6 +6,9 @@ from planning.ThematicCommittee.WardRecommendedProjects.views import WardRecomme
 from planning.ThematicCommittee.reports.prioritizedthemantic import PrioritizedWardThematicChartData
 from planning.ThematicCommittee.reports.planenteredthemantic import PlanEnteredByThematicCommitteeChartData
 from planning.ThematicCommittee.reports.wardrecommended import WardrecommendetChart
+from planning.ThematicCommittee.reports.planenteredthemantic import PlanEnteredByThematicCommitteeDownloadReport
+from planning.ThematicCommittee.reports.prioritizedthemantic import PrioritizedThematicCommitteeDownloadReport
+from planning.ThematicCommittee.reports.wardrecommended import WardRecommendedProjectsDownloadReport
 
 
 
@@ -24,4 +27,11 @@ urlpatterns = [
     path('wardlevelthemtic-chart/', PrioritizedWardThematicChartData.as_view(), name='wardlevelthematicchart'),
     path('Wardrecommended-chart/', WardrecommendetChart.as_view(), name='municipalitylevelchart'),
     
+    
+    
+    
+    path('wardlevel-chart/report/', PlanEnteredByThematicCommitteeDownloadReport.as_view(), name='wardlevelreport'),
+    path('wardlevelthemtic-chart/report/', PrioritizedThematicCommitteeDownloadReport.as_view(), name='wardlevelthematicreport'),
+    path('Wardrecommended-chart/report/', WardRecommendedProjectsDownloadReport.as_view(), name='municipalitylevelreport'),
+
 ]

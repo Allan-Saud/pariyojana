@@ -56,22 +56,19 @@ class PrioritizedWardLevelChartData(APIView):
 
 
 
-
 import io
 from django.http import FileResponse, HttpResponse
 from django.template.loader import render_to_string
-from xhtml2pdf import pisa
-import openpyxl
-from openpyxl.styles import Font, Alignment
-
 from planning.WardOffice.PrioritizedWardLevelProjects.models import PrioritizedWardLevelProject
+import os
+from django.conf import settings
+from weasyprint import HTML, CSS
+
 
 
 class PrioritizedWardLevelProjectDownloadReport(APIView):
     def get_queryset(self, request):
         queryset = PrioritizedWardLevelProject.objects.filter(is_deleted=False)
-
-        # Filtering by thematic area (क्षेत्र) and sub-area (उप-क्षेत्र)
         thematic = request.GET.get('thematic_area')
         sub_thematic = request.GET.get('sub_thematic_area')
 
@@ -83,20 +80,20 @@ class PrioritizedWardLevelProjectDownloadReport(APIView):
         return queryset
 
     def get(self, request, format=None):
-        file_type = request.GET.get('type', 'pdf')  # 'pdf' or 'excel'
+        file_type = request.GET.get('type', 'pdf') 
         queryset = self.get_queryset(request)
 
         if file_type == 'excel':
             return self.generate_excel(queryset)
         else:
-            return self.generate_pdf(queryset)
+            return self.generate_pdf(request, queryset)
 
     def generate_excel(self, queryset):
         wb = openpyxl.Workbook()
         ws = wb.active
         ws.title = "Report"
 
-        # Title
+
         ws.merge_cells('A1:F1')
         ws['A1'] = "बर्दगोरिया गाउँपालिका"
         ws['A1'].font = Font(bold=True, size=14)
@@ -124,10 +121,12 @@ class PrioritizedWardLevelProjectDownloadReport(APIView):
             stream,
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
-        response['Content-Disposition'] = 'attachment; filename=prioritized_ward_level.xlsx'
+        response['Content-Disposition'] = 'attachment; filename=prioritized_ward_level_report.xlsx'
         return response
 
-    def generate_pdf(self, queryset):
+    
+
+    def generate_pdf(self, request, queryset):
         data = [{
             'index': i + 1,
             'ward_no': obj.ward_no,
@@ -137,15 +136,18 @@ class PrioritizedWardLevelProjectDownloadReport(APIView):
             'budget': obj.budget,
         } for i, obj in enumerate(queryset)]
 
-        html = render_to_string('report_template.html', {
+        html_string = render_to_string('planning/report_template.html', {
             'title': 'बर्दगोरिया गाउँपालिका',
             'projects': data
         })
 
-        result = io.BytesIO()
-        pdf = pisa.pisaDocument(io.BytesIO(html.encode("UTF-8")), result)
+        css_path = os.path.join(settings.BASE_DIR, 'static', 'css', 'pdf_styles.css')
 
-        if not pdf.err:
-            return FileResponse(result, content_type='application/pdf', filename='prioritized_ward_level.pdf')
-        else:
-            return HttpResponse('Error generating PDF', status=500)
+        # Generate PDF using WeasyPrint
+        pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(
+            stylesheets=[CSS(filename=css_path)]
+        )
+
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="prioritized_ward_level_report.pdf"'
+        return response
