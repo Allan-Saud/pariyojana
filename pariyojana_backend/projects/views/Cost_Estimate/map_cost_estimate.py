@@ -144,6 +144,7 @@ class MapCostEstimateViewSet(viewsets.ModelViewSet):
                 }
 
             data["serial_no"] = serial_no
+            data["project_name"] = project.project_name 
             response_list.append(data)
 
         return Response(response_list)

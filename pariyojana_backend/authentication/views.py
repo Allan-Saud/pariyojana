@@ -62,6 +62,7 @@ def check_document(request, document_id):
             status='checked',
             remarks=request.data.get('remarks', ''),
             checker=request.user,
+            approver=doc.approver,
             source_model='MapCostEstimate',
             source_id=doc.id,
             file_path=doc.file.url if doc.file else ""
