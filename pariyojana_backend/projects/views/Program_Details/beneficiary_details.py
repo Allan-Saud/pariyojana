@@ -6,6 +6,7 @@ from rest_framework.exceptions import ValidationError
 from projects.models.Program_Details.beneficiary_details import BeneficiaryDetail
 from projects.serializers.Program_Details.beneficiary_details import BeneficiaryDetailSerializer
 from projects.models.project import Project
+from rest_framework.decorators import action
 
 
 class BeneficiaryDetailViewSet(viewsets.ModelViewSet):
@@ -89,26 +90,92 @@ class BeneficiaryDetailViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+    # def bulk_update(self, request, serial_number=None):
+    #     data = request.data
+    #     if not isinstance(data, list):
+    #         return Response({"detail": "Expected a list of items for bulk update."}, status=400)
+
+    #     updated_items = []
+    #     for item in data:
+    #         beneficiary_id = item.get('id')
+    #         if not beneficiary_id:
+    #             return Response({"detail": "Each item must contain 'id'."}, status=400)
+
+    #         try:
+    #             instance = BeneficiaryDetail.objects.get(id=beneficiary_id, project__serial_number=serial_number)
+    #         except BeneficiaryDetail.DoesNotExist:
+    #             return Response({"detail": f"Beneficiary {beneficiary_id} not found for project {serial_number}."}, status=404)
+
+    #         serializer = self.get_serializer(instance, data=item, partial=True)
+    #         serializer.is_valid(raise_exception=True)
+    #         serializer.save()
+    #         updated_items.append(serializer.data)
+
+    #     return Response(updated_items, status=status.HTTP_200_OK)
+    
     def bulk_update(self, request, serial_number=None):
         data = request.data
         if not isinstance(data, list):
             return Response({"detail": "Expected a list of items for bulk update."}, status=400)
 
         updated_items = []
+        project = Project.objects.get(serial_number=serial_number)
+        
         for item in data:
-            beneficiary_id = item.get('id')
-            if not beneficiary_id:
-                return Response({"detail": "Each item must contain 'id'."}, status=400)
+            title = item.get('title')
+            if not title:
+                return Response({"detail": "Each item must contain 'title'."}, status=400)
 
-            try:
-                instance = BeneficiaryDetail.objects.get(id=beneficiary_id, project__serial_number=serial_number)
-            except BeneficiaryDetail.DoesNotExist:
-                return Response({"detail": f"Beneficiary {beneficiary_id} not found for project {serial_number}."}, status=404)
+            # Get or create the beneficiary record
+            instance, created = BeneficiaryDetail.objects.get_or_create(
+                project=project,
+                title=title,
+                defaults={
+                    'female': item.get('female', 0),
+                    'male': item.get('male', 0),
+                    'other': item.get('other', 0)
+                }
+            )
 
-            serializer = self.get_serializer(instance, data=item, partial=True)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            updated_items.append(serializer.data)
+            # Update if not created
+            if not created:
+                serializer = self.get_serializer(instance, data=item, partial=True)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                updated_items.append(serializer.data)
+            else:
+                updated_items.append(self.get_serializer(instance).data)
 
         return Response(updated_items, status=status.HTTP_200_OK)
+    
+    
+    
+    @action(detail=False, methods=['post'], url_path='update-all')
+    def update_all_beneficiaries(self, request, serial_number=None):
+        try:
+            project = Project.objects.get(serial_number=serial_number)
+        except Project.DoesNotExist:
+            return Response({"detail": "Project not found"}, status=404)
+
+        # Get all existing records for this project
+        existing = {b.title: b for b in BeneficiaryDetail.objects.filter(project=project)}
+        
+        response_data = []
+        for category_data in request.data:
+            title = category_data.get('title')
+            if not title:
+                continue
+                
+            # Get or create the record
+            if title in existing:
+                instance = existing[title]
+                serializer = self.get_serializer(instance, data=category_data, partial=True)
+            else:
+                serializer = self.get_serializer(data=category_data)
+            
+            serializer.is_valid(raise_exception=True)
+            serializer.save(project=project)
+            response_data.append(serializer.data)
+        
+        return Response(response_data, status=200)
 

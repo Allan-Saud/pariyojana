@@ -141,11 +141,26 @@ urlpatterns = [
     
     
     # Nested project-specific endpoints (without affecting the DefaultRouter)
+    # path(
+    # '<int:serial_number>/beneficiaries/',
+    # BeneficiaryDetailViewSet.as_view({'get': 'list', 'post': 'create','patch': 'bulk_update'}),
+    # name='project-beneficiaries'
+    # ),
+    
     path(
     '<int:serial_number>/beneficiaries/',
-    BeneficiaryDetailViewSet.as_view({'get': 'list', 'post': 'create','patch': 'bulk_update'}),
+    BeneficiaryDetailViewSet.as_view({
+        'get': 'list', 
+        'post': 'create',
+        'patch': 'bulk_update'
+    }),
     name='project-beneficiaries'
-    ),
+),
+path(
+    '<int:serial_number>/beneficiaries/update-all/',
+    BeneficiaryDetailViewSet.as_view({'post': 'update_all_beneficiaries'}),
+    name='project-beneficiaries-update-all'
+),
 
 
     path(

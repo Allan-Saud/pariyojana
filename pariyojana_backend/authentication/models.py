@@ -25,5 +25,5 @@ class VerificationLog(models.Model):
     checker = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='verification_checked')
     approver = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='verification_approved')
     created_at = models.DateTimeField(auto_now_add=True)
-    source_model = models.CharField(max_length=100)  # 'MapCostEstimate'
+    source_model = models.CharField(max_length=100) 
     source_id = models.IntegerField()

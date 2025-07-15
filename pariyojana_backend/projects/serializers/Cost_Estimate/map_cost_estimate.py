@@ -58,6 +58,55 @@ class MapCostEstimateSerializer(serializers.ModelSerializer):
 
         return super().create(validated_data)  # No VerificationLog here
 
+    # def update(self, instance, validated_data):
+    #     request = self.context.get("request")
+    #     user = request.user if request else None
+
+    #     new_file = validated_data.get("file", None)
+    #     new_checker = validated_data.get("checker", None)
+    #     new_approver = validated_data.get("approver", None)
+
+    #     file_exists = new_file or instance.file
+
+    #     if not file_exists and (new_checker or new_approver):
+    #         raise ValidationError("फाइल अपलोड नगरि चेक/अप्रुभर राख्न मिल्दैन।")
+
+    #     if new_file and not instance.file:
+    #         validated_data["status"] = "अपलोड गरिएको"
+
+    #     # Only create log if checker AND approver are BOTH newly set
+    #     creating_log = (
+    #         file_exists and
+    #         "checker" in validated_data and
+    #         "approver" in validated_data and
+    #         validated_data["checker"] is not None and
+    #         validated_data["approver"] is not None and
+    #         not instance.is_verified
+    #     )
+
+    #     if creating_log:
+    #         validated_data["status"] = "चेक जाँचको लागी पठाइएको"
+    #         validated_data["is_verified"] = True
+
+    #     instance = super().update(instance, validated_data)
+
+    #     if creating_log:
+    #         VerificationLog.objects.create(
+    #             project=instance.project,
+    #             file_title=instance.title,
+    #             file_path=instance.file.url if instance.file else '',
+    #             uploader_name = user.full_name,
+    #             uploader_role = user.role,
+    #             status=instance.status,
+    #             remarks=instance.remarks,
+    #             checker=instance.checker,
+    #             approver=instance.approver,
+    #             source_model='MapCostEstimate',
+    #             source_id=instance.id
+    #         )
+
+    #     return instance
+    
     def update(self, instance, validated_data):
         request = self.context.get("request")
         user = request.user if request else None
@@ -74,7 +123,6 @@ class MapCostEstimateSerializer(serializers.ModelSerializer):
         if new_file and not instance.file:
             validated_data["status"] = "अपलोड गरिएको"
 
-        # Only create log if checker AND approver are BOTH newly set
         creating_log = (
             file_exists and
             "checker" in validated_data and
@@ -95,10 +143,8 @@ class MapCostEstimateSerializer(serializers.ModelSerializer):
                 project=instance.project,
                 file_title=instance.title,
                 file_path=instance.file.url if instance.file else '',
-                # uploader_role="अपलोड कर्ता",
-                # uploader = user.full_name if user else '',
-                uploader_name = user.full_name,
-                uploader_role = user.role,
+                uploader_name=user.get_full_name() if user and user.is_authenticated else "Anonymous",
+                uploader_role=user.role if user and user.is_authenticated else "Unknown",
                 status=instance.status,
                 remarks=instance.remarks,
                 checker=instance.checker,
