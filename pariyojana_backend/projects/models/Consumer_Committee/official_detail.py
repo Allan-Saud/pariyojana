@@ -13,7 +13,7 @@ class OfficialDetail(models.Model):
 
     project = models.ForeignKey('projects.Project', on_delete=models.CASCADE, related_name="officials")
 
-    serial_no = models.PositiveIntegerField()  # क्र.स.
+    serial_no = models.PositiveIntegerField() 
     post = models.CharField(max_length=50, choices=POST_CHOICES)  # पद
     full_name = models.CharField(max_length=255)  # नाम थर
     address = models.CharField(max_length=255)  # ठेगाना

@@ -10,12 +10,13 @@ class OfficialDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = OfficialDetail
         fields = [
-            'id', 'project', 'serial_no', 'post', 'full_name', 'address',
+            'id','post', 'full_name', 'address',
             'contact_no', 'gender', 'citizenship_no',
             'citizenship_front', 'citizenship_back',
             'citizenship_front_url', 'citizenship_back_url',
             'created_at', 'updated_at',
         ]
+        read_only_fields = ['project', 'serial_no']
 
     def get_citizenship_front_url(self, obj):
         if obj.citizenship_front:

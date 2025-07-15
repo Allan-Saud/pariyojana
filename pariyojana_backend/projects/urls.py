@@ -233,11 +233,18 @@ path(
         OfficialDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
         name='official-detail-list'
     ),
+    # path(
+    #     '<int:serial_number>/official-details/<int:pk>/',
+    #     OfficialDetailViewSet.as_view({'patch': 'partial_update'}),
+    #     name='official-detail-update'
+    # ),
+    
     path(
-        '<int:serial_number>/official-details/<int:pk>/',
-        OfficialDetailViewSet.as_view({'patch': 'partial_update'}),
-        name='official-detail-update'
-    ),
+    '<int:serial_number>/official-details/bulk-update/',
+    OfficialDetailViewSet.as_view({'patch': 'bulk_update_by_serial'}),
+    name='official-detail-bulk-update-by-serial'
+),
+
 
     path(
         '<int:serial_number>/documents/',

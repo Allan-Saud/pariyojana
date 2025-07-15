@@ -48,6 +48,8 @@ from projects.models.Consumer_Committee.official_detail import OfficialDetail
 from projects.serializers.Consumer_Committee.official_detail import OfficialDetailSerializer
 from projects.models.project import Project
 from django.shortcuts import get_object_or_404
+from django.db import models
+from collections import defaultdict
 
 class OfficialDetailViewSet(viewsets.ViewSet):
     parser_classes = [MultiPartParser, FormParser]
@@ -57,19 +59,50 @@ class OfficialDetailViewSet(viewsets.ViewSet):
         serializer = OfficialDetailSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    # def create(self, request, serial_number=None):
+    #     project = get_object_or_404(Project, serial_number=serial_number)
+    #     serializer = OfficialDetailSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save(project=project)
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
     def create(self, request, serial_number=None):
         project = get_object_or_404(Project, serial_number=serial_number)
+
+        # Get max serial_no for this project
+        max_serial = OfficialDetail.objects.filter(project=project).aggregate(models.Max('serial_no'))['serial_no__max']
+        next_serial_no = (max_serial or 0) + 1  # if none, start with 1
+
         serializer = OfficialDetailSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(project=project)
+            serializer.save(project=project, serial_no=next_serial_no)  # pass serial_no explicitly
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def partial_update(self, request, serial_number=None, pk=None):
+
+    @action(detail=False, methods=['patch'], url_path='bulk-update')
+    def bulk_update_by_serial(self, request, serial_number=None):
         project = get_object_or_404(Project, serial_number=serial_number)
-        official = get_object_or_404(OfficialDetail, pk=pk, project=project)
-        serializer = OfficialDetailSerializer(official, data=request.data, partial=True)
+
+        serial_no = request.data.get('serial_no')
+        if not serial_no:
+            return Response({'error': 'serial_no is required.'}, status=400)
+
+        try:
+            official = OfficialDetail.objects.get(project=project, serial_no=serial_no)
+            serializer = OfficialDetailSerializer(official, data=request.data, partial=True)
+        except OfficialDetail.DoesNotExist:
+            # Create new if not exists
+            serializer = OfficialDetailSerializer(data={**request.data, 'project': project.id, 'serial_no': serial_no})
+
         if serializer.is_valid():
-            serializer.save(project=project)  # Keep project binding
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            serializer.save()
+            return Response(serializer.data, status=200)
+        else:
+            return Response(serializer.errors, status=400)
+
+
+
+
+
