@@ -22,6 +22,21 @@ class WardLevelProject(models.Model):
         return self.plan_name
     
     
+    
+    
+    def save(self, *args, **kwargs):
+        if not self.priority_no and not self.pk: 
+            max_priority = WardLevelProject.objects.filter(
+                ward_no=self.ward_no,
+                is_deleted=False
+            ).aggregate(models.Max('priority_no'))['priority_no__max'] or 0
+            self.priority_no = max_priority + 1
+        super().save(*args, **kwargs)
+        
+    def __str__(self):
+        return self.plan_name
+    
+    
 
 
 
