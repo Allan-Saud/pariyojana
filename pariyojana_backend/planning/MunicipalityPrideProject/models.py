@@ -4,6 +4,9 @@ from project_settings.models.sub_thematic_area import SubArea
 from project_settings.models.expenditure_center import ExpenditureCenter
 from project_settings.models.source import Source
 from planning.PlanEntry.models import PlanEntry
+from django.db import models, transaction
+from django.db.models import Max
+from django.utils import timezone
 
 class MunicipalityPrideProject(models.Model):
     plan_name = models.CharField(max_length=255)
@@ -21,6 +24,38 @@ class MunicipalityPrideProject(models.Model):
     def __str__(self):
         return self.plan_name
     
+    
+    
+    def _next_priority(self):
+        """
+        Return the next integer after the current highest priority_no
+        among *active* (not soft‑deleted) projects.
+        """
+        highest = (
+            MunicipalityPrideProject.objects
+            .filter(is_deleted=False)           # or .filter(is_deleted=False, ward_no=self.ward_no)
+            .aggregate(Max('priority_no'))['priority_no__max']
+        )
+        return (highest or 0) + 1
+
+    def save(self, *args, **kwargs):
+        with transaction.atomic():             # prevents duplicate numbers under load
+            if self.priority_no in (None, ''):
+                self.priority_no = self._next_priority()
+            super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.plan_name
+
+    class Meta:
+        constraints = [
+            # guarantees no two *active* projects share the same number
+            models.UniqueConstraint(
+                fields=['priority_no'],
+                condition=models.Q(is_deleted=False),
+                name='uniq_priority_active_prideproject',
+            )
+        ]
     
 
 
