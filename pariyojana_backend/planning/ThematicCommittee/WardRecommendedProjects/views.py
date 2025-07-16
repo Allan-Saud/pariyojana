@@ -6,7 +6,8 @@ from django.utils import timezone
 from .models import WardRecommendedProjects
 
 from .serializers import WardRecommendedProjectsSerializer
-from planning.ThematicCommittee.PlanEnteredByThematicCommittee.models  import PlanEnteredByThematicCommittee
+# from planning.ThematicCommittee.PlanEnteredByThematicCommittee.models  import PlanEnteredByThematicCommittee
+from planning.ThematicCommittee.PrioritizedThematicCommittee.models import PrioritizedThematicCommittee
 
 
 class WardRecommendedProjectsViewSet(viewsets.ModelViewSet):
@@ -15,13 +16,13 @@ class WardRecommendedProjectsViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return WardRecommendedProjects.objects.filter(is_deleted=False)
 
-    @action(detail=True, methods=['post'], url_path='recommend-to-thematic-committee')
+    @action(detail=True, methods=['post'], url_path='prioritize')
     def recommend_to_thematic_committee(self, request, pk=None):
         try:
             prioritized = self.get_object()
 
-            # Transfer to PlanEnteredByThematicCommittee
-            PlanEnteredByThematicCommittee.objects.create(
+
+            PrioritizedThematicCommittee.objects.create(
                 plan_name=prioritized.plan_name,
                 thematic_area=prioritized.thematic_area,
                 sub_area=prioritized.sub_area,
@@ -29,7 +30,7 @@ class WardRecommendedProjectsViewSet(viewsets.ModelViewSet):
                 expenditure_center=prioritized.expenditure_center,
                 budget=prioritized.budget,
                 ward_no=prioritized.ward_no,
-                status="विषयगत समितिमा सिफारिस भएको वडा स्तरीय परियोजना",
+                status="प्राथमिकरण भएको विषयगत समितिका परियोजना",
                 priority_no=prioritized.priority_no,
                 remarks=prioritized.remarks,
             )
@@ -39,7 +40,7 @@ class WardRecommendedProjectsViewSet(viewsets.ModelViewSet):
             prioritized.deleted_at = timezone.now()
             prioritized.save()
 
-            return Response({"message": "Successfully recommended to thematic committee and soft-deleted."}, status=status.HTTP_200_OK)
+            return Response({"message": "Successfully prioritized and soft-deleted."}, status=status.HTTP_200_OK)
 
         except WardRecommendedProjects.DoesNotExist:
             return Response({"error": "Project not found"}, status=status.HTTP_404_NOT_FOUND)
