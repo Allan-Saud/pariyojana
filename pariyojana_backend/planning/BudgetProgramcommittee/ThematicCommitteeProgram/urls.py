@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 from .views import ThematicCommitteeProgramViewSet
 
 router = DefaultRouter()
-router.register(r'thematic-programs', ThematicCommitteeProgramViewSet)
+router.register(r'thematic-programs', ThematicCommitteeProgramViewSet,basename='thematic-program')
 # router.register(r'thematic-programs', ThematicCommitteeProgramViewSet, basename='thematic-program')
 
 urlpatterns = [

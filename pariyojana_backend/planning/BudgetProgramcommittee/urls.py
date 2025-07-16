@@ -5,6 +5,8 @@ from planning.BudgetProgramcommittee.MunicipalityLevelProgram.views import Munic
 from planning.BudgetProgramcommittee.MunicipalityPrideProject.views import BudgetProgramMunicipalityPrideProgramViewSet
 from planning.BudgetProgramcommittee.ProvinciallyTransferredProgram.views import ProvinciallyTransferredProgramViewSet
 from planning.BudgetProgramcommittee.FederalGovernmentProject.views import BudgetProgramFederalGovernmentProgramViewSet
+from planning.BudgetProgramcommittee.ThematicCommitteeProgram.views import ThematicCommitteeProgramViewSet
+
 from planning.BudgetProgramcommittee.reports.MunicipalityLevelProgram import MunicipalityLevelProgramChart
 from planning.BudgetProgramcommittee.reports.FederalGovernmentProject import BudgetProgramFederalGovernmentProgramChart
 from planning.BudgetProgramcommittee.reports.MunicipalityPrideProject import BudgetProgramMunicipalityPrideProgramChart
@@ -31,6 +33,8 @@ router.register(r'municipality-pride', BudgetProgramMunicipalityPrideProgramView
 router.register(r'budget-ward-projects', BudgetProgramCommitteeWardLevelProgramViewSet, basename='budgetwardproject')
 router.register(r'provience-transfer-projects', ProvinciallyTransferredProgramViewSet, basename='proviencetransfer')
 router.register(r'federal-gov-projects', BudgetProgramFederalGovernmentProgramViewSet, basename='federalgov')
+router.register(r'thematic-committee', ThematicCommitteeProgramViewSet, basename='thematiccommittee')
+
 
 
 
