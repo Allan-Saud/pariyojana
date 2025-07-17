@@ -11,6 +11,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('projectapprove-chart/', ProjectsApprovedByMunicipalChart.as_view(), name='projectapprove'),
     
-    path('projectapprove/report', ProjectsApprovedByMunicipalDownloadReport.as_view(), name='projectapprovereport'),
+    path('projectapprove/report/', ProjectsApprovedByMunicipalDownloadReport.as_view(), name='projectapprovereport'),
     
 ]

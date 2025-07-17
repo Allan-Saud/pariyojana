@@ -13,7 +13,7 @@ urlpatterns = [
     path('submittedproject-chart/', SubmittedProjectsChart.as_view(), name='submittedproject'),
     
     
-    path('submittedprojectt/report', SubmittedProjectsDownloadReport.as_view(), name='submittedprojectreport'),
+    path('submittedprojectt/report/', SubmittedProjectsDownloadReport.as_view(), name='submittedprojectreport'),
     
     
 ]

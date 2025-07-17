@@ -20,8 +20,8 @@ urlpatterns = [
     path('preassembly-chart/', PreAssemblyProjectChart.as_view(), name='wardlevelchart'),
     path('councilsubmitted-chart/', CouncilSubmittedProjectChart.as_view(), name='wardlevelthematicchart'),
     
-    path('preassembly/report', PreAssemblyProjectDownloadReport.as_view(), name='wardlevelchartreport'),
-    path('councilsubmitted/report', CouncilSubmittedProjectDownloadReport.as_view(), name='wardlevelthematicchartreport'),
+    path('preassembly/report/', PreAssemblyProjectDownloadReport.as_view(), name='wardlevelchartreport'),
+    path('councilsubmitted/report/', CouncilSubmittedProjectDownloadReport.as_view(), name='wardlevelthematicchartreport'),
     
     
     

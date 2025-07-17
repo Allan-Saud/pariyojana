@@ -39,6 +39,7 @@ router.register(r'thematic-committee', ThematicCommitteeProgramViewSet, basename
 
 
 
+
 urlpatterns = [
     path('', include(router.urls)),
     path('municipalitylevel-chart/', MunicipalityLevelProgramChart.as_view(), name='municipalitylevelchart'),
