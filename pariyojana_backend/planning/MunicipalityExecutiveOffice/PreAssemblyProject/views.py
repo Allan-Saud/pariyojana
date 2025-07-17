@@ -10,8 +10,10 @@ from planning.MunicipalityExecutiveOffice.PreAssemblyProject.serializers import 
 from django.utils import timezone
 
 class PreAssemblyProjectViewSet(viewsets.ModelViewSet):
-    queryset = PreAssemblyProject.objects.all()
+    # queryset = PreAssemblyProject.objects.all()
     serializer_class = PreAssemblyProjectSerializer
+    def get_queryset(self):
+        return PreAssemblyProject.objects.filter(is_deleted=False)
 
     def _copy_project_to(self, model_class, project):
         """
