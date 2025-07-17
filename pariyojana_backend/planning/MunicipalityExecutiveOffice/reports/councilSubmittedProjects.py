@@ -8,7 +8,7 @@ from planning.MunicipalityExecutiveOffice.CouncilSubmittedProjects.models import
 class CouncilSubmittedProjectChart(APIView):
     def get(self, request):
         # Query all active projects
-        projects = CouncilSubmittedProject.objects.filter(is_deleted=False)
+        projects = CouncilSubmittedProject.objects.all()
 
         # 1. thematic_area__name-wise Budget Distribution
         budget_data = (
