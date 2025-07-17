@@ -11,7 +11,7 @@ class BudgetProgramCommitteeWardLevelProgramViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return BudgetProgramCommitteeWardLevelProgram.objects.filter(is_deleted=False)
 
-    @action(detail=True, methods=['post'], url_path='recommend-to-municipality-executive')
+    @action(detail=True, methods=['post'], url_path='submit-to-executive')
     def recommend_to_municipality_executive(self, request, pk=None):
         try:
             current_project = self.get_object()
