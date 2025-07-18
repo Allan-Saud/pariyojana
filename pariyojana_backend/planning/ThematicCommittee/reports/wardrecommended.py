@@ -62,7 +62,8 @@ from planning.ThematicCommittee.WardRecommendedProjects.models import WardRecomm
 import os
 from django.conf import settings
 from weasyprint import HTML, CSS
-
+import openpyxl
+from openpyxl.styles import Font, Alignment
 
 
 class WardRecommendedProjectsDownloadReport(APIView):

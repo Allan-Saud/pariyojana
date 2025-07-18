@@ -62,7 +62,8 @@ from planning.BudgetProgramcommittee.ThematicCommitteeProgram.models import Them
 import os
 from django.conf import settings
 from weasyprint import HTML, CSS
-
+import openpyxl
+from openpyxl.styles import Font, Alignment
 
 
 class ThematicCommitteeProgramDownloadReport(APIView):

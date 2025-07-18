@@ -63,8 +63,8 @@ from planning.WardOffice.WardLevelProject.models import WardLevelProject
 import os
 from django.conf import settings
 from weasyprint import HTML, CSS
-
-
+import openpyxl
+from openpyxl.styles import Font, Alignment
 
 class WardLevelProjectDownloadReport(APIView):
     def get_queryset(self, request):

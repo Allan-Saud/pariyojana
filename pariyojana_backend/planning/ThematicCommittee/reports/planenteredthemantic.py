@@ -63,7 +63,8 @@ from planning.ThematicCommittee.PlanEnteredByThematicCommittee.models import Pla
 import os
 from django.conf import settings
 from weasyprint import HTML, CSS
-
+import openpyxl
+from openpyxl.styles import Font, Alignment
 
 
 class PlanEnteredByThematicCommitteeDownloadReport(APIView):

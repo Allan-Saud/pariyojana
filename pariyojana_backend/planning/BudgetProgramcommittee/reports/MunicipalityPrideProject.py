@@ -66,7 +66,8 @@ from planning.BudgetProgramcommittee.MunicipalityPrideProject.models import Budg
 import os
 from django.conf import settings
 from weasyprint import HTML, CSS
-
+import openpyxl
+from openpyxl.styles import Font, Alignment
 
 
 class BudgetProgramMunicipalityPrideProgramDownloadReport(APIView):

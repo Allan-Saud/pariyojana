@@ -64,7 +64,8 @@ from planning.MunicipalityExecutiveOffice.CouncilSubmittedProjects.models import
 import os
 from django.conf import settings
 from weasyprint import HTML, CSS
-
+import openpyxl
+from openpyxl.styles import Font, Alignment
 
 
 class CouncilSubmittedProjectDownloadReport(APIView):
