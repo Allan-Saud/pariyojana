@@ -18,7 +18,7 @@ urlpatterns = [
     
     
     path('entered-municipality/report/', SubmittedToBudgetMunicipalityPrideProjectDownloadReport.as_view(), name='enteredmunicipalityreport'),
-    path('submitted-budget/report/', SubmittedToBudgetMunicipalityPrideProjectChart.as_view(), name='submittedtobudgetreport'),
+    path('submitted-budget/report/', SubmittedToBudgetMunicipalityPrideProjectDownloadReport.as_view(), name='submittedtobudgetreport'),
     
     
     

@@ -42,8 +42,8 @@ urlpatterns = [
     path('ward-thematic/report/', WardThematicCommitteeProjectDownloadReport.as_view(), name='ward-thematic-report'),
     path('ward-level/report/', WardLevelProjectDownloadReport.as_view(), name='ward-level-report'),
     path('municipality/report/', MunicipalityLevelProjectDownloadReport.as_view(), name='municipality-report'),
-    path('prioritized-ward-thematic/report/', PrioritizedWardThematicChartData.as_view(), name='prioritized-ward-thematic-report'),
-    path('prioritized-ward/report/', PrioritizedWardLevelChartData.as_view(), name='prioritized-ward-report'),
+    path('prioritized-wardthematic/report/', PrioritizedWardLevelThematicProjectDownloadReport.as_view(), name='prioritized-ward-thematic-report'),
+    path('prioritized-ward/report/', PrioritizedWardLevelProjectDownloadReport.as_view(), name='prioritized-ward-report'),
     
     
     
