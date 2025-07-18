@@ -58,6 +58,8 @@ from projects.views.progress_stage import ProjectProgressViewSet
 from projects.views.Documents.documents import DocumentViewSet
 from projects.views.Cost_Estimate.cost_estimate_detail import generate_bill_pdf
 from projects.views.Installment_Payment.payment_related_details import generate_payment_bill_pdf
+from projects.calculations.views import CostEstimationCalculationViewSet
+
 
 
 
@@ -81,10 +83,11 @@ router.register(r'extended-deadlines', ExtendedDeadlineViewSet, basename='extend
 router.register(r'cost-estimate-revisions', CostEstimateRevisionViewSet, basename='cost-estimate-revision')
 router.register(r'project-progress', ProjectProgressViewSet, basename='project-progress')
 router.register(r'documents', DocumentViewSet, basename='document')
-# router.register(r'first-installment', FirstInstallmentUploadViewSet, basename='first-installment')
+
+
+
 urlpatterns = [
     path('', include(router.urls)),
-
 
     path('consumer-committee/', ConsumerCommitteeListView.as_view(), name='consumer-committee-list'),
     path('consumer-committee/upload/', consumer_committee_upload, name='consumer-committee-upload'),
@@ -376,6 +379,30 @@ path(
         'delete': 'destroy'
     }),
     name='project-payment-details-detail'
+),
+
+
+
+path(
+        '<int:serial_number>/calculate-costestimations/',
+        CostEstimationCalculationViewSet.as_view({'get': 'list', 'post': 'create'}),
+        name='project-cost-estimations'
+    ),
+    path(
+        '<int:serial_number>/calculate-costestimations/<int:pk>/',
+        CostEstimationCalculationViewSet.as_view({
+            'get': 'retrieve',
+            'put': 'update',
+            'patch': 'partial_update',
+            'delete': 'destroy',
+        }),
+        name='project-cost-estimation-detail'
+    ),
+    
+    path(
+    '<int:serial_number>/calculate-costestimations/<int:pk>/formatted/',
+    CostEstimationCalculationViewSet.as_view({'get': 'formatted'}),
+    name='project-cost-estimation-formatted'
 ),
 
 

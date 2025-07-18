@@ -143,7 +143,7 @@ class WardLevelProjectDownloadReport(APIView):
 
         css_path = os.path.join(settings.BASE_DIR, 'static', 'css', 'pdf_styles.css')
         
-        base_url = request.build_absolute_uri('/')  # safer base URL
+        base_url = request.build_absolute_uri('/') 
 
         pdf_file = HTML(string=html_string, base_url=base_url).write_pdf(
             stylesheets=[CSS(filename=css_path)]
