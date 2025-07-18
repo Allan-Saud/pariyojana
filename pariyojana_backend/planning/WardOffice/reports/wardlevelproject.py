@@ -142,11 +142,17 @@ class WardLevelProjectDownloadReport(APIView):
         })
 
         css_path = os.path.join(settings.BASE_DIR, 'static', 'css', 'pdf_styles.css')
+        
+        base_url = request.build_absolute_uri('/')  # safer base URL
 
-        # Generate PDF using WeasyPrint
-        pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(
+        pdf_file = HTML(string=html_string, base_url=base_url).write_pdf(
             stylesheets=[CSS(filename=css_path)]
         )
+
+        # # Generate PDF using WeasyPrint
+        # pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(
+        #     stylesheets=[CSS(filename=css_path)]
+        # )
 
         response = HttpResponse(pdf_file, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="ward_level_report.pdf"'
