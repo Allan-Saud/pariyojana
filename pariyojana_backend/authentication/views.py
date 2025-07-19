@@ -42,6 +42,41 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
+# @api_view(['PATCH'])
+# @permission_classes([IsAuthenticated])
+# def check_document(request, document_id):
+#     try:
+#         doc = MapCostEstimate.objects.get(id=document_id)
+#         if doc.checker != request.user:
+#             return Response(
+#                 {"error": "You are not authorized to check this document"},
+#                 status=status.HTTP_403_FORBIDDEN
+#             )
+        
+#         doc.status = 'checked'
+#         doc.save()
+        
+#         VerificationLog.objects.create(
+#             project=doc.project,
+#             file_title=doc.title,
+#             status='checked',
+#             remarks=request.data.get('remarks', ''),
+#             checker=request.user,
+#             approver=doc.approver,
+#             source_model='MapCostEstimate',
+#             source_id=doc.id,
+#             file_path=doc.file.url if doc.file else ""
+#         )
+        
+#         return Response({"status": "checked"}, status=status.HTTP_200_OK)
+    
+#     except MapCostEstimate.DoesNotExist:
+#         return Response(
+#             {"error": "Document not found"},
+#             status=status.HTTP_404_NOT_FOUND
+#         )
+
+
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 def check_document(request, document_id):
@@ -52,29 +87,39 @@ def check_document(request, document_id):
                 {"error": "You are not authorized to check this document"},
                 status=status.HTTP_403_FORBIDDEN
             )
-        
+
         doc.status = 'checked'
         doc.save()
-        
-        VerificationLog.objects.create(
-            project=doc.project,
-            file_title=doc.title,
-            status='checked',
-            remarks=request.data.get('remarks', ''),
-            checker=request.user,
-            approver=doc.approver,
+
+        log, created = VerificationLog.objects.get_or_create(
             source_model='MapCostEstimate',
             source_id=doc.id,
-            file_path=doc.file.url if doc.file else ""
+            defaults={
+                'project': doc.project,
+                'file_title': doc.title,
+                'file_path': doc.file.url if doc.file else "",
+                'status': 'checked',
+                'remarks': request.data.get('remarks', ''),
+                'checker': request.user,
+                'approver': doc.approver,
+            }
         )
-        
+
+        # If already exists, update status and remarks
+        if not created:
+            log.status = 'checked'
+            log.remarks = request.data.get('remarks', log.remarks)
+            log.checker = request.user
+            log.save()
+
         return Response({"status": "checked"}, status=status.HTTP_200_OK)
-    
+
     except MapCostEstimate.DoesNotExist:
         return Response(
             {"error": "Document not found"},
             status=status.HTTP_404_NOT_FOUND
         )
+
 
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
