@@ -21,8 +21,10 @@ class OfficialDetail(models.Model):
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)  # लिंग
     citizenship_no = models.CharField(max_length=100)  # नागरिकता प्र. नं.
 
-    citizenship_front = models.FileField(upload_to='officials/citizenship/front/')  # अन्य
-    citizenship_back = models.FileField(upload_to='officials/citizenship/back/')    # अन्य
+    # models.py
+
+    citizenship_front = models.FileField(upload_to='officials/citizenship/front/', null=True, blank=True)
+    citizenship_back = models.FileField(upload_to='officials/citizenship/back/', null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -45,7 +45,17 @@ from projects.views.Consumer_Committee.consumer_committee import preview_templat
 from projects.views.Project_Aggrement.project_plan_tracker import preview_project_plan_tracker_template
 from projects.views.Project_Aggrement.project_aggrement_workorder import preview_project_aggrement_workorder_template
 from projects.views.Project_Aggrement.project_aggrement_details import ProjectAgreementDetailsViewSet
-from projects.views.Consumer_Committee.official_detail import OfficialDetailViewSet
+# from projects.views.Consumer_Committee.official_detail import OfficialDetailViewSet
+from projects.views.Consumer_Committee.official_detail import (
+    OfficialDetailListCreateView,
+    OfficialDetailRetrieveUpdateDestroyView,
+    get_official_choices,
+    bulk_create_officials,
+    get_next_serial_number,
+    reorder_officials
+)
+
+
 from projects.views.Operation_Location.operation_location import OperationSitePhotoViewSet
 from projects.views.Installment_Payment.bank_details import BankDetailViewSet
 from projects.views.Installment_Payment.payment_related_details import PaymentRelatedDetailViewSet
@@ -71,7 +81,8 @@ router.register(r'initiation-process', InitiationProcessViewSet)
 router.register(r'program-details', ProgramDetailViewSet, basename='program-detail')
 router.register(r'beneficiaries', BeneficiaryDetailViewSet, basename='beneficiaries')
 router.register(r'consumer-committee-details', ConsumerCommitteeDetailViewSet, basename='consumer-committee-detail')
-router.register(r'official-details', OfficialDetailViewSet, basename='official-detail')
+# router.register(r'official-details', OfficialDetailViewSet, basename='official-detail')
+
 router.register(r'monitoring-committee', MonitoringFacilitationCommitteeViewSet, basename='monitoring-committee')
 router.register(r'cost-estimate-details', CostEstimateDetailViewSet, basename='cost-estimate-details')
 router.register(r'project-agreement-details', ProjectAgreementDetailsViewSet, basename='project-agreement-details')
@@ -90,7 +101,7 @@ router.register(r'documents', DocumentViewSet, basename='document')
 
 urlpatterns = [
     path('', include(router.urls)),
-
+  
     path('consumer-committee/', ConsumerCommitteeListView.as_view(), name='consumer-committee-list'),
     path('consumer-committee/upload/', consumer_committee_upload, name='consumer-committee-upload'),
     path('consumer-committee/generate-pdf/<int:serial_no>/<int:project_id>/', download_consumer_committee_pdf),
@@ -233,23 +244,59 @@ path(
 ),
 
     
-    path(
-        '<int:serial_number>/official-details/',
-        OfficialDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
-        name='official-detail-list'
-    ),
-    # path(
-    #     '<int:serial_number>/official-details/<int:pk>/',
-    #     OfficialDetailViewSet.as_view({'patch': 'partial_update'}),
-    #     name='official-detail-update'
-    # ),
+#     path(
+#         '<int:serial_number>/official-details/',
+#         OfficialDetailViewSet.as_view({'get': 'list', 'post': 'create'}),
+#         name='official-detail-list'
+#     ),
     
-    path(
-    '<int:serial_number>/official-details/bulk-update/',
-    OfficialDetailViewSet.as_view({'patch': 'bulk_update_by_serial'}),
-    name='official-detail-bulk-update-by-serial'
-),
+#     path(
+#     '<int:serial_number>/official-details/bulk-update/',
+#     OfficialDetailViewSet.as_view({'patch': 'bulk_update_by_serial'}),
+#     name='official-detail-bulk-update-by-serial'
+# ),
 
+
+path(
+        '<int:project_id>/officials/', 
+        OfficialDetailListCreateView.as_view(), 
+        name='official-list-create'
+    ),
+    
+    # Get, update, or delete specific official
+    path(
+        '<int:project_id>/officials/<int:pk>/', 
+        OfficialDetailRetrieveUpdateDestroyView.as_view(), 
+        name='official-detail'
+    ),
+    
+    # Get form choices (post types, gender options)
+    path(
+        '<int:project_id>/officials/choices/', 
+        get_official_choices, 
+        name='official-choices'
+    ),
+    
+    # Bulk create officials
+    path(
+        '<int:project_id>/officials/bulk-create/', 
+        bulk_create_officials, 
+        name='official-bulk-create'
+    ),
+    
+    # Get next available serial number
+    path(
+        '<int:project_id>/officials/next-serial/', 
+        get_next_serial_number, 
+        name='official-next-serial'
+    ),
+    
+    # Reorder officials
+    path(
+        '<int:project_id>/officials/reorder/', 
+        reorder_officials, 
+        name='official-reorder'
+    ),
 
     path(
         '<int:serial_number>/documents/',
