@@ -94,7 +94,9 @@ class OfficialDetailViewSet(viewsets.ViewSet):
             serializer = OfficialDetailSerializer(official, data=request.data, partial=True)
         except OfficialDetail.DoesNotExist:
             # Create new if not exists
-            serializer = OfficialDetailSerializer(data={**request.data, 'project': project.id, 'serial_no': serial_no})
+            # serializer = OfficialDetailSerializer(data={**request.data, 'project': project.id, 'serial_no': serial_no})
+            serializer = OfficialDetailSerializer(data={**request.data, 'project': project.serial_number, 'serial_no': serial_no})
+
 
         if serializer.is_valid():
             serializer.save()
