@@ -36,4 +36,4 @@ class VerificationLog(models.Model):
     
     
     def get_status_nepali(self):
-        return STATUS_CHOICES_NEPALI.get(self.status, self.status)
+        return VerificationLog.STATUS_CHOICES_NEPALI.get(self.status, self.status)
