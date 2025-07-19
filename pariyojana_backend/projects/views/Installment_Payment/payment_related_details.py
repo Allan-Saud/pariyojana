@@ -32,7 +32,7 @@ class PaymentRelatedDetailViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         project_id = self.kwargs.get("project_id")
-        return PaymentRelatedDetail.objects.filter(project__serial_number=project_id, is_active=True).order_by('-created_at')
+        return PaymentRelatedDetail.objects.filter(project__serial_number=project_id, is_active=True).order_by('id')
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
