@@ -19,6 +19,12 @@ class VerificationLog(models.Model):
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
     ]
+    STATUS_CHOICES_NEPALI = {
+    'pending': 'विचाराधीन',
+    'checked': 'जाँच गरिएको',
+    'approved': 'स्वीकृत',
+    'rejected': 'अस्वीकृत', 
+}
     status = models.CharField(max_length=100, choices=STATUS_CHOICES)
     
     remarks = models.TextField(blank=True, null=True)
@@ -27,3 +33,7 @@ class VerificationLog(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     source_model = models.CharField(max_length=100) 
     source_id = models.IntegerField()
+    
+    
+    def get_status_nepali(self):
+        return STATUS_CHOICES_NEPALI.get(self.status, self.status)

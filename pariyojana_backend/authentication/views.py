@@ -78,37 +78,89 @@ def check_document(request, document_id):
 
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
+# def approve_document(request, document_id):
+#     try:
+#         doc = MapCostEstimate.objects.get(id=document_id)
+#         if doc.approver != request.user:
+#             return Response(
+#                 {"error": "You are not authorized to approve this document"},
+#                 status=status.HTTP_403_FORBIDDEN
+#             )
+#         if doc.status != 'checked':
+#             return Response(
+#                 {"error": "Document must be checked before approval"},
+#                 status=status.HTTP_400_BAD_REQUEST
+#             )
+        
+#         doc.status = 'approved'
+#         doc.is_verified = True
+#         doc.save()
+        
+#         VerificationLog.objects.create(
+#             project=doc.project,
+#             file_title=doc.title,
+#             status='approved',
+#             remarks=request.data.get('remarks', ''),
+#             approver=request.user,
+#             source_model='MapCostEstimate',
+#             source_id=doc.id,
+#             file_path=doc.file.url if doc.file else ""
+#         )
+        
+#         return Response({"status": "approved"}, status=status.HTTP_200_OK)
+    
+#     except MapCostEstimate.DoesNotExist:
+#         return Response(
+#             {"error": "Document not found"},
+#             status=status.HTTP_404_NOT_FOUND
+#         )
+
 def approve_document(request, document_id):
     try:
         doc = MapCostEstimate.objects.get(id=document_id)
+
         if doc.approver != request.user:
             return Response(
                 {"error": "You are not authorized to approve this document"},
                 status=status.HTTP_403_FORBIDDEN
             )
+
         if doc.status != 'checked':
             return Response(
                 {"error": "Document must be checked before approval"},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
+
         doc.status = 'approved'
         doc.is_verified = True
         doc.save()
-        
-        VerificationLog.objects.create(
-            project=doc.project,
-            file_title=doc.title,
-            status='approved',
-            remarks=request.data.get('remarks', ''),
-            approver=request.user,
+
+        # ✅ Update the existing VerificationLog instead of creating a new one
+        log = VerificationLog.objects.filter(
             source_model='MapCostEstimate',
-            source_id=doc.id,
-            file_path=doc.file.url if doc.file else ""
-        )
-        
+            source_id=doc.id
+        ).first()
+
+        if log:
+            log.status = 'approved'
+            log.remarks = request.data.get('remarks', log.remarks)
+            log.approver = request.user
+            log.save()
+        else:
+            # fallback if log not found (optional)
+            VerificationLog.objects.create(
+                project=doc.project,
+                file_title=doc.title,
+                status='approved',
+                remarks=request.data.get('remarks', ''),
+                approver=request.user,
+                source_model='MapCostEstimate',
+                source_id=doc.id,
+                file_path=doc.file.url if doc.file else ""
+            )
+
         return Response({"status": "approved"}, status=status.HTTP_200_OK)
-    
+
     except MapCostEstimate.DoesNotExist:
         return Response(
             {"error": "Document not found"},
