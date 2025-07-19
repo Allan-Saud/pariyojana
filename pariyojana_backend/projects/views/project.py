@@ -6,7 +6,7 @@ from projects.serializers.project import ProjectSerializer
 from django.utils import timezone
 import tablib
 from rest_framework.decorators import action
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser 
 from projects.resources import ProjectResource
 from django.http import HttpResponse
 from tablib import Dataset
@@ -38,7 +38,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.filter(is_deleted=False)
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]  
+    parser_classes = [MultiPartParser, FormParser, JSONParser] 
 
     def perform_create(self, serializer):
         serializer.save()
@@ -83,7 +83,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({'error': f'Invalid file format: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
 
-        result = resource.import_data(imported_data, dry_run=True)  # Test the import
+        result = resource.import_data(imported_data, dry_run=True)  
 
         if result.has_errors():
             return Response({'error': 'Import errors', 'details': str(result.row_errors())}, status=status.HTTP_400_BAD_REQUEST)
