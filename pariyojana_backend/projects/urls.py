@@ -405,17 +405,33 @@ path(
     name='project-cost-estimation-formatted'
 ),
 
-path(
-        '<int:serial_number>/work-progress/',
-        WorkProgressViewSet.as_view({'get': 'list', 'post': 'create'}),
-        name='project-work-progress'
-    ),
-    path(
-        '<int:serial_number>/work-progress/<int:pk>/',
-        WorkProgressViewSet.as_view({'get': 'retrieve', 'patch': 'update', 'delete': 'destroy'}),
-        name='project-work-progress-detail'
-    ),
+# path(
+#         '<int:serial_number>/work-progress/',
+#         WorkProgressViewSet.as_view({'get': 'list', 'post': 'create'}),
+#         name='project-work-progress'
+#     ),
+#     path(
+#         '<int:serial_number>/work-progress/<int:pk>/',
+#         WorkProgressViewSet.as_view({'get': 'retrieve', 'patch': 'update', 'delete': 'destroy'}),
+#         name='project-work-progress-detail'
+#     ),
     
+    
+    path(
+    '<int:serial_number>/work-progress/work-type/<int:work_type_id>/',
+    WorkProgressViewSet.as_view({'post': 'create'}),
+    name='project-work-progress-create-with-worktype'
+),
+path(
+    '<int:serial_number>/work-progress/',
+    WorkProgressViewSet.as_view({'get': 'list'}),
+    name='project-work-progress'
+),
+path(
+    '<int:serial_number>/work-progress/<int:pk>/',
+    WorkProgressViewSet.as_view({'get': 'retrieve', 'patch': 'update', 'delete': 'destroy'}),
+    name='project-work-progress-detail'
+),
     
     path('<int:serial_number>/work-types/', WorkTypeViewSet.as_view({'get': 'list', 'post': 'create'}), name='project-work-type-list'),
     path('<int:serial_number>/work-types/<int:pk>/', WorkTypeViewSet.as_view({'get': 'retrieve', 'patch': 'update', 'delete': 'destroy'}), name='project-work-type-detail'),
