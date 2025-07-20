@@ -12,10 +12,10 @@ urlpatterns = [
     path('', include(router.urls)),
     path('ward-office/', include('planning.WardOffice.urls')),
     path('budget-committee/', include('planning.BudgetProgramcommittee.urls')),
-    # path('municipality-executive/', include('planning.MunicipalityExecutiveOffice.PreAssemblyProject.urls')),
     path('municipality-executive/', include('planning.MunicipalityExecutiveOffice.urls')),
-    path('municipal-assembly/', include('planning.MunicipalAssembly.SubmittedProjects.urls')),
-    path('municipal-assembly-edit/', include('planning.MunicipalAssembly.ProjectsApprovedByMunicipal.urls')),
+    # path('municipal-assembly/', include('planning.MunicipalAssembly.SubmittedProjects.urls')),
+    # path('municipal-assembly-edit/', include('planning.MunicipalAssembly.ProjectsApprovedByMunicipal.urls')),
+    path('municipal-assembly/', include('planning.MunicipalAssembly.urls')),
     path('thematic/', include('planning.ThematicCommittee.urls')),
     path('budget-committee/', include('planning.BudgetProgramcommittee.ThematicCommitteeProgram.urls')),    
     path('municipality-pride-project/', include('planning.MunicipalityPrideProject.urls'))
