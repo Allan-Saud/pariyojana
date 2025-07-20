@@ -135,6 +135,8 @@ def download_project_plan_tracker_pdf(request, serial_no: int, project_id: int):
         4: "plan_aggrement/serial_4.html",
         5: "plan_aggrement/serial_5.html",
         6: "plan_aggrement/serial_6.html",
+        7: "plan_aggrement/serial_7.html",
+        
     }
 
     if serial_no not in template_map:
