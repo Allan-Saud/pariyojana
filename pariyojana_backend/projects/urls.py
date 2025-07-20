@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from projects.views.project import ProjectViewSet
 from projects.views.Initiation_Process.initiation_process import InitiationProcessViewSet
-from projects.views.Program_Details.program_detail import ProgramDetailViewSet
+from projects.views.Program_Details.program_detail import ProjectRelatedDataView
 from projects.views.Program_Details.beneficiary_details import BeneficiaryDetailViewSet
 from projects.views.Consumer_Committee.consumer_committee_details import ConsumerCommitteeDetailViewSet
 from projects.views.Consumer_Committee.monitoring_facilitation_committee import MonitoringFacilitationCommitteeViewSet
@@ -70,7 +70,7 @@ from projects.workingProgress.worktype_viewset import WorkTypeViewSet
 router = DefaultRouter()
 router.register(r'projects', ProjectViewSet, basename='project')
 router.register(r'initiation-process', InitiationProcessViewSet)
-router.register(r'program-details', ProgramDetailViewSet, basename='program-detail')
+# router.register(r'program-details', ProjectRelatedDataView, basename='program-detail')
 router.register(r'beneficiaries', BeneficiaryDetailViewSet, basename='beneficiaries')
 router.register(r'consumer-committee-details', ConsumerCommitteeDetailViewSet, basename='consumer-committee-detail')
 router.register(r'official-details', OfficialDetailViewSet, basename='official-detail')
@@ -89,11 +89,9 @@ router.register(r'cost-estimate-revisions', CostEstimateRevisionViewSet, basenam
 router.register(r'project-progress', ProjectProgressViewSet, basename='project-progress')
 router.register(r'documents', DocumentViewSet, basename='document')
 
-
-
 urlpatterns = [
     path('', include(router.urls)),
-  
+    path('<int:serial_number>/program-details/', ProjectRelatedDataView.as_view(), name='project-program-details'),
     path('consumer-committee/', ConsumerCommitteeListView.as_view(), name='consumer-committee-list'),
     path('consumer-committee/upload/', consumer_committee_upload, name='consumer-committee-upload'),
     path('consumer-committee/generate-pdf/<int:serial_no>/<int:project_id>/', download_consumer_committee_pdf),
@@ -170,11 +168,11 @@ path(
         name='project-initiation-process'
     ),
 
-    path(
-        '<int:serial_number>/program-details/',
-        ProgramDetailViewSet.as_view({'get': 'list'}),
-        name='project-program-details'
-    ),
+#    path(
+#     '<int:serial_number>/program-details/',
+#     ProjectRelatedDataView.as_view(),
+#     name='project-program-details'
+# ),
 
     path(
     '<int:serial_number>/consumer-committee-details/<int:pk>/',
