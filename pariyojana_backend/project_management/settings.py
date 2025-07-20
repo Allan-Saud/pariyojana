@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "planning",
     'corsheaders',
     'import_export',
+    'notifications'
 
     
 ]

@@ -78,3 +78,29 @@ def create_verification_log_for_cost_estimate(sender, instance, created, **kwarg
                 approver=instance.approver,
                 uploader_role="अपलोड कर्ता"
             )
+
+
+
+
+
+
+
+# projects/signals.py
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from projects.models.project import Project
+from planning.PlanEntry.models import PlanEntry,PROJECT_TYPE_CHOICES
+from notifications.utils import create_notification
+
+@receiver(post_save, sender=Project)
+def project_created_handler(sender, instance, created, **kwargs):
+    if created:
+        message = f"योजना '{instance.project_name}' हालै थपिएको छ। स्थिती: {dict(instance.STATUS_CHOICES).get(instance.status)}"
+        create_notification(message, user=None) 
+
+@receiver(post_save, sender=PlanEntry)
+def plan_created_handler(sender, instance, created, **kwargs):
+    if created:
+        message = f"योजना प्रविष्टि '{instance.plan_name}' हालै थपिएको छ। योजना प्रकार: {dict(PROJECT_TYPE_CHOICES).get(instance.plan_type)}"
+        create_notification(message, user=instance.created_by)
