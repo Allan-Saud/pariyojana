@@ -19,15 +19,15 @@ class OfficialDetailSerializer(serializers.ModelSerializer):
             'citizenship_back': {'required': False, 'allow_null': True},
         }
 
-    def validate(self, data):
-        project = data.get('project') or (self.instance.project if self.instance else None)
-        post = data.get('post') or (self.instance.post if self.instance else None)
+    # def validate(self, data):
+    #     project = data.get('project') or (self.instance.project if self.instance else None)
+    #     post = data.get('post') or (self.instance.post if self.instance else None)
 
-        unique_posts = ['अध्यक्ष', 'सचिव', 'कोषाध्यक्ष']
-        if project and post in unique_posts:
-            existing = OfficialDetail.objects.filter(project=project, post=post)
-            if self.instance:
-                existing = existing.exclude(pk=self.instance.pk)
-            if existing.exists():
-                raise serializers.ValidationError(f"{post} already exists for this project.")
-        return data
+    #     unique_posts = ['अध्यक्ष', 'सचिव', 'कोषाध्यक्ष']
+    #     if project and post in unique_posts:
+    #         existing = OfficialDetail.objects.filter(project=project, post=post)
+    #         if self.instance:
+    #             existing = existing.exclude(pk=self.instance.pk)
+    #         if existing.exists():
+    #             raise serializers.ValidationError(f"{post} already exists for this project.")
+    #     return data
