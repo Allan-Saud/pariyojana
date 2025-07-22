@@ -1,29 +1,4 @@
-# def build_pdf_context(serial_no, project_id):
-#     from projects.models.project import Project
-#     from projects.models.Consumer_Committee.consumer_committee_details import ConsumerCommitteeDetail
-#     from projects.models.Initiation_Process.initiation_process import InitiationProcess
-
-#     try:
-#         project = Project.objects.select_related("fiscal_year", "expenditure_center").get(pk=project_id)
-#     except Project.DoesNotExist:
-#         raise Exception("Project not found.")
-
-#     # Try to get a ConsumerCommitteeDetail manually (assuming one entry per project)
-#     consumer_committee_details = ConsumerCommitteeDetail.objects.first()  # Fallback: fetch latest
-
-#     context = {
-#         "fiscal_year": project.fiscal_year.year if project.fiscal_year else "",
-#         "project_name": project.project_name,
-#         "location": project.location if hasattr(project, "location") else "",
-#         "total_cost": project.budget,
-
-#         "chairman_name": consumer_committee_details.consumer_committee_name if consumer_committee_details else "",
-#         "contact_number": consumer_committee_details.contact_no if consumer_committee_details else "",
-#     }
-
-#     return context
-
-
+import nepali_datetime as ndt
 def build_pdf_context(serial_no, project_id):
     from projects.models.project import Project
     from projects.models.Consumer_Committee.consumer_committee_details import ConsumerCommitteeDetail
@@ -68,12 +43,15 @@ def build_pdf_context(serial_no, project_id):
         "contact_number": consumer_committee_details.contact_no if consumer_committee_details else "",
         
         # Project timeline
-        "agreement_date": project_agreement.agreement_date.strftime("%Y-%m-%d") if project_agreement and project_agreement.agreement_date else "",
-        "start_date": initiation_process.start_date.strftime("%Y-%m-%d") if initiation_process and initiation_process.start_date else "",
-        "completion_date": initiation_process.completion_date.strftime("%Y-%m-%d") if initiation_process and initiation_process.completion_date else "",
-        
-        # Current date
-        "current_date": current_nepali_date,
+        # "agreement_date": project_agreement.agreement_date.strftime("%Y-%m-%d") if project_agreement and project_agreement.agreement_date else "",
+        # "start_date": initiation_process.start_date.strftime("%Y-%m-%d") if initiation_process and initiation_process.start_date else "",
+        # "completion_date": initiation_process.completion_date.strftime("%Y-%m-%d") if initiation_process and initiation_process.completion_date else "",
+        "agreement_date": ndt.date.from_datetime_date(project_agreement.agreement_date).strftime("%K-%n-%D") + " गते" if project_agreement and project_agreement.agreement_date else "",
+        "start_date": ndt.date.from_datetime_date(initiation_process.start_date).strftime("%K-%n-%D") + " गते" if initiation_process and initiation_process.start_date else "",
+        "completion_date": ndt.date.from_datetime_date(initiation_process.completion_date).strftime("%K-%n-%D") + " गते" if initiation_process and initiation_process.completion_date else "",
+        "current_date": ndt.date.today().strftime("%K-%n-%D") + " गते",
+        # # Current date
+        # "current_date": current_nepali_date,
         
         # Execution method (you may need to get this from your model)
         "execution_method": "उपभोक्ता समितिद्वारा सम्पादन",

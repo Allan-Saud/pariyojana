@@ -12,6 +12,8 @@ from projects.constants import CONSUMER_COMMITTEE_TITLES
 from rest_framework.permissions import AllowAny
 from weasyprint import HTML
 from django.template.loader import render_to_string
+import nepali_datetime as ndt
+
 
 
 from django.template.loader import get_template
@@ -38,13 +40,16 @@ def build_pdf_context(serial_no, project_serial_number):
             "location": project.location or "-",
             "total_cost": f"{project.budget} रू",  # fallback using budget
             "budget_title": project.source.name if project.source else "-",
-            "agreement_date": project.created_at.date() if project.created_at else "-",
+            # "agreement_date": project.created_at.date() if project.created_at else "-",
             "execution_date": "-",
-            "completion_date": project.updated_at.date() if project.updated_at else "-",
+            # "completion_date": project.updated_at.date() if project.updated_at else "-",
             "expense_date": "-",
             "payment_date": "-",
             "chairman_name": committee.representative_name if committee else "-",
             "contact_number": committee.contact_no if committee else "-",
+            "agreement_date": ndt.date.from_datetime_date(project.created_at.date()).strftime("%K-%n-%D गते") if project.created_at else "-",
+            "completion_date": ndt.date.from_datetime_date(project.updated_at.date()).strftime("%K-%n-%D गते") if project.updated_at else "-",
+
         })
 
         # Extra for serial 4
