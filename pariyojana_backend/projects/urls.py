@@ -63,7 +63,8 @@ from projects.views.Installment_Payment.payment_related_details import generate_
 from projects.calculations.views import CostEstimationCalculationViewSet
 from projects.workingProgress.views import WorkProgressViewSet
 from projects.workingProgress.worktype_viewset import WorkTypeViewSet
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 
@@ -438,7 +439,7 @@ path(
 
     
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 

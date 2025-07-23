@@ -1,143 +1,336 @@
 <!DOCTYPE html>
 <html lang="ne">
+{% load static %}
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>सरकारी ज्ञापनपत्र - बर्दगोरिया गाउँपालिका</title>
     <style>
         @page {
-            size: A4;
-            margin: 2.5cm;
-        }
+    size: A4;
+    margin: 1.5cm;
+}
 
-        body {
-            font-family: Kalimati, 'Noto Sans Devanagari', Devanagari, sans-serif;
-            font-size: 14px;
-            line-height: 1.8;
-            margin: 0;
-        }
+body {
+    font-family: Kalimati, 'Noto Sans Devanagari', Devanagari, sans-serif;
+    font-size: 12px;
+    line-height: 1.4;
+    margin: 0;
+    padding: 10px;
+    background: white;
+}
 
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.memorandum-header {
+    text-align: center;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
 
-        .logo {
-            max-width: 80px;
-            height: auto;
-        }
+.govt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
 
-        .header-text {
-            flex: 1;
-            text-align: center;
-            color: red;
-        }
+.logo {
+    max-width: 60px;
+    height: auto;
+}
 
-        .header-text h2, .header-text h3 {
-            margin: 0;
-        }
+.header-text {
+    flex: 1;
+    text-align: center;
+    color: #d32f2f;
+}
 
-        .address {
-            text-align: center;
-            margin-top: 4px;
-            margin-bottom: 30px;
-        }
+.header-text h1 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
 
-        .section-title {
-            text-align: center;
-            font-weight: bold;
-            font-size: 16px;
-            margin-top: 20px;
-        }
+.header-text h2 {
+    margin: 2px 0 0 0;
+    font-size: 13px;
+    font-weight: normal;
+}
 
-        .subtitle {
-            text-align: center;
-            margin-top: 5px;
-            font-style: italic;
-        }
+.address {
+    text-align: center;
+    margin: 5px 0;
+    font-size: 11px;
+}
 
-        .fiscal-year {
-            text-align: center;
-            font-weight: bold;
-            margin-top: 10px;
-        }
+.memo-title {
+    background: #f5f5f5;
+    padding: 8px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+}
 
-        .field {
-            margin-left: 40px;
-            margin-top: 8px;
-        }
+.memo-details {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    font-size: 10px;
+}
 
-        .quote {
-            margin-top: 40px;
-            text-align: center;
-            font-style: italic;
-        }
+.subject-line {
+    margin: 10px 0;
+    padding: 6px;
+    background: #f9f9f9;
+    border-left: 4px solid #d32f2f;
+}
 
-        .bold {
-            font-weight: bold;
-        }
+.content-section {
+    margin: 15px 0;
+}
 
-        hr {
-            border: 1px solid #999;
-            margin: 20px 0;
-        }
+.subtitle {
+    text-align: center;
+    margin: 8px 0;
+    font-style: italic;
+    font-size: 11px;
+    color: #666;
+}
 
-        @media print {
-            body {
-                -webkit-print-color-adjust: exact;
-            }
-        }
+.fiscal-year {
+    text-align: center;
+    font-weight: bold;
+    margin: 8px 0;
+    font-size: 13px;
+    color: #d32f2f;
+}
+
+.project-details {
+    margin: 15px 0;
+    background: #fafafa;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+}
+
+.project-details h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #d32f2f;
+    font-size: 13px;
+}
+
+.field {
+    margin: 6px 0;
+    padding: 3px 0;
+    border-bottom: 1px dotted #ccc;
+    font-size: 11px;
+}
+
+.field:last-child {
+    border-bottom: none;
+}
+
+.field-label {
+    font-weight: bold;
+    display: inline-block;
+    min-width: 180px;
+}
+
+.field-value {
+    color: #333;
+}
+
+.quotes-section {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f0f8ff;
+    border: 1px solid #b3d9ff;
+}
+
+.quote {
+    text-align: center;
+    font-style: italic;
+    margin: 8px 0;
+    padding: 5px;
+}
+
+.quote.primary {
+    font-weight: bold;
+    font-size: 12px;
+    color: #d32f2f;
+}
+
+.quote.secondary {
+    font-size: 10px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.signature-section {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.signature-box {
+    text-align: center;
+    width: 150px;
+}
+
+.signature-line {
+    border-top: 1px solid #333;
+    margin-top: 30px;
+    padding-top: 3px;
+    font-size: 10px;
+}
+
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        padding: 0;
+    }
+    
+    .memorandum-header {
+        page-break-after: avoid;
+    }
+}
     </style>
 </head>
 <body>
-
-    {% load static %}
-    <div class="header-container">
-        <div>
-            <img src="{% static 'images/nepal-govt.png' %}" alt="गाउँपालिका लोगो" class="logo">
+    <div class="memorandum-header">
+        <div class="govt-header">
+            <div>
+    <img src="{% static 'images/nepal-govt.png' %}" alt="गाउँपालिका लोगो" class="logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+    <div class="logo-fallback" style="display: none; width: 60px; height: 60px; background: #d32f2f; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; text-align: center; flex-direction: column;">
+        <span>नेपाल</span>
+        <span>सरकार</span>
+    </div>
+</div>
+            <div class="header-text">
+                <h1>बर्दगोरिया गाउँपालिका</h1>
+                <h2>गाउँ कार्यपालिकाको कार्यालय</h2>
+            </div>
+            <div style="width: 80px;"></div>
         </div>
-        <div class="header-text">
-            <h2>बर्दगोरिया गाउँपालिका</h2>
-            <h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
+        
+        <div class="address">
+            <p>मूडा, कैलाली</p>
+            <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
         </div>
-        <div style="width: 80px;"></div> 
     </div>
 
-    <div class="address">
-        <p>मूडा, कैलाली</p>
-        <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+    <div class="memo-title">
+        ज्ञापनपत्र (MEMORANDUM)
     </div>
 
-    <hr>
-
-    <div class="section-title">योजना संचालन/सम्झौता पुस्तिका</div>
-
-    <div class="subtitle">
-        उपभोक्ता समिति गठन पंजीकरण तथा व्यवस्थापन कार्यविधि, २०७६ को दफा ७ (१) अनुसूची-२ बमोजिम संरचित
+    <div class="memo-details">
+        <div class="memo-ref">
+            <strong>सं.:</strong> बगा/योसं/२०८१-८२/___<br>
+            <strong>मिति:</strong> २०८१/___/___
+        </div>
+        <div class="memo-date">
+            <strong>Date:</strong> ___________<br>
+            <strong>Ref. No.:</strong> BGA/PS/2081-82/___
+        </div>
     </div>
 
-    <div class="fiscal-year">आ.ब. 2081/82</div>
-
-    <div class="section">
-        <div class="field">१. योजनाको नाम :- {{ project_name }}</div>
-        <div class="field">२. योजना संचालन हुने स्थान :- {{ location }}</div>
-        <div class="field">३. योजनाको कुल लागत :- {{ total_cost }}</div>
-        <div class="field">४. बजेट शिर्षक :- {{ budget_title }}</div>
-        <div class="field">५. योजना सम्झौता मिति :- {{ agreement_date }}</div>
-        <div class="field">६. कार्यान्वयन मिति :- {{ execution_date|default:"-" }}</div>
-        <div class="field">७. योजना सम्पन्न गर्नु पर्ने मिति :- {{ completion_date }}</div>
-        <div class="field">८. व्यय भए भएको मिति :- {{ expense_date|default:"-" }}</div>
-        <div class="field">९. भुक्तानी भएको मिति :- {{ payment_date|default:"-" }}</div>
-        <div class="field">१०. उपभोक्ता समितिको अध्यक्षको नाम :- {{ chairman_name }}</div>
-        <div class="field">११. सम्पर्क नं :- {{ contact_number }}</div>
+    <div class="subject-line">
+        <strong>विषय:</strong> योजना संचालन/सम्झौता पुस्तिका सम्बन्धमा।
     </div>
 
-    <div class="quote bold">
-        "योजना/कार्यक्रमलाई वातावरण मैत्री बनाऔं"
+    <div class="content-section">
+        <div class="subtitle">
+            उपभोक्ता समिति गठन पंजीकरण तथा व्यवस्थापन कार्यविधि, २०७६ को दफा ७ (१) अनुसूची-२ बमोजिम संरचित
+        </div>
+        
+        <div class="fiscal-year">आर्थिक वर्ष २०८१/८२</div>
+
+        <div class="project-details">
+            <h3 style="text-align: center; margin-bottom: 20px; color: #d32f2f;">योजना विवरण</h3>
+            
+            <div class="field">
+                <span class="field-label">१. योजनाको नाम:</span>
+                <span class="field-value">{{ project_name }}</span>
+            </div>
+            
+            <div class="field">
+                <span class="field-label">२. योजना संचालन हुने स्थान:</span>
+                <span class="field-value">{{ location }}</span>
+            </div>
+            
+            <div class="field">
+                <span class="field-label">३. योजनाको कुल लागत:</span>
+                <span class="field-value">{{ total_cost }}</span>
+            </div>
+            
+            <div class="field">
+                <span class="field-label">४. बजेट शिर्षक:</span>
+                <span class="field-value">{{ budget_title }}</span>
+            </div>
+            
+            <div class="field">
+                <span class="field-label">५. योजना सम्झौता मिति:</span>
+                <span class="field-value">{{ agreement_date }}</span>
+            </div>
+            
+            <div class="field">
+                <span class="field-label">६. कार्यान्वयन मिति:</span>
+                <span class="field-value">{{ execution_date|default:"-" }}</span>
+            </div>
+            
+            <div class="field">
+                <span class="field-label">७. योजना सम्पन्न गर्नु पर्ने मिति:</span>
+                <span class="field-value">{{ completion_date }}</span>
+            </div>
+            
+            <div class="field">
+                <span class="field-label">८. व्यय भएको मिति:</span>
+                <span class="field-value">{{ expense_date|default:"-" }}</span>
+            </div>
+            
+            <div class="field">
+                <span class="field-label">९. भुक्तानी भएको मिति:</span>
+                <span class="field-value">{{ payment_date|default:"-" }}</span>
+            </div>
+            
+            <div class="field">
+                <span class="field-label">१०. उपभोक्ता समितिको अध्यक्षको नाम:</span>
+                <span class="field-value">{{ chairman_name }}</span>
+            </div>
+            
+            <div class="field">
+                <span class="field-label">११. सम्पर्क नम्बर:</span>
+                <span class="field-value">{{ contact_number }}</span>
+            </div>
+        </div>
     </div>
 
-    <div class="quote">
-        "लगायत अनुमोदन म योजना/कार्यक्रम सम्बन्धी दस्तावेजका आधारमा मने खर्च र मुल्यांकनका आधारमा भुक्तानी हुने भइसकेको स्वीकृति लगात अनुमोदन र सम्झौता भएपछी मात्र योजना/कार्यक्रम सम्पन्न गरौं"
+    <div class="quotes-section">
+        <div class="quote primary">
+            "योजना/कार्यक्रमलाई वातावरण मैत्री बनाऔं"
+        </div>
+        
+        <div class="quote secondary">
+            "लगायत अनुमोदन म योजना/कार्यक्रम सम्बन्धी दस्तावेजका आधारमा मने खर्च र मुल्यांकनका आधारमा भुक्तानी हुने भइसकेको स्वीकृति लगात अनुमोदन र सम्झौता भएपछी मात्र योजना/कार्यक्रम सम्पन्न गरौं"
+        </div>
     </div>
 
+    <div class="signature-section">
+        <div class="signature-box">
+            <div class="signature-line">
+                योजना अधिकृत<br>
+                <small>Project Officer</small>
+            </div>
+        </div>
+        
+        <div class="signature-box">
+            <div class="signature-line">
+                गाउँ कार्यपालिकाका प्रमुख<br>
+                <small>Rural Municipality Chief</small>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
