@@ -10,28 +10,8 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from projects.resources import ProjectResource
 from django.http import HttpResponse
 from tablib import Dataset
-
-# class ProjectViewSet(viewsets.ModelViewSet):
-#     queryset = Project.objects.filter(is_deleted=False)
-#     serializer_class = ProjectSerializer
-#     permission_classes = [IsAuthenticated]
-
-#     def perform_create(self, serializer):
-#         serializer.save()
-
-#     def perform_update(self, serializer):
-#         serializer.save()
-
-#     def destroy(self, request, *args, **kwargs):
-#         instance = self.get_object()
-#         instance.is_deleted = True
-#         instance.is_active = False
-#         instance.deleted_at = timezone.now()
-#         instance.deleted_by = request.user
-#         instance.save()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
-    
-
+from rest_framework.permissions import IsAuthenticated
+from users.permissions import IsAdminOrReadOnly
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -39,6 +19,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser, JSONParser] 
+    permission_classes = [IsAdminOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save()

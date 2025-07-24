@@ -6,32 +6,14 @@ from projects.serializers.Initiation_Process.initiation_process import Initiatio
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import status
-
-# class InitiationProcessViewSet(viewsets.ModelViewSet):
-#     queryset = InitiationProcess.objects.all()
-#     serializer_class = InitiationProcessSerializer
-
-#     def get_queryset(self):
-#         queryset = super().get_queryset()
-
-#         # For nested route like /projects/<serial_number>/initiation-process/
-#         serial_number = self.kwargs.get('serial_number')
-#         if serial_number:
-#             queryset = queryset.filter(project__serial_number=serial_number)
-
-#         # For query param ?project_id=6
-#         query_param = self.request.query_params.get('project_id')
-#         if query_param:
-#             queryset = queryset.filter(project__serial_number=query_param)
-
-#         return queryset
-
-from projects.models.project import Project  # import your project model
+from projects.models.project import Project  
 from rest_framework import serializers
+
 class InitiationProcessViewSet(viewsets.ModelViewSet):
     queryset = InitiationProcess.objects.all()
     serializer_class = InitiationProcessSerializer
-
+  
+  
     def get_queryset(self):
         queryset = super().get_queryset()
 

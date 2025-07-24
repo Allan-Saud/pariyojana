@@ -9,7 +9,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework.exceptions import PermissionDenied
 # Custom JWT Serializer
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -55,13 +55,30 @@ class ForgotPasswordView(APIView):
 class ResetPasswordView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    def post(self, request, user_id=None):
         user = request.user
         new_password = request.data.get('new_password')
+
         if not new_password:
             return Response({'detail': 'New password is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        user.set_password(new_password)
-        user.save()
+        # Debug print
+        print(f"User role: {user.role}, is_staff: {user.is_staff}, is_superuser: {user.is_superuser}")
 
-        return Response({'detail': 'Password has been reset successfully.'}, status=status.HTTP_200_OK)
+        if user_id is None:
+            target_user = user
+        else:
+            # Case-insensitive role check + staff/superuser
+            if not (user.role.lower() in ['admin', 'superadmin'] or user.is_staff or user.is_superuser):
+                raise PermissionDenied('You are not allowed to reset other user passwords.')
+            try:
+                target_user = User.objects.get(id=user_id, is_deleted=False)
+            except User.DoesNotExist:
+                return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = UserSerializer(target_user, data={'password': new_password}, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'detail': 'Password has been reset successfully.'}, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

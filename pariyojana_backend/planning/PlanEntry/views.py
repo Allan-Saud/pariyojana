@@ -8,12 +8,15 @@ from planning.WardOffice.WardThematicCommitteeProjects.models import WardThemati
 from planning.MunicipalityPrideProject.models import MunicipalityPrideProject
 from planning.BudgetProgramcommittee.ProvinciallyTransferredProgram.models import ProvinciallytransferredProgram
 from planning.BudgetProgramcommittee.FederalGovernmentProject.models import BudgetProgramFederalGovernmentProgram
+from rest_framework.permissions import IsAuthenticated
+from users.permissions import IsAdminOrReadOnly  # your custom permission
 
 
 class PlanEntryViewSet(viewsets.ModelViewSet):
     queryset = PlanEntry.objects.all()
     serializer_class = PlanEntrySerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAdminOrReadOnly]
 
     def perform_create(self, serializer):
         plan = serializer.save(created_by=self.request.user)
