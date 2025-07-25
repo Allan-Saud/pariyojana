@@ -18,3 +18,17 @@ class WardLevelProjectSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'priority_no': {'required': False}
         }
+        
+        
+from rest_framework import serializers
+from .models import WardLevelProject
+from planning.PlanEntry.models import PlanEntry
+from planning.PlanEntry.serializers import PlanEntrySerializer  # 👈 import it
+
+class WardLevelProjectSerializer(serializers.ModelSerializer):
+    plan_entry = PlanEntrySerializer(read_only=True)  # 👈 nested serializer
+
+    class Meta:
+        model = WardLevelProject
+        fields = '__all__'
+

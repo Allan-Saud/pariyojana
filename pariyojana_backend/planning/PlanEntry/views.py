@@ -21,8 +21,20 @@ class PlanEntryViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         plan = serializer.save(created_by=self.request.user)
 
+        # if plan.plan_type == "ward_level":
+        #     WardLevelProject.objects.create(
+        #         plan_name=plan.plan_name,
+        #         thematic_area=plan.thematic_area,
+        #         sub_area=plan.sub_area,
+        #         source=plan.source,
+        #         expenditure_center=plan.expenditure_center,
+        #         budget=plan.proposed_amount,
+        #         ward_no=plan.ward_no,
+        #         status="प्रविष्टी भएको वडा स्तरीय परियोजना"
+        #     )
         if plan.plan_type == "ward_level":
             WardLevelProject.objects.create(
+                plan_entry=plan,  
                 plan_name=plan.plan_name,
                 thematic_area=plan.thematic_area,
                 sub_area=plan.sub_area,
@@ -30,11 +42,13 @@ class PlanEntryViewSet(viewsets.ModelViewSet):
                 expenditure_center=plan.expenditure_center,
                 budget=plan.proposed_amount,
                 ward_no=plan.ward_no,
-                status="प्रविष्टी भएको वडा स्तरीय परियोजना"
+                status="प्रविष्टी भएको वडा स्तरीय परियोजना",
+                remarks=plan.remarks
             )
 
         elif plan.plan_type == "municipality_level":
             MunicipalityLevelProject.objects.create(
+                plan_entry=plan,  
                 plan_name=plan.plan_name,
                 thematic_area=plan.thematic_area,
                 sub_area=plan.sub_area,
@@ -42,7 +56,8 @@ class PlanEntryViewSet(viewsets.ModelViewSet):
                 expenditure_center=plan.expenditure_center,
                 budget=plan.proposed_amount,
                 ward_no=plan.ward_no,
-                status="प्रविष्टी भएको नगर स्तरीय परियोजना"
+                status="प्रविष्टी भएको नगर स्तरीय परियोजना",
+                remarks=plan.remarks
             )
         elif plan.plan_type == "thematic_committee":
             # Auto-generate priority number (queue-like increment)
@@ -50,6 +65,7 @@ class PlanEntryViewSet(viewsets.ModelViewSet):
             next_priority = (latest.priority_no + 1) if latest and latest.priority_no else 1
 
             PlanEnteredByThematicCommittee.objects.create(
+                plan_entry=plan,  
                 plan_name=plan.plan_name,
                 thematic_area=plan.thematic_area,
                 sub_area=plan.sub_area,
@@ -67,6 +83,7 @@ class PlanEntryViewSet(viewsets.ModelViewSet):
             next_priority = (latest.priority_no + 1) if latest and latest.priority_no else 1
 
             WardThematicCommitteeProject.objects.create(
+                plan_entry=plan,  
                 plan_name=plan.plan_name,
                 thematic_area=plan.thematic_area,
                 sub_area=plan.sub_area,
@@ -81,6 +98,7 @@ class PlanEntryViewSet(viewsets.ModelViewSet):
             
         elif plan.plan_type == "pride_project":
             MunicipalityPrideProject.objects.create(
+                plan_entry=plan,  
                 plan_name=plan.plan_name,
                 thematic_area=plan.thematic_area,
                 sub_area=plan.sub_area,
@@ -94,6 +112,7 @@ class PlanEntryViewSet(viewsets.ModelViewSet):
         
         elif plan.plan_type == "provincial":
          ProvinciallytransferredProgram.objects.create(
+            plan_entry=plan,  
             plan_name=plan.plan_name,
             thematic_area=plan.thematic_area,
             sub_area=plan.sub_area,
@@ -107,6 +126,7 @@ class PlanEntryViewSet(viewsets.ModelViewSet):
         
         elif plan.plan_type == "federal":
             BudgetProgramFederalGovernmentProgram.objects.create(
+                plan_entry=plan,  
                 plan_name=plan.plan_name,
                 thematic_area=plan.thematic_area,
                 sub_area=plan.sub_area,

@@ -3,8 +3,9 @@ from project_settings.models.thematic_area import ThematicArea
 from project_settings.models.sub_thematic_area import SubArea
 from project_settings.models.source import Source
 from project_settings.models.expenditure_center import ExpenditureCenter
-
+from planning.PlanEntry.models import PlanEntry
 class PlanEnteredByThematicCommittee(models.Model):
+    plan_entry = models.ForeignKey(PlanEntry, on_delete=models.CASCADE, related_name="thematic_projects",null=True,blank=True)
     plan_name = models.CharField(max_length=255)
     thematic_area = models.ForeignKey(ThematicArea, on_delete=models.PROTECT)
     sub_area = models.ForeignKey(SubArea, on_delete=models.PROTECT)

@@ -3,8 +3,7 @@ from .models import BudgetProgramMunicipalityPrideProgram
 from project_settings.models.thematic_area import ThematicArea
 from project_settings.models.sub_thematic_area import SubArea
 from project_settings.models.source import Source
-from project_settings.models.expenditure_center import ExpenditureCenter   
-     
+from project_settings.models.expenditure_center import ExpenditureCenter      
 
 class BudgetProgramMunicipalityPrideProgramSerializer(serializers.ModelSerializer):
     thematic_area = serializers.SlugRelatedField(slug_field='name', queryset=ThematicArea.objects.all())

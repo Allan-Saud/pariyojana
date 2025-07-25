@@ -3,8 +3,9 @@ from project_settings.models.thematic_area import ThematicArea
 from project_settings.models.sub_thematic_area import SubArea
 from project_settings.models.expenditure_center import ExpenditureCenter
 from project_settings.models.source import Source
-
+from planning.PlanEntry.models import PlanEntry
 class ProvinciallytransferredProgram(models.Model):
+    plan_entry = models.ForeignKey(PlanEntry, on_delete=models.CASCADE, related_name="province_projects",blank=True,null=True)
     plan_name = models.CharField(max_length=255, verbose_name="योजना तथा कार्यक्रम")
     thematic_area = models.ForeignKey(ThematicArea, on_delete=models.PROTECT, verbose_name="क्षेत्र")
     sub_area = models.ForeignKey(SubArea, on_delete=models.PROTECT, verbose_name="उप-क्षेत्र")

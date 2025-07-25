@@ -5,7 +5,7 @@ from project_settings.models.thematic_area import ThematicArea
 from project_settings.models.sub_thematic_area import SubArea
 from project_settings.models.expenditure_center import ExpenditureCenter
 from project_settings.models.source import Source
-
+from planning.PlanEntry.models import PlanEntry
 class BudgetProgramMunicipalityPrideProgram(models.Model):
     plan_name = models.CharField(max_length=255)
     thematic_area = models.ForeignKey(ThematicArea, on_delete=models.PROTECT)
