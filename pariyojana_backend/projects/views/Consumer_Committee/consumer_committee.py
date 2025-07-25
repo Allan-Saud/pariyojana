@@ -13,7 +13,9 @@ from rest_framework.permissions import AllowAny
 from weasyprint import HTML
 from django.template.loader import render_to_string
 import nepali_datetime as ndt
-
+from django.templatetags.static import static
+from django.conf import settings
+import os
 
 
 from django.template.loader import get_template
@@ -33,7 +35,10 @@ def build_pdf_context(serial_no, project_serial_number):
 
         # Try to fetch committee details if available
         committee = ConsumerCommitteeDetail.objects.filter(project=project, is_active=True).first()
-
+        image_relative_path = 'images/nepal-govt.png'
+        image_absolute_path = os.path.join(settings.BASE_DIR, 'static', image_relative_path)
+        image_uri = f'file://{image_absolute_path}'
+        
         context.update({
             "project_name": project.project_name,
             "fiscal_year": project.fiscal_year if project.fiscal_year else "",
@@ -49,6 +54,7 @@ def build_pdf_context(serial_no, project_serial_number):
             "contact_number": committee.contact_no if committee else "-",
             "agreement_date": ndt.date.from_datetime_date(project.created_at.date()).strftime("%K-%n-%D गते") if project.created_at else "-",
             "completion_date": ndt.date.from_datetime_date(project.updated_at.date()).strftime("%K-%n-%D गते") if project.updated_at else "-",
+            "gov_logo": image_uri,
 
         })
 
@@ -174,33 +180,6 @@ def consumer_committee_upload(request):
         defaults={'file': file, 'remarks': remarks}
     )
     return Response({"detail": "File uploaded successfully."})
-
-
-# @api_view(['GET'])
-# @permission_classes([AllowAny])
-# def download_consumer_committee_pdf(request, serial_no: int, project_id: int):
-#     if not 1 <= serial_no <= 6:
-#         raise Http404("Template not available.")
-
-#     template_map = {
-#         1: "serial_1.html",
-#         2: "serial_2.html",
-#         3: "serial_3.html",
-#         4: "serial_4.html",
-#         5: "serial_5.html",
-#         6: "serial_6.html",
-#         7:"serial_7.html"
-#     }
-
-#     context = build_pdf_context(serial_no, project_id)
-#     content, filename = render_pdf(template_map[serial_no], context, f"serial_{serial_no}_project_{project_id}.pdf")
-
-#     if content is None:
-#         raise Http404("PDF rendering failed.")
-
-#     return HttpResponse(content, content_type='application/pdf', headers={
-#         'Content-Disposition': f'attachment; filename="{filename}"',
-#     })
 
 
 @api_view(['GET'])

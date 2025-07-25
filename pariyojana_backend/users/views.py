@@ -17,8 +17,12 @@ class UserViewSet(viewsets.ModelViewSet):
         
     def get_queryset(self):
         user = self.request.user
-        if user.is_staff or user.is_superuser:
-            # Admin/superuser sees all users
+        is_admin_role = getattr(user, 'role', '').lower() == 'admin'
+        
+        if user.is_superuser or is_admin_role:
+            # Superuser or role=admin gets full access
             return User.objects.filter(is_deleted=False)
-        # Normal users see only their own user record
+
+        # Other users can only see themselves
         return User.objects.filter(id=user.id, is_deleted=False)
+

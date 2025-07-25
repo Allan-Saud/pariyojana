@@ -87,7 +87,7 @@ def project_agreement_workorder_upload(request):
 #         'Content-Disposition': f'attachment; filename="{filename}"',
 #     })
 
-
+from django.conf import settings
 @api_view(['GET'])
 def download_project_agreement_workorder_pdf(request, serial_no: int, project_id: int):
     if serial_no not in [1, 2, 3, 4]:
@@ -103,7 +103,8 @@ def download_project_agreement_workorder_pdf(request, serial_no: int, project_id
     context = build_pdf_context(serial_no, project_id)
 
     html_string = render_to_string(template_map[serial_no], context)
-    pdf_file = HTML(string=html_string).write_pdf()
+    # pdf_file = HTML(string=html_string).write_pdf()
+    pdf_file = HTML(string=html_string, base_url=settings.STATIC_ROOT).write_pdf()
 
     filename = f"serial_{serial_no}_project_{project_id}.pdf"
 

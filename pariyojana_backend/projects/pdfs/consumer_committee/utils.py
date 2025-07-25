@@ -1,4 +1,7 @@
 import nepali_datetime as ndt
+from django.conf import settings
+import os
+
 def build_pdf_context(serial_no, project_id):
     from projects.models.project import Project
     from projects.models.Consumer_Committee.consumer_committee_details import ConsumerCommitteeDetail
@@ -27,6 +30,10 @@ def build_pdf_context(serial_no, project_id):
 
     # Nepali date conversion (you may need to implement this properly)
     current_nepali_date = "२०८० साल असोज १५ गते"  # Placeholder - implement Nepali date conversion
+        # Add image file path to context for WeasyPrint
+    image_relative_path = 'images/nepal-govt.png'
+    image_absolute_path = os.path.join(settings.BASE_DIR, 'static', image_relative_path)
+    context['gov_logo'] = f'file://{image_absolute_path}'
 
     context = {
         "fiscal_year": project.fiscal_year.year if project.fiscal_year else "",

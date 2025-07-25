@@ -5,6 +5,8 @@ from projects.models.Consumer_Committee.official_detail import OfficialDetail
 from projects.models.Consumer_Committee.monitoring_facilitation_committee import MonitoringFacilitationCommitteeMember
 from datetime import date
 from projects.models.Consumer_Committee.consumer_committee_details import ConsumerCommitteeDetail
+from django.conf import settings
+import os
 
 def build_pdf_context(serial_no: int, project_serial_number: int):
     try:
@@ -14,7 +16,7 @@ def build_pdf_context(serial_no: int, project_serial_number: int):
 
     if serial_no == 1:
         officials = OfficialDetail.objects.filter(project=project).order_by("serial_no")
-
+        
         attendance_rows = []
         for official in officials:
             attendance_rows.append({
@@ -22,10 +24,11 @@ def build_pdf_context(serial_no: int, project_serial_number: int):
                 "name": f"श्री {official.full_name}",
                 "signature": "",
             })
-
+        logo_path = os.path.join(settings.BASE_DIR, 'static', 'images', 'nepal-govt.png')
         context = {
-            "city": "ललितपुर महानगरपालिका",
-            "office": "नगर कार्यपालिकाको कार्यालय",
+            # "city": "ललितपुर महानगरपालिका",
+            # "office": "नगर कार्यपालिकाको कार्यालय",
+            'logo_path': f'file://{logo_path}',
             "meeting_date": "20...... साल....महिना......",
             "meeting_location": "पुल्चोक, ललितपुर बागमती प्रदेश, नेपाल",
             "chairperson_name": officials.filter(post="अध्यक्ष").first().full_name if officials.filter(post="अध्यक्ष").exists() else "........",
