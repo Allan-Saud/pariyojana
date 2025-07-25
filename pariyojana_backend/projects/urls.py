@@ -9,7 +9,7 @@ from projects.views.Consumer_Committee.monitoring_facilitation_committee import 
 from projects.views.Cost_Estimate.cost_estimate_detail import CostEstimateDetailViewSet
 from projects.views.Consumer_Committee.consumer_committee import (
     ConsumerCommitteeListView,
-    consumer_committee_upload,
+    # consumer_committee_upload,
     download_consumer_committee_pdf,
 )
 from projects.views.Project_Aggrement.project_plan_tracker import (
@@ -46,7 +46,7 @@ from projects.views.Project_Aggrement.project_plan_tracker import preview_projec
 from projects.views.Project_Aggrement.project_aggrement_workorder import preview_project_aggrement_workorder_template
 from projects.views.Project_Aggrement.project_aggrement_details import ProjectAgreementDetailsViewSet
 from projects.views.Consumer_Committee.official_detail import OfficialDetailViewSet
-
+from projects.views.Consumer_Committee.consumer_committee import consumer_committee_upload
 
 from projects.views.Operation_Location.operation_location import OperationSitePhotoViewSet
 from projects.views.Installment_Payment.bank_details import BankDetailViewSet
@@ -94,7 +94,9 @@ urlpatterns = [
     path('', include(router.urls)),
     path('<int:serial_number>/program-details/', ProjectRelatedDataView.as_view(), name='project-program-details'),
     path('consumer-committee/', ConsumerCommitteeListView.as_view(), name='consumer-committee-list'),
-    path('consumer-committee/upload/', consumer_committee_upload, name='consumer-committee-upload'),
+    # path('consumer-committee/upload/', consumer_committee_upload, name='consumer-committee-upload'),
+    path('<int:serial_number>/consumer-committee/upload/', consumer_committee_upload, name='consumer-committee-upload'),
+
     path('consumer-committee/generate-pdf/<int:serial_no>/<int:project_id>/', download_consumer_committee_pdf),
     path('consumer-committee/preview-template/<int:serial_no>/<int:project_id>/', preview_template, name='preview-template'),
      

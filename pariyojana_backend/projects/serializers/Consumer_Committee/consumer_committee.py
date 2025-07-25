@@ -6,3 +6,7 @@ class ConsumerCommitteeRowSerializer(serializers.Serializer):
     date = serializers.DateField()
     status = serializers.CharField() 
     file_uploaded_name = serializers.CharField()
+    
+    
+    
+    

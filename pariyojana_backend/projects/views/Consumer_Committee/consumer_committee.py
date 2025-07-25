@@ -16,8 +16,6 @@ import nepali_datetime as ndt
 from django.templatetags.static import static
 from django.conf import settings
 import os
-
-
 from django.template.loader import get_template
 from projects.models.Consumer_Committee.consumer_committee_details import ConsumerCommitteeDetail
 from projects.pdfs.consumer_committee.renderers import render_pdf
@@ -165,9 +163,18 @@ class ConsumerCommitteeListView(APIView):
         return Response(serializer.data)
 
 
+
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
-def consumer_committee_upload(request):
+def consumer_committee_upload(request, serial_number):
+    print("In consumer_committee_upload view, serial_number:", serial_number)
+    from projects.models.project import Project
+
+    try:
+        project = Project.objects.get(serial_number=serial_number)
+    except Project.DoesNotExist:
+        return Response({"detail": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
+
     serial_no = request.data.get('serial_no')
     file = request.FILES.get('file')
     remarks = request.data.get('remarks')
@@ -175,10 +182,17 @@ def consumer_committee_upload(request):
     if not serial_no or not file:
         return Response({"detail": "serial_no and file are required."}, status=status.HTTP_400_BAD_REQUEST)
 
+    # Optionally store the project as a ForeignKey in the model
     obj, created = ConsumerCommitteeUpload.objects.update_or_create(
         serial_no=serial_no,
-        defaults={'file': file, 'remarks': remarks}
+        defaults={
+            'file': file,
+            'remarks': remarks,
+            # If your model has `project = models.ForeignKey(Project)`:
+            # 'project': project
+        }
     )
+
     return Response({"detail": "File uploaded successfully."})
 
 

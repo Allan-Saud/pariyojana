@@ -1,17 +1,20 @@
 from rest_framework import viewsets, status
+from rest_framework.decorators import action, api_view, parser_classes
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+
+from django.http import HttpResponse
+from django.utils import timezone
+
+from tablib import Dataset
+import tablib  # Ensure tablib is installed
+
 from projects.models.project import Project
 from projects.serializers.project import ProjectSerializer
-from django.utils import timezone
-import tablib
-from rest_framework.decorators import action
-from rest_framework.parsers import MultiPartParser, FormParser, JSONParser 
 from projects.resources import ProjectResource
-from django.http import HttpResponse
-from tablib import Dataset
-from rest_framework.permissions import IsAuthenticated
 from users.permissions import IsAdminOrReadOnly
+
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -20,6 +23,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser, JSONParser] 
     permission_classes = [IsAdminOrReadOnly]
+    
+   
+
 
     def perform_create(self, serializer):
         serializer.save()
@@ -72,4 +78,5 @@ class ProjectViewSet(viewsets.ModelViewSet):
         resource.import_data(imported_data, dry_run=False) 
 
         return Response({'success': 'Projects imported successfully'}, status=status.HTTP_200_OK)
+
 
