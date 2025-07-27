@@ -4,6 +4,8 @@ from project_settings.models.thematic_area import ThematicArea
 from project_settings.models.sub_thematic_area import SubArea
 from project_settings.models.source import Source
 from project_settings.models.unit import Unit
+from project_settings.models.fiscal_year import FiscalYear
+
 from project_settings.models.project_level import ProjectLevel
 from project_settings.models.expenditure_center import ExpenditureCenter
 from project_settings.models.expenditure_title import ExpenditureTitle
@@ -27,6 +29,32 @@ class WardLevelProjectSerializer(serializers.ModelSerializer):
     source_id = serializers.PrimaryKeyRelatedField(
         queryset=Source.objects.all(), source='source', write_only=True
     )
+    
+    # fiscal_year = SimpleIdNameSerializer(read_only=True)
+    # fiscal_year_id = serializers.PrimaryKeyRelatedField(
+    #     queryset=FiscalYear.objects.all(),
+    #     source='fiscal_year',
+    #     write_only=True,
+    #     allow_null=True,
+    #     required=False
+    # )
+    
+    fiscal_year = serializers.SerializerMethodField()
+    fiscal_year_id = serializers.PrimaryKeyRelatedField(
+        queryset=FiscalYear.objects.all(),
+        source='fiscal_year',
+        write_only=True,
+        allow_null=True,
+        required=False
+    )
+
+    def get_fiscal_year(self, obj):
+        if obj.fiscal_year:
+            return {
+                "id": obj.fiscal_year.id,
+                "name": str(obj.fiscal_year)   # uses __str__ of FiscalYear
+            }
+        return None
 
     unit = SimpleIdNameSerializer(read_only=True)
     unit_id = serializers.PrimaryKeyRelatedField(
@@ -61,7 +89,7 @@ class WardLevelProjectSerializer(serializers.ModelSerializer):
             'budget', 'ward_no', 'gps_coordinate', 'expected_result', 'unit', 'unit_id',
             'project_level', 'project_level_id', 'location', 'feasibility_study', 'feasibility_file',
             'detailed_study', 'detailed_file', 'environmental_study', 'environmental_file',
-            'status', 'priority_no', 'remarks', 'is_deleted', 'deleted_at'
+            'status', 'priority_no', 'remarks', 'is_deleted', 'deleted_at',"fiscal_year",'fiscal_year_id'
         ]
         extra_kwargs = {
             'priority_no': {'required': False}

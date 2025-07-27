@@ -8,3 +8,13 @@ class FiscalYear(models.Model):
     deleted_by = models.ForeignKey('users.User', null=True, blank=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    
+    
+    @property
+    def name(self):
+            """Return year as the display name for serializers expecting `name`."""
+            return self.year
+
+    def __str__(self):
+            return self.year or "Unnamed Fiscal Year"

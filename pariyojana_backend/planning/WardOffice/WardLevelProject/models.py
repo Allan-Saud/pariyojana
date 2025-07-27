@@ -2,6 +2,8 @@ from django.db import models
 from project_settings.models.thematic_area import ThematicArea
 from project_settings.models.project_level import ProjectLevel
 from project_settings.models.expenditure_title import ExpenditureTitle
+from project_settings.models.fiscal_year import FiscalYear
+
 
 from project_settings.models.sub_thematic_area import SubArea
 from project_settings.models.expenditure_center import ExpenditureCenter
@@ -18,6 +20,7 @@ class WardLevelProject(models.Model):
     source = models.ForeignKey(Source, on_delete=models.PROTECT)
     expenditure_center = models.ForeignKey(ExpenditureCenter, on_delete=models.PROTECT)
     expenditure_title = models.ForeignKey(ExpenditureTitle, on_delete=models.PROTECT, null=True, blank=True)
+    fiscal_year = models.ForeignKey(FiscalYear, on_delete=models.PROTECT, null=True, blank=True)
     budget = models.DecimalField(max_digits=15, decimal_places=2)
     ward_no = models.TextField()
     gps_coordinate = models.CharField(max_length=255, blank=True, null=True)   # ✅ new

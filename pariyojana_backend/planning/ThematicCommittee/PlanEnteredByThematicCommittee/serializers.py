@@ -43,7 +43,7 @@ class PlanEnteredByThematicCommitteeSerializer(serializers.ModelSerializer):
         required=False
     )
 
-    fiscal_year = SimpleIdNameSerializer(read_only=True)
+    fiscal_year = serializers.SerializerMethodField()
     fiscal_year_id = serializers.PrimaryKeyRelatedField(
         queryset=FiscalYear.objects.all(),
         source='fiscal_year',
@@ -51,6 +51,15 @@ class PlanEnteredByThematicCommitteeSerializer(serializers.ModelSerializer):
         allow_null=True,
         required=False
     )
+
+    def get_fiscal_year(self, obj):
+        if obj.fiscal_year:
+            return {
+                "id": obj.fiscal_year.id,
+                "name": str(obj.fiscal_year)   # uses __str__ of FiscalYear
+            }
+        return None
+
 
     thematic_area = SimpleIdNameSerializer(read_only=True)
     thematic_area_id = serializers.PrimaryKeyRelatedField(
