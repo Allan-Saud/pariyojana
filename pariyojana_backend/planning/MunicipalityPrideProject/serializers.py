@@ -12,7 +12,6 @@ class MunicipalityPrideProjectSerializer(serializers.ModelSerializer):
     source = serializers.SlugRelatedField(slug_field='name', queryset=Source.objects.all())
     expenditure_center = serializers.SlugRelatedField(slug_field='name', queryset=ExpenditureCenter.objects.all())
     priority_no = serializers.IntegerField(required=False, min_value=1, allow_null=True)
-    plan_entry = PlanEntrySerializer(read_only=True)
     class Meta:
         model = MunicipalityPrideProject
         fields = '__all__'
