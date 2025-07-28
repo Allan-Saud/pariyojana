@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="ne">
 <head>
   <meta charset="UTF-8">
@@ -108,5 +108,162 @@
     <p><strong>पद:</strong> ..................................................</p>
   </div>
 
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8">
+  <title>बिल विवरण</title>
+  <style>
+    body {
+      font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+    }
+    .bill-wrapper {
+      background-color: white;
+      padding: 30px;
+      border: 2px solid #ddd;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .center {
+      text-align: center;
+    }
+    .header {
+      background-color: #dc2626;
+      color: white;
+      padding: 20px;
+      margin: -30px -30px 30px -30px;
+      border-bottom: 3px solid #b91c1c;
+    }
+    .header h2 {
+      margin: 0 0 5px 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .header h3 {
+      margin: 0 0 10px 0;
+      font-size: 18px;
+      font-weight: normal;
+    }
+    .address {
+      margin-bottom: 20px;
+      color: white;
+    }
+    .address p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    .bill-container {
+      margin-top: 20px;
+    }
+    .bill-title {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 25px;
+      font-weight: bold;
+      color: #333;
+      border-bottom: 2px solid #dc2626;
+      padding-bottom: 10px;
+    }
+    .bill-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+    .bill-table th, .bill-table td {
+      border: 1px solid #333;
+      padding: 12px 15px;
+      text-align: left;
+    }
+    .bill-table th {
+      background-color: #f5f5f5;
+      font-weight: bold;
+      color: #333;
+      width: 40%;
+    }
+    .bill-table td {
+      background-color: white;
+    }
+    .bill-table tr:nth-child(even) td {
+      background-color: #fafafa;
+    }
+    .footer {
+      margin-top: 50px;
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
+    .footer p {
+      margin: 15px 0;
+      font-size: 14px;
+    }
+    .signature-line {
+      border-bottom: 1px solid #333;
+      display: inline-block;
+      min-width: 200px;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="bill-wrapper">
+    <div class="header center">
+      <h2>बर्दगोरिया गाउँपालिका</h2>
+      <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+      <div class="address">
+        <p>मूडा, कैलाली</p>
+        <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+      </div>
+    </div>
+
+    <div class="bill-container">
+      <div class="bill-title">बिल विवरण</div>
+      <table class="bill-table">
+        <tr>
+          <th>योजना नाम</th>
+          <td>{{ project_name }}</td>
+        </tr>
+        <tr>
+          <th>उपभोक्ता नाम</th>
+          <td>{{ consumer_committee_name }}</td>
+        </tr>
+        <tr>
+          <th>अनुमानित लागत</th>
+          <td>{{ estimated_cost }} रुपैयाँ</td>
+        </tr>
+        <tr>
+          <th>कन्टिन्जेन्सी प्रतिशत</th>
+          <td>{{ contingency_percent }}%</td>
+        </tr>
+        <tr>
+          <th>कन्टिन्जेन्सी रकम</th>
+          <td>{{ contingency_amount }} रुपैयाँ</td>
+        </tr>
+        <tr>
+          <th>कुल अनुमानित लागत</th>
+          <td>{{ total_estimated_cost }} रुपैयाँ</td>
+        </tr>
+        <tr>
+          <th>स्वीकृत बजेट</th>
+          <td>{{ allocated_budget }} रुपैयाँ</td>
+        </tr>
+        <tr>
+          <th>मिति</th>
+          <td>{{ today }}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="footer">
+      <p><strong>तयार गर्ने:</strong> <span class="signature-line"></span></p>
+      <p><strong>पद:</strong> <span class="signature-line"></span></p>
+    </div>
+  </div>
 </body>
 </html>

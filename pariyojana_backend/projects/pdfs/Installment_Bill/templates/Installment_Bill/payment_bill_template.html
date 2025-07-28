@@ -1,4 +1,4 @@
-<div class="center">
+{% comment %} <div class="center">
   <div class="header">
     <h2>बर्दगोरिया गाउँपालिका</h2>
     <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
@@ -37,4 +37,176 @@
     </tr>
     {% endfor %}
   </tbody>
-</table>
+</table> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8">
+  <title>भुक्तानी विवरण</title>
+  <style>
+    body {
+      font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+    }
+    .bill-wrapper {
+      background-color: white;
+      padding: 30px;
+      border: 2px solid #ddd;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .center {
+      text-align: center;
+    }
+    .header {
+      background-color: #dc2626;
+      color: white;
+      padding: 20px;
+      margin: -30px -30px 20px -30px;
+      border-bottom: 3px solid #b91c1c;
+    }
+    .header h2 {
+      margin: 0 0 5px 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .header h3 {
+      margin: 0 0 10px 0;
+      font-size: 18px;
+      font-weight: normal;
+    }
+    .address {
+      margin-top: 15px;
+      color: white;
+    }
+    .address p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    hr {
+      border: none;
+      border-top: 2px solid #dc2626;
+      margin: 25px 0;
+    }
+    h2 {
+      color: #333;
+      font-size: 22px;
+      margin-bottom: 20px;
+      text-align: center;
+      border-bottom: 2px solid #dc2626;
+      padding-bottom: 10px;
+    }
+    .project-info {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-left: 4px solid #dc2626;
+      margin-bottom: 25px;
+    }
+    .project-info p {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+    .project-info strong {
+      color: #333;
+      min-width: 100px;
+      display: inline-block;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 12px 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #dc2626;
+      color: white;
+      font-weight: bold;
+      font-size: 15px;
+    }
+    td {
+      background-color: white;
+    }
+    tbody tr:nth-child(even) td {
+      background-color: #f8f9fa;
+    }
+    tbody tr:hover td {
+      background-color: #e3f2fd;
+    }
+    .amount-column {
+      text-align: right;
+      font-weight: bold;
+    }
+    .title-column {
+      text-align: left;
+      max-width: 200px;
+    }
+    .footer-space {
+      margin-top: 50px;
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+      text-align: right;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="bill-wrapper">
+    <div class="center">
+      <div class="header">
+        <h2>बर्दगोरिया गाउँपालिका</h2>
+        <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+        <div class="address">
+          <p>मूडा, कैलाली</p>
+          <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>भुक्तानी विवरण</h2>
+
+    <div class="project-info">
+      <p><strong>योजना:</strong> {{ project_name }}</p>
+      <p><strong>वडा नं.:</strong> {{ ward_no }}</p>
+      <p><strong>मिति:</strong> {{ today }}</p>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th class="title-column">शीर्षक</th>
+          <th>मिति</th>
+          <th>भुक्तानी रकम (रु.)</th>
+          <th>प्रतिशत (%)</th>
+          <th>भौतिक प्रगति (%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for payment in payments %}
+        <tr>
+          <td class="title-column">{{ payment.title }}</td>
+          <td>{{ payment.issue_date }}</td>
+          <td class="amount-column">{{ payment.amount_paid }}</td>
+          <td>{{ payment.payment_percent }}</td>
+          <td>{{ payment.physical_progress }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="footer-space">
+      <p>यो विवरण कम्प्युटरबाट तयार गरिएको हो।</p>
+    </div>
+  </div>
+</body>
+</html>
