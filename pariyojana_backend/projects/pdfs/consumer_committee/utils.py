@@ -148,8 +148,9 @@ def build_pdf_context(serial_no, project_id):
         "duration": self._calculate_duration(initiation_process) if initiation_process else "",
 
         # Add the government logo path (NEW)
-        "gov_logo": f'file://{os.path.join(settings.STATIC_ROOT, "images/nepal-govt.png")}',
+        "gov_logo": f'file://{os.path.join(settings.BASE_DIR, "projects/static/images/nepal-govt.png")}',
     }
+    
 
     # Add serial-specific context
     if serial_no == 7:
