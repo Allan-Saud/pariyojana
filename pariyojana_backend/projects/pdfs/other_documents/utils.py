@@ -9,7 +9,7 @@ def build_pdf_context(serial_no, project_id):
         raise Exception("Project not found.")
 
     # ✅ Absolute file path for the government logo
-    gov_logo = f'file://{os.path.join(settings.BASE_DIR, "projects/static/images/nepal-govt.png")}'
+    gov_logo = f'file://{os.path.join(settings.BASE_DIR, "static/images/nepal-govt.png")}'
 
     context = {
         "serial_no": serial_no,
