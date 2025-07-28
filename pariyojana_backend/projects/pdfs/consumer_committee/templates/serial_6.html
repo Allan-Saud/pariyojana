@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="ne">
 <head>
   <meta charset="UTF-8" />
@@ -109,5 +109,238 @@
 <p>उपभोक्ता समितको छाप</p>
 <p>वडा अध्यक्ष</p>
 
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>उपभोक्ता समिति गठन सम्बन्धी दस्तावेज</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 1.5cm;
+    }
+    body {
+      font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background: white;
+    }
+    .document-wrapper {
+      background-color: white;
+      padding: 25px;
+      border: 2px solid #ddd;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .header {
+      background-color: #dc2626;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin: -25px -25px 25px -25px;
+      border-bottom: 3px solid #b91c1c;
+    }
+    .header h2 {
+      margin: 0 0 5px 0;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .header h3 {
+      margin: 0 0 15px 0;
+      font-size: 18px;
+      font-weight: normal;
+    }
+    .address {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 14px;
+    }
+    .address p {
+      margin: 5px 0;
+    }
+    .date-field {
+      text-align: right;
+      margin-bottom: 15px;
+      font-weight: bold;
+      color: #333;
+    }
+    .recipient-info {
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+    .subject-line {
+      font-weight: bold;
+      margin: 15px 0;
+      padding: 8px 0;
+      border-bottom: 2px solid #dc2626;
+      color: #333;
+    }
+    .intro-paragraph {
+      margin: 15px 0;
+      text-align: justify;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 13px;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 8px 5px;
+      text-align: center;
+    }
+    th {
+      background-color: #dc2626;
+      color: white;
+      font-weight: bold;
+    }
+    td {
+      background-color: white;
+    }
+    tbody tr:nth-child(even) td {
+      background-color: #f8f9fa;
+    }
+    .notes-section {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border: 1px solid #e0e0e0;
+    }
+    .notes-section ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .notes-section li {
+      margin-bottom: 5px;
+      text-align: justify;
+    }
+    .signature-block {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .signature-item {
+      text-align: center;
+      flex: 1;
+      margin: 0 10px;
+    }
+    .signature-line {
+      border-top: 1px solid #333;
+      margin-top: 30px;
+      padding-top: 5px;
+      font-size: 13px;
+    }
+    .stamp-placeholder {
+      width: 100px;
+      height: 100px;
+      border: 2px dashed #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #666;
+      margin: 0 auto 10px auto;
+    }
+    @media print {
+      body {
+        -webkit-print-color-adjust: exact;
+        padding: 0;
+      }
+      .document-wrapper {
+        border: none;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="document-wrapper">
+    <div class="header">
+      <h2>बर्दगोरिया गाउँपालिका</h2>
+      <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+    </div>
+    
+    <div class="address">
+      <p>मूडा, कैलाली</p>
+      <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+    </div>
+
+    <div class="date-field">
+      <strong>मितिः-</strong>
+    </div>
+
+    <div class="recipient-info">
+      श्रीमान् प्रमुख प्रशासकीय अधिकृतज्यू/महाशाखा प्रमुखज्यू/सचिवज्यू<br />
+      गाउँ कार्यपालिकाको कार्यालय/वडा समितिको कार्यालय
+    </div>
+
+    <div class="subject-line">
+      <strong>विषयः-उपभोक्ता समिति गठन गरिएको सम्वन्धमा</strong>
+    </div>
+
+    <div class="intro-paragraph">
+      उपर्युक्त सम्वन्धमा यस ललितपुर महानगरपालिका वडा नं १ को ktm स्थानमा A गर्ने सम्वन्धि योजना/आयोजना सन्चालनको लागि मिति मा आयोजना गरिएको स्थानीय भेलावाट देहायवमोजिमको पदाधिकारीहरु रहनु भएको उपभोक्ता समिति गठन भएको व्यहोरा सिफारीस साथ अनुरोध गर्दछु।
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>सि.नं.</th>
+          <th>पद</th>
+          <th>नाम थर</th>
+          <th>उमेर</th>
+          <th>सम्पर्क नं. र ठेगाना</th>
+          <th>हस्ताक्षर</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if officials %}
+          {% for official in officials %}
+            <tr>
+              <td>{{ official.serial_no }}</td>
+              <td>{{ official.post }}</td>
+              <td>श्री {{ official.full_name }}</td>
+              <td><!-- Age field not available; calculate if you add DOB --></td>
+              <td>{{ official.contact_no }} {{ official.address }}</td>
+              <td><!-- Signature left blank intentionally --></td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="6">कोई विवरण उपलब्ध छैन।</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+
+    <div class="notes-section">
+      <strong>नोटः</strong>
+      <ol>
+        <li>समितिको अध्यक्ष, सचिव र कोषाध्यक्षको नागरिकताको प्रमाणपत्रको प्रतिलिपी संलग्न गरिएको छ ।</li>
+        <li>माथी उल्लेखित उपभोक्ता समितिमा अध्यक्ष, सचिव र कोषाध्यक्ष मध्ये एक पद सहित ३३% प्रतिशत महिला रहेको।</li>
+        <li>उपभोक्ताहरुको भेलाबाट उपभोक्ता समिति गठन गरिएको।</li>
+      </ol>
+    </div>
+
+    <div class="signature-block">
+      <div class="signature-item">
+        <div class="signature-line">अध्यक्ष, उपभोक्ता समिति</div>
+      </div>
+      <div class="signature-item">
+        <div class="stamp-placeholder">उपभोक्ता समितको छाप</div>
+      </div>
+      <div class="signature-item">
+        <div class="signature-line">वडा अध्यक्ष</div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

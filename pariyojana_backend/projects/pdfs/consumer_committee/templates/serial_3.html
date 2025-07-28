@@ -2,81 +2,151 @@
 <html lang="ne">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>सार्वजनिक सूचना - बर्दगोरिया गाउँपालिका</title>
     <style>
         body {
             font-family: Kalimati, 'Noto Sans Devanagari', Devanagari, sans-serif;
             font-size: 14px;
             line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            background: white;
         }
-
+        .document-wrapper {
+            background-color: white;
+            padding: 30px;
+            border: 2px solid #ddd;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            background-color: #dc2626;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin: -30px -30px 30px -30px;
+            border-bottom: 3px solid #b91c1c;
+        }
+        .header h2 {
+            margin: 0 0 5px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .address {
+            font-size: 14px;
+        }
+        .address p {
+            margin: 5px 0;
+        }
         .center {
             text-align: center;
         }
-
         .bold {
             font-weight: bold;
         }
-
         .section {
-            margin-top: 20px;
+            margin-top: 25px;
         }
-
+        .notice-title {
+            background-color: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+            border-left: 4px solid #dc2626;
+            margin-bottom: 25px;
+        }
         .field {
-            margin-left: 30px;
+            margin: 15px 0 15px 30px;
+            font-size: 14px;
         }
-
+        .notice-content {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            margin: 20px 0;
+            text-align: justify;
+        }
+        .details-section {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+        }
+        .details-title {
+            font-weight: bold;
+            font-size: 16px;
+            color: #dc2626;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #dc2626;
+            padding-bottom: 5px;
+        }
         .signature {
-            margin-top: 60px;
+            margin-top: 50px;
             display: flex;
             justify-content: flex-end;
-            padding-right: 80px;
+            padding-right: 50px;
         }
-
         .signature div {
             text-align: center;
+        }
+        .signature-line {
+            border-top: 1px solid #333;
+            margin-bottom: 8px;
+            padding-top: 5px;
+            min-width: 200px;
+        }
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                padding: 0;
+            }
+            .document-wrapper {
+                border: none;
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-
-    <div class="center">
+    <div class="document-wrapper">
         <div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-</div>
+            <h2>बर्दगोरिया गाउँपालिका</h2>
+            <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+            <div class="address">
+                <p>मूडा, कैलाली</p>
+                <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+            </div>
+        </div>
 
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
+        <div class="notice-title">
+            उपभोक्ता समिति गठन गर्ने सम्बन्धी सार्वजनिक सूचना
+        </div>
 
-    </div>
-
-    <div class="section center bold">
-        उपभोक्ता समिति गठन गर्ने सम्बन्धी सार्वजनिक सूचना
-    </div>
-
-    <div class="section">
-        <div class="field">
+        <div class="notice-content">
             ललितपुर महानगरपालिकाको तपशिलको योजना संचालन गर्ने सम्बन्धमा स्थानीय समुदायको प्रतिनिधित्व हुने गरि उपभोक्ता समिति गठन गर्नु पर्ने भएकोले देहायको मिति, समय र स्थानमा आयोजनाबाट लाभान्वित हुने सम्पूर्ण उपभोक्ताहरु उपस्थित भई उपभोक्ता समिति तथा अनुगमन तथा सहजीकरण समिति गठन गर्ने कार्यमा सहयोग गरि दिनु हुन सम्बन्धित सबैमा अनुरोध गरिन्छ ।
         </div>
-    </div>
 
-    <div class="section bold field">तपशिल</div>
+        <div class="details-section">
+            <div class="details-title">तपशिल</div>
+            <div class="field"><strong>योजनाको नाम:</strong> {{ project_name }}</div>
+            <div class="field"><strong>मिति:</strong> {{ meeting_date }}</div>
+            <div class="field"><strong>समय:</strong> {{ meeting_time }}</div>
+            <div class="field"><strong>स्थान:</strong> {{ meeting_location }}</div>
+        </div>
 
-    <div class="section">
-        <div class="field">योजनाको नामः {{ project_name }}</div>
-        <div class="field">मितिः {{ meeting_date }}</div>
-        <div class="field">समयः {{ meeting_time }}</div>
-        <div class="field">स्थानः {{ meeting_location }}</div>
-    </div>
-
-    <div class="signature">
-        <div>
-            <div>..............................</div>
-            <div>वडा अध्यक्ष/वडा सदस्य</div>
+        <div class="signature">
+            <div>
+                <div class="signature-line">वडा अध्यक्ष/वडा सदस्य</div>
+            </div>
         </div>
     </div>
-
 </body>
 </html>

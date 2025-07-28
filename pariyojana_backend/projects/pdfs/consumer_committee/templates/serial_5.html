@@ -1,283 +1,285 @@
-{% comment %} <!DOCTYPE html>
-<html lang="ne">
-<head>
-  <meta charset="UTF-8" />
-  <title>Serial 5 Template</title>
-  <style>
-    body {
-      font-family: Kalimati, 'Noto Sans Devanagari', sans-serif;
-      font-size: 14px;
-      line-height: 1.8;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-    th, td {
-      border: 1px solid black;
-      padding: 4px;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-
-<!-- PAGE 1 -->
-<div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-</div>
-
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
-
-
-उपभोक्ता समिति गठन सम्बन्धी स्थानीय समुदायको आम भेला<br /><br />
-
-आज मिति २०....... साल महिना गते वार वजे यस ललितपुर महानगरपालिका वडा नं. १ को ktm स्थानमा {{project_name}} गर्ने सम्वन्धी योजना संचालन गर्ने सम्वन्धमा वडा अध्यक्ष वडा सदस्य श्री .. ज्यू को समुपस्थितीमा देहायका कार्यसूचीमा छलफल गर्न आयोजित भेलाको उपस्थिती देहाय वमोजिम छन्।<br />
-उपस्थिती<br /><br />
-
-<table>
-  <thead>
-    <tr>
-      <th rowspan="2">क्र.सं.</th>
-      <th rowspan="2">नाम थर</th>
-      <th rowspan="2">उमेर</th>
-      <th colspan="2">लिङ्ग</th>
-      <th rowspan="2">सम्पर्क नं.</th>
-    </tr>
-    <tr>
-      <th>महिला</th>
-      <th>पुरुष</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>१</td><td>वडा नं. का वडा अध्यक्ष/सदस्य श्री</td><td></td><td></td><td></td><td></td></tr>
-    {% for i in range_2_46 %}
-    <tr>
-      <td>{{ i }}</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
-<div style="page-break-after: always;"></div>
-
-<!-- PAGE 2 -->
-
-छलफलको कार्यसूची<br /><br />
-
-1. उपभोक्ता समिति गठन सम्वन्धमा ।<br />
-2. अनुगमन तथा सहजिकरण समिति गठन सम्वन्धमा ।<br />
-3. उपभोक्ता समितिको नाम र छाप सम्वन्धमा ।<br />
-4. विविध<br /><br />
-
-निर्णय नं.१<br /><br />
-
-छलफलको कार्यसुची १ को विषयमा छलफल हुँदा देहायका महानुभावहरु रहनु भएको उपभोक्ता समिति<br />
-गठन गर्ने निर्णय गरियो ।<br /><br />
-
-
-
-{% with official_by_post.chairman as अध्यक्ष %}
-अध्यक्ष श्री {{ अध्यक्ष }}<br />
-{% endwith %}
-
-{% with official_by_post.secretary as सचिव %}
-सचिव श्री {{ सचिव }}<br />
-{% endwith %}
-
-{% with official_by_post.treasurer as कोषाध्यक्ष %}
-कोषाध्यक्ष श्री {{ कोषाध्यक्ष }}<br />
-{% endwith %}
-
-{% for सदस्य in official_by_post.members %}
-सदस्य श्री {{ सदस्य }}<br />
-{% endfor %}
-
-
-<div style="page-break-after: always;"></div>
-
-<!-- PAGE 3 -->
-
-निर्णय नं.२<br /><br />
-
-छलफलको कार्यसूची २ को विषयमा छलफल हुँदा देहायको महानुभावहरु रहनु भएको अनुगमन तथा<br />
-सहजिकरण समिति गठन गर्ने निर्णय गरियो।<br /><br />
-
-
-
-{% with monitoring_by_post.coordinator as संयोजक %}
-संयोजक श्री {{ संयोजक }}<br />
-{% endwith %}
-
-{% with monitoring_by_post.member_secretary as सदस्य_सचिव %}
-सदस्य सचिव श्री {{ सदस्य_सचिव }}<br />
-{% endwith %}
-
-{% for सदस्य in monitoring_by_post.members %}
-सदस्य श्री {{ सदस्य }}<br />
-{% endfor %}
-
-
-<br />
-
-निर्णय नं.३<br /><br />
-
-छलफलक कार्यसूची नं. ३ अनुसार उपभोक्ता समितिको नाम श्री राखेर छाप राखे निर्णय गरियो।<br /><br />
-
-निर्णय. ४<br /><br />
-
-माथी उल्लेखीत समितिहरु गठन गर्न सहयोग गर्नु हुने सम्पुर्ण उपस्थीतमा धन्यवाद ज्ञापन गर्दै अन्य<br />
-छलफलको कार्यसूची नरहेकोले आजको भेला सम्पन्न भएको घोषणा गरियो।
-
-</body>
-</html> {% endcomment %}
-
 <!DOCTYPE html>
 <html lang="ne">
 <head>
   <meta charset="UTF-8" />
-  <title>Serial 5 Template</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>उपभोक्ता समिति गठन सम्बन्धी आम भेला</title>
   <style>
+    @page {
+      size: A4;
+      margin: 1.5cm;
+    }
     body {
       font-family: Kalimati, 'Noto Sans Devanagari', sans-serif;
       font-size: 14px;
-      line-height: 1.8;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background: white;
+    }
+    .document-wrapper {
+      background-color: white;
+      padding: 25px;
+      border: 2px solid #ddd;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .header {
+      background-color: #dc2626;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin: -25px -25px 25px -25px;
+      border-bottom: 3px solid #b91c1c;
+    }
+    .header h2 {
+      margin: 0 0 5px 0;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .header h3 {
+      margin: 0 0 15px 0;
+      font-size: 18px;
+      font-weight: normal;
+    }
+    .address {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 14px;
+    }
+    .address p {
+      margin: 5px 0;
+    }
+    .meeting-title {
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      color: #333;
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border-left: 4px solid #dc2626;
+    }
+    .meeting-details {
+      margin: 20px 0;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border: 1px solid #e0e0e0;
+      text-align: justify;
+    }
+    .attendance-title {
+      font-weight: bold;
+      margin: 20px 0 10px 0;
+      color: #333;
     }
     table {
       border-collapse: collapse;
       width: 100%;
+      margin: 15px 0;
+      font-size: 12px;
     }
     th, td {
-      border: 1px solid black;
-      padding: 4px;
+      border: 1px solid #333;
+      padding: 8px 4px;
       text-align: center;
+    }
+    th {
+      background-color: #dc2626;
+      color: white;
+      font-weight: bold;
+    }
+    td {
+      background-color: white;
+    }
+    tbody tr:nth-child(even) td {
+      background-color: #f8f9fa;
+    }
+    .agenda-section {
+      margin: 25px 0;
+      padding: 15px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+    }
+    .agenda-title {
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #dc2626;
+      font-size: 16px;
+    }
+    .agenda-item {
+      margin: 8px 0;
+      padding-left: 10px;
+    }
+    .decision-section {
+      margin: 20px 0;
+      padding: 15px;
+      background-color: #f0f8ff;
+      border: 1px solid #b3d9ff;
+    }
+    .decision-title {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+    .decision-content {
+      margin: 10px 0;
+      text-align: justify;
+    }
+    .committee-member {
+      margin: 5px 0;
+      padding: 3px 0;
+    }
+    .page-break {
+      page-break-after: always;
+      margin: 30px 0;
+      border-top: 2px solid #dc2626;
+    }
+    @media print {
+      body {
+        -webkit-print-color-adjust: exact;
+        padding: 0;
+      }
+      .document-wrapper {
+        border: none;
+        padding: 15px;
+      }
+      .page-break {
+        page-break-after: always;
+        border: none;
+        margin: 0;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="document-wrapper">
+    <!-- PAGE 1 -->
+    <div class="header">
+      <h2>बर्दगोरिया गाउँपालिका</h2>
+      <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+    </div>
+    
+    <div class="address">
+      <p>मूडा, कैलाली</p>
+      <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+    </div>
 
-<!-- PAGE 1 -->
-<div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-</div>
+    <div class="meeting-title">
+      उपभोक्ता समिति गठन सम्बन्धी स्थानीय समुदायको आम भेला
+    </div>
 
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
+    <div class="meeting-details">
+      आज मिति २०....... साल महिना गते वार वजे यस ललितपुर महानगरपालिका वडा नं. १ को ktm स्थानमा {{ project_name }} गर्ने सम्वन्धी योजना संचालन गर्ने सम्वन्धमा वडा अध्यक्ष वडा सदस्य श्री .. ज्यू को समुपस्थितीमा देहायका कार्यसूचीमा छलफल गर्न आयोजित भेलाको उपस्थिती देहाय वमोजिम छन्।
+    </div>
 
+    <div class="attendance-title">उपस्थिती</div>
 
-उपभोक्ता समिति गठन सम्बन्धी स्थानीय समुदायको आम भेला<br /><br />
+    <table>
+      <thead>
+        <tr>
+          <th rowspan="2">क्र.सं.</th>
+          <th rowspan="2">नाम थर</th>
+          <th rowspan="2">उमेर</th>
+          <th colspan="2">लिङ्ग</th>
+          <th rowspan="2">सम्पर्क नं.</th>
+        </tr>
+        <tr>
+          <th>महिला</th>
+          <th>पुरुष</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>१</td>
+          <td>वडा नं. का वडा अध्यक्ष/सदस्य श्री</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        {% for i in range_2_46 %}
+        <tr>
+          <td>{{ i }}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
-आज मिति २०....... साल महिना गते वार वजे यस ललितपुर महानगरपालिका वडा नं. १ को ktm स्थानमा {{ project_name }} गर्ने सम्वन्धी योजना संचालन गर्ने सम्वन्धमा वडा अध्यक्ष वडा सदस्य श्री .. ज्यू को समुपस्थितीमा देहायका कार्यसूचीमा छलफल गर्न आयोजित भेलाको उपस्थिती देहाय वमोजिम छन्।<br />
-उपस्थिती<br /><br />
+    <div class="page-break"></div>
 
-<table>
-  <thead>
-    <tr>
-      <th rowspan="2">क्र.सं.</th>
-      <th rowspan="2">नाम थर</th>
-      <th rowspan="2">उमेर</th>
-      <th colspan="2">लिङ्ग</th>
-      <th rowspan="2">सम्पर्क नं.</th>
-    </tr>
-    <tr>
-      <th>महिला</th>
-      <th>पुरुष</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>१</td><td>वडा नं. का वडा अध्यक्ष/सदस्य श्री</td><td></td><td></td><td></td><td></td></tr>
-    {% for i in range_2_46 %}
-    <tr>
-      <td>{{ i }}</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    <!-- PAGE 2 -->
+    <div class="agenda-section">
+      <div class="agenda-title">छलफलको कार्यसूची</div>
+      <div class="agenda-item">1. उपभोक्ता समिति गठन सम्वन्धमा ।</div>
+      <div class="agenda-item">2. अनुगमन तथा सहजिकरण समिति गठन सम्वन्धमा ।</div>
+      <div class="agenda-item">3. उपभोक्ता समितिको नाम र छाप सम्वन्धमा ।</div>
+      <div class="agenda-item">4. विविध</div>
+    </div>
 
-<div style="page-break-after: always;"></div>
+    <div class="decision-section">
+      <div class="decision-title">निर्णय नं.१</div>
+      <div class="decision-content">
+        छलफलको कार्यसुची १ को विषयमा छलफल हुँदा देहायका महानुभावहरु रहनु भएको उपभोक्ता समिति गठन गर्ने निर्णय गरियो ।
+      </div>
+      
+      {% with official_by_post.chairman as chairman %}
+      <div class="committee-member">अध्यक्ष श्री {{ chairman }}</div>
+      {% endwith %}
+      
+      {% with official_by_post.secretary as secretary %}
+      <div class="committee-member">सचिव श्री {{ secretary }}</div>
+      {% endwith %}
+      
+      {% with official_by_post.treasurer as treasurer %}
+      <div class="committee-member">कोषाध्यक्ष श्री {{ treasurer }}</div>
+      {% endwith %}
+      
+      {% for member in official_by_post.members %}
+      <div class="committee-member">सदस्य श्री {{ member }}</div>
+      {% endfor %}
+    </div>
 
-<!-- PAGE 2 -->
+    <div class="page-break"></div>
 
-छलफलको कार्यसूची<br /><br />
+    <!-- PAGE 3 -->
+    <div class="decision-section">
+      <div class="decision-title">निर्णय नं.२</div>
+      <div class="decision-content">
+        छलफलको कार्यसूची २ को विषयमा छलफल हुँदा देहायको महानुभावहरु रहनु भएको अनुगमन तथा सहजिकरण समिति गठन गर्ने निर्णय गरियो।
+      </div>
+      
+      {% with monitoring_by_post.coordinator as coordinator %}
+      <div class="committee-member">संयोजक श्री {{ coordinator }}</div>
+      {% endwith %}
+      
+      {% with monitoring_by_post.member_secretary as member_secretary %}
+      <div class="committee-member">सदस्य सचिव श्री {{ member_secretary }}</div>
+      {% endwith %}
+      
+      {% for member in monitoring_by_post.members %}
+      <div class="committee-member">सदस्य श्री {{ member }}</div>
+      {% endfor %}
+    </div>
 
-1. उपभोक्ता समिति गठन सम्वन्धमा ।<br />
-2. अनुगमन तथा सहजिकरण समिति गठन सम्वन्धमा ।<br />
-3. उपभोक्ता समितिको नाम र छाप सम्वन्धमा ।<br />
-4. विविध<br /><br />
+    <div class="decision-section">
+      <div class="decision-title">निर्णय नं.३</div>
+      <div class="decision-content">
+        छलफलक कार्यसूची नं. ३ अनुसार उपभोक्ता समितिको नाम श्री राखेर छाप राखे निर्णय गरियो।
+      </div>
+    </div>
 
-निर्णय नं.१<br /><br />
-
-छलफलको कार्यसुची १ को विषयमा छलफल हुँदा देहायका महानुभावहरु रहनु भएको उपभोक्ता समिति<br />
-गठन गर्ने निर्णय गरियो ।<br /><br />
-
-{% with official_by_post.chairman as chairman %}
-अध्यक्ष श्री {{ chairman }}<br />
-{% endwith %}
-
-{% with official_by_post.secretary as secretary %}
-सचिव श्री {{ secretary }}<br />
-{% endwith %}
-
-{% with official_by_post.treasurer as treasurer %}
-कोषाध्यक्ष श्री {{ treasurer }}<br />
-{% endwith %}
-
-{% for member in official_by_post.members %}
-सदस्य श्री {{ member }}<br />
-{% endfor %}
-
-<div style="page-break-after: always;"></div>
-
-<!-- PAGE 3 -->
-
-निर्णय नं.२<br /><br />
-
-छलफलको कार्यसूची २ को विषयमा छलफल हुँदा देहायको महानुभावहरु रहनु भएको अनुगमन तथा<br />
-सहजिकरण समिति गठन गर्ने निर्णय गरियो।<br /><br />
-
-{% comment %} {% with monitoring_by_post.coordinator as coordinator %}
-संयोजक श्री {{ coordinator }}<br />
-{% endwith %} {% endcomment %}
-
-{% with monitoring_by_post.coordinator as coordinator %}
-संयोजक श्री {{ coordinator }}<br />
-{% endwith %}
-
-{% with monitoring_by_post.member_secretary as member_secretary %}
-सदस्य सचिव श्री {{ member_secretary }}<br />
-{% endwith %}
-
-{% for member in monitoring_by_post.members %}
-सदस्य श्री {{ member }}<br />
-{% endfor %}
-
-<br />
-
-निर्णय नं.३<br /><br />
-
-छलफलक कार्यसूची नं. ३ अनुसार उपभोक्ता समितिको नाम श्री राखेर छाप राखे निर्णय गरियो।<br /><br />
-
-निर्णय. ४<br /><br />
-
-माथि उल्लेखीत समितिहरु गठन गर्न सहयोग गर्नु हुने सम्पुर्ण उपस्थीतमा धन्यवाद ज्ञापन गर्दै अन्य<br />
-छलफलको कार्यसूची नरहेकोले आजको भेला सम्पन्न भएको घोषणा गरियो।
-
+    <div class="decision-section">
+      <div class="decision-title">निर्णय. ४</div>
+      <div class="decision-content">
+        माथि उल्लेखीत समितिहरु गठन गर्न सहयोग गर्नु हुने सम्पुर्ण उपस्थीतमा धन्यवाद ज्ञापन गर्दै अन्य छलफलको कार्यसूची नरहेकोले आजको भेला सम्पन्न भएको घोषणा गरियो।
+      </div>
+    </div>
+  </div>
 </body>
 </html>
