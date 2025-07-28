@@ -39,10 +39,18 @@ from authentication.models import VerificationLog
 
 
 class MapCostEstimateSerializer(serializers.ModelSerializer):
+    file_url = serializers.SerializerMethodField()
     class Meta:
         model = MapCostEstimate
         fields = '__all__'
         read_only_fields = ['created_at', 'updated_at', 'status', 'is_verified', 'project']
+        
+        
+    def get_file_url(self, obj):
+        request = self.context.get('request')
+        if obj.file:
+            return request.build_absolute_uri(obj.file.url) if request else obj.file.url
+        return None
 
     def create(self, validated_data):
         file = validated_data.get("file")

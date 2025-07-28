@@ -164,36 +164,87 @@ class ConsumerCommitteeListView(APIView):
 
 
 
-@api_view(['POST'])
+# @api_view(['POST'])
+# @parser_classes([MultiPartParser, FormParser])
+# def consumer_committee_upload(request, serial_number):
+#     print("In consumer_committee_upload view, serial_number:", serial_number)
+#     from projects.models.project import Project
+
+#     try:
+#         project = Project.objects.get(serial_number=serial_number)
+#     except Project.DoesNotExist:
+#         return Response({"detail": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
+
+#     serial_no = request.data.get('serial_no')
+#     file = request.FILES.get('file')
+#     remarks = request.data.get('remarks')
+
+#     if not serial_no or not file:
+#         return Response({"detail": "serial_no and file are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+#     # Optionally store the project as a ForeignKey in the model
+#     obj, created = ConsumerCommitteeUpload.objects.update_or_create(
+#         serial_no=serial_no,
+#         defaults={
+#             'file': file,
+#             'remarks': remarks,
+#             # If your model has `project = models.ForeignKey(Project)`:
+#             # 'project': project
+#         }
+#     )
+
+#     return Response({"detail": "File uploaded successfully."})
+from django.shortcuts import get_object_or_404
+@api_view(['GET', 'POST'])
 @parser_classes([MultiPartParser, FormParser])
 def consumer_committee_upload(request, serial_number):
-    print("In consumer_committee_upload view, serial_number:", serial_number)
-    from projects.models.project import Project
+    # ✅ Handle GET request
+    if request.method == 'GET':
+        project = get_object_or_404(Project, serial_number=serial_number)
+        uploads = ConsumerCommitteeUpload.objects.filter(serial_no=serial_number)
 
-    try:
-        project = Project.objects.get(serial_number=serial_number)
-    except Project.DoesNotExist:
-        return Response({"detail": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
+        if not uploads.exists():
+            return Response({"detail": "No files found for this project."}, status=status.HTTP_404_NOT_FOUND)
 
-    serial_no = request.data.get('serial_no')
-    file = request.FILES.get('file')
-    remarks = request.data.get('remarks')
+        # Serialize manually (or use a serializer if you have one)
+        data = [
+            {
+                "id": u.id,
+                "serial_no": u.serial_no,
+                "file_url": request.build_absolute_uri(u.file.url) if u.file else None,
+                "remarks": u.remarks,
+                "uploaded_at": u.created_at if hasattr(u, 'created_at') else None
+            }
+            for u in uploads
+        ]
+        return Response(data, status=status.HTTP_200_OK)
 
-    if not serial_no or not file:
-        return Response({"detail": "serial_no and file are required."}, status=status.HTTP_400_BAD_REQUEST)
+    # ✅ Handle POST request (existing code)
+    if request.method == 'POST':
+        print("In consumer_committee_upload view, serial_number:", serial_number)
 
-    # Optionally store the project as a ForeignKey in the model
-    obj, created = ConsumerCommitteeUpload.objects.update_or_create(
-        serial_no=serial_no,
-        defaults={
-            'file': file,
-            'remarks': remarks,
-            # If your model has `project = models.ForeignKey(Project)`:
-            # 'project': project
-        }
-    )
+        try:
+            project = Project.objects.get(serial_number=serial_number)
+        except Project.DoesNotExist:
+            return Response({"detail": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
 
-    return Response({"detail": "File uploaded successfully."})
+        serial_no = request.data.get('serial_no')
+        file = request.FILES.get('file')
+        remarks = request.data.get('remarks')
+
+        if not serial_no or not file:
+            return Response({"detail": "serial_no and file are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        obj, created = ConsumerCommitteeUpload.objects.update_or_create(
+            serial_no=serial_no,
+            defaults={
+                'file': file,
+                'remarks': remarks,
+                # 'project': project  # if FK exists
+            }
+        )
+
+        return Response({"detail": "File uploaded successfully."}, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
@@ -218,8 +269,12 @@ def download_consumer_committee_pdf(request, serial_no: int, project_id: int):
     # Render the HTML template to a string
     html_string = render_to_string(template_map[serial_no], context)
 
-    # Use WeasyPrint to convert HTML to PDF bytes
-    pdf_file = HTML(string=html_string).write_pdf()
+    # # Use WeasyPrint to convert HTML to PDF bytes
+    # pdf_file = HTML(string=html_string).write_pdf()
+    base_url = request.build_absolute_uri('/')
+
+    # Generate PDF
+    pdf_file = HTML(string=html_string, base_url=base_url).write_pdf()
 
     filename = f"serial_{serial_no}_project_{project_id}.pdf"
 
