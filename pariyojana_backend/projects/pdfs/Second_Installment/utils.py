@@ -1,9 +1,47 @@
+# def build_pdf_context(serial_no, project_id):
+#     from projects.models.project import Project
+#     from projects.models.Consumer_Committee.consumer_committee_details import ConsumerCommitteeDetail
+#     from projects.models.Consumer_Committee.official_detail import OfficialDetail
+#     from projects.models.Project_Aggrement.project_aggrement_details import  ProjectAgreementDetails
+    
+
+#     try:
+#         project = Project.objects.get(pk=project_id)
+#     except Project.DoesNotExist:
+#         raise Exception("Project not found.")
+
+#     committee = ConsumerCommitteeDetail.objects.filter(project=project).first()
+#     officials = OfficialDetail.objects.filter(project=project).order_by('serial_no')
+#     agreement = ProjectAgreementDetails.objects.filter(project=project).first()
+
+#     context = {
+#         "project_name": project.project_name,
+#         "ward_number":project.ward_no,
+#         "fiscal_year": project.fiscal_year.year if project.fiscal_year else "",
+#         "location": project.location or "-",
+#         "total_cost": f"{project.budget} रू",
+#         "budget_title": project.source.name if project.source else "-",
+#         "agreement_date": project.created_at.date() if project.created_at else "-",
+#         "completion_date": project.updated_at.date() if project.updated_at else "-",
+#         "chairman_name": committee.representative_name if committee else "-",
+#         "contact_number": committee.contact_no if committee else "-",
+#         "officials": officials,
+#         "municipality_amount": agreement.municipality_amount if agreement else 0,
+#         "public_participation_amount": agreement.public_participation_amount if agreement else 0,
+#     }
+
+
+
+#     return context
+
+import os
+from django.conf import settings
+
 def build_pdf_context(serial_no, project_id):
     from projects.models.project import Project
     from projects.models.Consumer_Committee.consumer_committee_details import ConsumerCommitteeDetail
     from projects.models.Consumer_Committee.official_detail import OfficialDetail
-    from projects.models.Project_Aggrement.project_aggrement_details import  ProjectAgreementDetails
-    
+    from projects.models.Project_Aggrement.project_aggrement_details import ProjectAgreementDetails
 
     try:
         project = Project.objects.get(pk=project_id)
@@ -14,9 +52,13 @@ def build_pdf_context(serial_no, project_id):
     officials = OfficialDetail.objects.filter(project=project).order_by('serial_no')
     agreement = ProjectAgreementDetails.objects.filter(project=project).first()
 
+    # ✅ Define gov logo path
+    gov_logo = f'file://{os.path.join(settings.BASE_DIR, "static/images/nepal-govt.png")}'
+
     context = {
+        "gov_logo": gov_logo,  # ✅ Added here
         "project_name": project.project_name,
-        "ward_number":project.ward_no,
+        "ward_number": project.ward_no,
         "fiscal_year": project.fiscal_year.year if project.fiscal_year else "",
         "location": project.location or "-",
         "total_cost": f"{project.budget} रू",
@@ -29,12 +71,5 @@ def build_pdf_context(serial_no, project_id):
         "municipality_amount": agreement.municipality_amount if agreement else 0,
         "public_participation_amount": agreement.public_participation_amount if agreement else 0,
     }
-
-    # # Add serial-specific context if needed
-    # if serial_no == 1:
-    #     context["meeting_date"] = "-"
-    #     context["decisions"] = []
-    # elif serial_no == 3:
-    #     context["photos"] = [] 
 
     return context
