@@ -1,117 +1,3 @@
-{% comment %} <!DOCTYPE html>
-<html lang="ne">
-<head>
-  <meta charset="UTF-8" />
-  <title>उपभोक्ता समिति गठन सम्बन्धी दस्तावेज</title>
-  <style>
-    body {
-      font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
-      font-size: 14px;
-      line-height: 1.6;
-      margin: 20px;
-      color: #000;
-    }
-    h1, h2, h3 {
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    p {
-      margin: 6px 0;
-      text-align: justify;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 15px 0;
-      font-size: 14px;
-    }
-    table, th, td {
-      border: 1px solid black;
-    }
-    th, td {
-      padding: 6px 8px;
-      text-align: center;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-    /* Optional page break if used for PDF */
-    .page-break {
-      page-break-after: always;
-    }
-  </style>
-</head>
-<body>
-
-<!-- serial_6.pdf PAGE 1 -->
-
-<div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-</div>
-
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
-
-
-<p><strong>मितिः-</strong></p>
-
-<p>श्रीमान् प्रमुख प्रशासकीय अधिकृतज्यू/महाशाखा प्रमुखज्यू/सचिवज्यू<br />
-गाउँ कार्यपालिकाको कार्यालय/वडा समितिको कार्यालय</p>
-
-<p><strong>विषयः-उपभोक्ता समिति गठन गरिएको सम्वन्धमा</strong></p>
-
-<p>उपर्युक्त सम्वन्धमा यस ललितपुर महानगरपालिका वडा नं १ को ktm स्थानमा A गर्ने सम्वन्धि योजना/आयोजना सन्चालनको लागि मिति मा आयोजना गरिएको स्थानीय भेलावाट देहाय
-वमोजिमको पदाधिकारीहरु रहनु भएको उपभोक्ता समिति गठन भएको व्यहोरा सिफारीस साथ अनुरोध गर्दछु।</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>सि.नं.</th>
-      <th>पद</th>
-      <th>नाम थर</th>
-      <th>उमेर</th>
-      <th>सम्पर्क नं. र ठेगाना</th>
-      <th>हस्ताक्षर</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% if officials %}
-      {% for official in officials %}
-        <tr>
-          <td>{{ official.serial_no }}</td>
-          <td>{{ official.post }}</td>
-          <td>श्री {{ official.full_name }}</td>
-          <td><!-- Age field not available; calculate if you add DOB --></td>
-          <td>{{ official.contact_no }} {{ official.address }}</td>
-          <td><!-- Signature left blank intentionally --></td>
-        </tr>
-      {% endfor %}
-    {% else %}
-      <tr>
-        <td colspan="6">कोई विवरण उपलब्ध छैन।</td>
-      </tr>
-    {% endif %}
-  </tbody>
-</table>
-
-<p><strong>नोटः</strong></p>
-<ol>
-  <li>समितिको अध्यक्ष, सचिव र कोषाध्यक्षको नागरिकताको प्रमाणपत्रको प्रतिलिपी संलग्न गरिएको छ ।</li>
-  <li>माथी उल्लेखित उपभोक्ता समितिमा अध्यक्ष, सचिव र कोषाध्यक्ष मध्ये एक पद सहित ३३% प्रतिशत महिला रहेको।</li>
-  <li>उपभोक्ताहरुको भेलाबाट उपभोक्ता समिति गठन गरिएको।</li>
-</ol>
-
-<p><strong>हस्ताक्षर</strong></p>
-<p>अध्यक्ष, उपभोक्ता समिति</p>
-<p>उपभोक्ता समितको छाप</p>
-<p>वडा अध्यक्ष</p>
-
-</body>
-</html> {% endcomment %}
-
 <!DOCTYPE html>
 <html lang="ne">
 <head>
@@ -121,79 +7,83 @@
   <style>
     @page {
       size: A4;
-      margin: 1.5cm;
+      margin: 0.8cm; /* Reduced margin for more content space */
     }
     body {
       font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
-      font-size: 14px;
-      line-height: 1.6;
+      font-size: 12px; /* Reduced font size */
+      line-height: 1.4; /* Reduced line height */
       margin: 0;
-      padding: 20px;
+      padding: 15px; /* Reduced padding */
       background: white;
     }
     .document-wrapper {
       background-color: white;
-      padding: 25px;
+      padding: 20px; /* Reduced padding */
       border: 2px solid #ddd;
       max-width: 800px;
       margin: 0 auto;
+      box-sizing: border-box; /* Include padding and border in element's total width and height */
     }
     .header {
       background-color: #dc2626;
       color: white;
       text-align: center;
-      padding: 20px;
-      margin: -25px -25px 25px -25px;
+      padding: 15px; /* Reduced padding */
+      margin: -20px -20px 20px -20px; /* Adjusted margin to fit wrapper */
       border-bottom: 3px solid #b91c1c;
     }
     .header h2 {
-      margin: 0 0 5px 0;
-      font-size: 22px;
+      margin: 0 0 3px 0; /* Reduced margin */
+      font-size: 20px; /* Reduced font size */
       font-weight: bold;
     }
     .header h3 {
-      margin: 0 0 15px 0;
-      font-size: 18px;
+      margin: 0 0 10px 0; /* Reduced margin */
+      font-size: 16px; /* Reduced font size */
       font-weight: normal;
     }
     .address {
       text-align: center;
-      margin-bottom: 25px;
-      font-size: 14px;
+      margin-bottom: 15px; /* Reduced margin */
+      font-size: 12px; /* Reduced font size */
     }
     .address p {
-      margin: 5px 0;
+      margin: 3px 0; /* Reduced margin */
     }
     .date-field {
       text-align: right;
-      margin-bottom: 15px;
+      margin-bottom: 10px; /* Reduced margin */
       font-weight: bold;
       color: #333;
     }
     .recipient-info {
-      margin-bottom: 20px;
-      line-height: 1.8;
+      margin-bottom: 15px; /* Reduced margin */
+      line-height: 1.6; /* Reduced line height */
+      font-size: 13px; /* Reduced font size */
     }
     .subject-line {
       font-weight: bold;
-      margin: 15px 0;
-      padding: 8px 0;
+      margin: 10px 0; /* Reduced margin */
+      padding: 6px 0; /* Reduced padding */
       border-bottom: 2px solid #dc2626;
       color: #333;
+      font-size: 14px; /* Reduced font size */
     }
     .intro-paragraph {
-      margin: 15px 0;
+      margin: 10px 0; /* Reduced margin */
       text-align: justify;
+      font-size: 13px; /* Reduced font size */
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 20px 0;
-      font-size: 13px;
+      margin: 15px 0; /* Reduced margin */
+      font-size: 11px; /* Reduced font size */
     }
     th, td {
       border: 1px solid #333;
-      padding: 8px 5px;
+      padding: 6px 4px; /* Reduced padding */
       text-align: center;
     }
     th {
@@ -208,21 +98,22 @@
       background-color: #f8f9fa;
     }
     .notes-section {
-      margin-top: 20px;
-      padding: 15px;
+      margin-top: 15px; /* Reduced margin */
+      padding: 10px; /* Reduced padding */
       background-color: #f9f9f9;
       border: 1px solid #e0e0e0;
+      font-size: 12px; /* Reduced font size */
     }
     .notes-section ol {
       margin: 0;
-      padding-left: 20px;
+      padding-left: 15px; /* Reduced padding */
     }
     .notes-section li {
-      margin-bottom: 5px;
+      margin-bottom: 3px; /* Reduced margin */
       text-align: justify;
     }
     .signature-block {
-      margin-top: 40px;
+      margin-top: 30px; /* Reduced margin */
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
@@ -230,24 +121,24 @@
     .signature-item {
       text-align: center;
       flex: 1;
-      margin: 0 10px;
+      margin: 0 5px; /* Reduced margin */
     }
     .signature-line {
       border-top: 1px solid #333;
-      margin-top: 30px;
-      padding-top: 5px;
-      font-size: 13px;
+      margin-top: 25px; /* Reduced margin */
+      padding-top: 4px; /* Reduced padding */
+      font-size: 12px; /* Reduced font size */
     }
     .stamp-placeholder {
-      width: 100px;
-      height: 100px;
+      width: 80px; /* Reduced size */
+      height: 80px; /* Reduced size */
       border: 2px dashed #ccc;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
+      font-size: 10px; /* Reduced font size */
       color: #666;
-      margin: 0 auto 10px auto;
+      margin: 0 auto 8px auto; /* Reduced margin */
     }
     @media print {
       body {
@@ -256,7 +147,10 @@
       }
       .document-wrapper {
         border: none;
-        padding: 15px;
+        padding: 0;
+      }
+      @page {
+        margin: 0.5cm; /* Even smaller margin for print */
       }
     }
   </style>
@@ -267,29 +161,23 @@
       <h2>बर्दगोरिया गाउँपालिका</h2>
       <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
     </div>
-    
     <div class="address">
       <p>मूडा, कैलाली</p>
       <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
     </div>
-
     <div class="date-field">
       <strong>मितिः-</strong>
     </div>
-
     <div class="recipient-info">
       श्रीमान् प्रमुख प्रशासकीय अधिकृतज्यू/महाशाखा प्रमुखज्यू/सचिवज्यू<br />
       गाउँ कार्यपालिकाको कार्यालय/वडा समितिको कार्यालय
     </div>
-
     <div class="subject-line">
       <strong>विषयः-उपभोक्ता समिति गठन गरिएको सम्वन्धमा</strong>
     </div>
-
     <div class="intro-paragraph">
       उपर्युक्त सम्वन्धमा यस ललितपुर महानगरपालिका वडा नं १ को ktm स्थानमा A गर्ने सम्वन्धि योजना/आयोजना सन्चालनको लागि मिति मा आयोजना गरिएको स्थानीय भेलावाट देहायवमोजिमको पदाधिकारीहरु रहनु भएको उपभोक्ता समिति गठन भएको व्यहोरा सिफारीस साथ अनुरोध गर्दछु।
     </div>
-
     <table>
       <thead>
         <tr>
@@ -320,7 +208,6 @@
         {% endif %}
       </tbody>
     </table>
-
     <div class="notes-section">
       <strong>नोटः</strong>
       <ol>
@@ -329,7 +216,6 @@
         <li>उपभोक्ताहरुको भेलाबाट उपभोक्ता समिति गठन गरिएको।</li>
       </ol>
     </div>
-
     <div class="signature-block">
       <div class="signature-item">
         <div class="signature-line">अध्यक्ष, उपभोक्ता समिति</div>

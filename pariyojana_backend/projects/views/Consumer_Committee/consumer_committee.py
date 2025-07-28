@@ -312,8 +312,7 @@ def download_consumer_committee_pdf(request, serial_no: int, project_id: int):
     # Render the HTML template to a string
     html_string = render_to_string(template_map[serial_no], context)
 
-    # # Use WeasyPrint to convert HTML to PDF bytes
-    # pdf_file = HTML(string=html_string).write_pdf()
+    
     base_url = request.build_absolute_uri('/')
 
     # Generate PDF
