@@ -13,12 +13,48 @@ from projects.pdfs.project_aggrement_workorder.utils import build_pdf_context
 from django.http import HttpResponse, Http404
 from django.template.loader import render_to_string
 from weasyprint import HTML
+from projects.models.project import Project
+from django.shortcuts import get_object_or_404
+from django.conf  import settings
 
 class ProjectAgreementWorkorderListView(APIView):
-    def get(self, request):
+    # def get(self, request):
+    #     today = date.today()
+
+    #     uploads = ProjectAgreementWorkorderUpload.objects.all()
+    #     upload_map = {u.serial_no: u for u in uploads}
+
+    #     response_data = []
+
+    #     for item in PROJECT_AGREEMENT_WORKORDER_TITLES:
+    #         serial_no = item["serial_no"]
+    #         upload = upload_map.get(serial_no)
+    #         if upload:
+    #             status_text = "अपलोड गरिएको"
+    #             file_uploaded_name = upload.file.name.split('/')[-1]
+    #         else:
+    #             status_text = ""
+    #             file_uploaded_name = "No file uploaded"
+
+    #         response_data.append({
+    #             "serial_no": serial_no,
+    #             "title": item["title"],
+    #             "date": today,
+    #             "status": status_text,
+    #             "file_uploaded_name": file_uploaded_name,
+    #         })
+
+    #     serializer = ProjectAgreementWorkorderRowSerializer(response_data, many=True)
+    #     return Response(serializer.data)
+    def get(self, request, serial_number=None):
         today = date.today()
 
-        uploads = ProjectAgreementWorkorderUpload.objects.all()
+        try:
+            project = Project.objects.get(serial_number=serial_number)
+        except Project.DoesNotExist:
+            return Response({"detail": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        uploads = ProjectAgreementWorkorderUpload.objects.filter(project=project)
         upload_map = {u.serial_no: u for u in uploads}
 
         response_data = []
@@ -26,12 +62,14 @@ class ProjectAgreementWorkorderListView(APIView):
         for item in PROJECT_AGREEMENT_WORKORDER_TITLES:
             serial_no = item["serial_no"]
             upload = upload_map.get(serial_no)
-            if upload:
+            if upload and upload.file:
                 status_text = "अपलोड गरिएको"
                 file_uploaded_name = upload.file.name.split('/')[-1]
+                file_url = request.build_absolute_uri(upload.file.url)
             else:
                 status_text = ""
                 file_uploaded_name = "No file uploaded"
+                file_url = None
 
             response_data.append({
                 "serial_no": serial_no,
@@ -39,16 +77,35 @@ class ProjectAgreementWorkorderListView(APIView):
                 "date": today,
                 "status": status_text,
                 "file_uploaded_name": file_uploaded_name,
+                "file_url": file_url,
+                "file": upload.file.url if upload and upload.file else None,
             })
 
-        serializer = ProjectAgreementWorkorderRowSerializer(response_data, many=True)
+        serializer = ProjectAgreementWorkorderRowSerializer(response_data, many=True, context={'request': request})
         return Response(serializer.data)
 
 
 
+
+# @api_view(['POST'])
+# @parser_classes([MultiPartParser, FormParser])
+# def project_agreement_workorder_upload(request):
+#     serial_no = request.data.get('serial_no')
+#     file = request.FILES.get('file')
+#     remarks = request.data.get('remarks')
+
+#     if not serial_no or not file:
+#         return Response({"detail": "serial_no and file are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+#     obj, created = ProjectAgreementWorkorderUpload.objects.update_or_create(
+#         serial_no=serial_no,
+#         defaults={'file': file, 'remarks': remarks}
+#     )
+#     return Response({"detail": "File uploaded successfully."})
+
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
-def project_agreement_workorder_upload(request):
+def project_agreement_workorder_upload(request, serial_number):
     serial_no = request.data.get('serial_no')
     file = request.FILES.get('file')
     remarks = request.data.get('remarks')
@@ -56,11 +113,20 @@ def project_agreement_workorder_upload(request):
     if not serial_no or not file:
         return Response({"detail": "serial_no and file are required."}, status=status.HTTP_400_BAD_REQUEST)
 
+    try:
+        project = Project.objects.get(serial_number=serial_number)
+    except Project.DoesNotExist:
+        return Response({"detail": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
+
     obj, created = ProjectAgreementWorkorderUpload.objects.update_or_create(
+        project=project,
         serial_no=serial_no,
         defaults={'file': file, 'remarks': remarks}
     )
+
     return Response({"detail": "File uploaded successfully."})
+
+
 
 
 

@@ -18,31 +18,85 @@ from projects.pdfs.plan_aggrement.utils import build_pdf_context
 
 
 class ProjectPlanTrackerListView(APIView):
-    def get(self, request):
+    # def get(self, request):
+    #     today = date.today()
+    #     uploads = ProjectPlanTrackerUpload.objects.all()
+    #     upload_map = {u.serial_no: u for u in uploads}
+    #     response_data = []
+
+    #     for item in PROJECT_PLAN_TRACKER_TITLES:
+    #         serial_no = item["serial_no"]
+    #         upload = upload_map.get(serial_no)
+
+    #         response_data.append({
+    #             "serial_no": serial_no,
+    #             "title": item["title"],
+    #             "date": today,
+    #             "status": "अपलोड गरिएको" if upload else "",
+    #             "file_uploaded_name": upload.file.name.split('/')[-1] if upload else "No file uploaded",
+    #         })
+
+    #     serializer = ProjectPlanTrackerRowSerializer(response_data, many=True)
+    #     return Response(serializer.data)
+    
+    def get(self, request, project_serial_number):
         today = date.today()
-        uploads = ProjectPlanTrackerUpload.objects.all()
+
+        try:
+            project = Project.objects.get(serial_number=project_serial_number)
+        except Project.DoesNotExist:
+            return Response({"detail": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        uploads = ProjectPlanTrackerUpload.objects.filter(project=project)
         upload_map = {u.serial_no: u for u in uploads}
+
         response_data = []
 
         for item in PROJECT_PLAN_TRACKER_TITLES:
             serial_no = item["serial_no"]
             upload = upload_map.get(serial_no)
 
+            if upload and upload.file:
+                status_text = "अपलोड गरिएको"
+                file_uploaded_name = upload.file.name.split('/')[-1]
+                file_url = request.build_absolute_uri(upload.file.url)
+            else:
+                status_text = ""
+                file_uploaded_name = "No file uploaded"
+                file_url = None
+
             response_data.append({
                 "serial_no": serial_no,
                 "title": item["title"],
                 "date": today,
-                "status": "अपलोड गरिएको" if upload else "",
-                "file_uploaded_name": upload.file.name.split('/')[-1] if upload else "No file uploaded",
+                "status": status_text,
+                "file_uploaded_name": file_uploaded_name,
+                "file_url": file_url,
             })
 
-        serializer = ProjectPlanTrackerRowSerializer(response_data, many=True)
+        serializer = ProjectPlanTrackerRowSerializer(response_data, many=True, context={'request': request})
         return Response(serializer.data)
 
 
+# @api_view(['POST'])
+# @parser_classes([MultiPartParser, FormParser])
+# def upload_project_plan_tracker(request):
+#     serial_no = request.data.get('serial_no')
+#     file = request.FILES.get('file')
+#     remarks = request.data.get('remarks')
+
+#     if not serial_no or not file:
+#         return Response({"detail": "serial_no and file are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+#     ProjectPlanTrackerUpload.objects.update_or_create(
+#         serial_no=serial_no,
+#         defaults={'file': file, 'remarks': remarks}
+#     )
+#     return Response({"detail": "File uploaded successfully."})
+
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
-def upload_project_plan_tracker(request):
+def upload_project_plan_tracker(request, project_serial_number):
     serial_no = request.data.get('serial_no')
     file = request.FILES.get('file')
     remarks = request.data.get('remarks')
@@ -50,11 +104,18 @@ def upload_project_plan_tracker(request):
     if not serial_no or not file:
         return Response({"detail": "serial_no and file are required."}, status=status.HTTP_400_BAD_REQUEST)
 
-    ProjectPlanTrackerUpload.objects.update_or_create(
+    try:
+        project = Project.objects.get(serial_number=project_serial_number)
+    except Project.DoesNotExist:
+        return Response({"detail": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    obj, created = ProjectPlanTrackerUpload.objects.update_or_create(
+        project=project,
         serial_no=serial_no,
         defaults={'file': file, 'remarks': remarks}
     )
     return Response({"detail": "File uploaded successfully."})
+
 
 
 @api_view(['GET'])

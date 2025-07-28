@@ -95,19 +95,23 @@ urlpatterns = [
     path('<int:serial_number>/program-details/', ProjectRelatedDataView.as_view(), name='project-program-details'),
     path('consumer-committee/', ConsumerCommitteeListView.as_view(), name='consumer-committee-list'),
     # path('consumer-committee/upload/', consumer_committee_upload, name='consumer-committee-upload'),
-    path('<int:serial_number>/consumer-committee/upload/', consumer_committee_upload, name='consumer-committee-upload'),
+    path('<int:project_serial_number>/consumer-committee/upload/', consumer_committee_upload, name='consumer-committee-upload'),
 
     path('consumer-committee/generate-pdf/<int:serial_no>/<int:project_id>/', download_consumer_committee_pdf),
     path('consumer-committee/preview-template/<int:serial_no>/<int:project_id>/', preview_template, name='preview-template'),
      
     path('project-plan-tracker/', ProjectPlanTrackerListView.as_view()),
-    path('project-plan-tracker/upload/', upload_project_plan_tracker),
+    # path('project-plan-tracker/upload/', upload_project_plan_tracker),
+    path('project-plan-tracker/<int:project_serial_number>/', ProjectPlanTrackerListView.as_view(),name='upload-file'),
+    path('project-plan-tracker/<int:project_serial_number>/upload/', upload_project_plan_tracker,name='get-file'),
     path('project-plan-tracker/download/<int:serial_no>/<int:project_id>/', download_project_plan_tracker_pdf),
     path('plan_aggrement/preview-template/<int:serial_no>/<int:project_id>/', preview_project_plan_tracker_template, name='project-plan-tracker-preview-template'),
     
     
     path('project-aggrement/', ProjectAgreementWorkorderListView.as_view(), name='project_agreement_list'),
-    path('project-aggrement/upload/', project_agreement_workorder_upload, name='project_agreement_upload'),
+    # path('project-aggrement/upload/', project_agreement_workorder_upload, name='project_agreement_upload'),
+    path('project-aggrement/<int:serial_number>/upload/', project_agreement_workorder_upload, name='project_agreement_upload'),
+    path('project-aggrement/<int:serial_number>/', ProjectAgreementWorkorderListView.as_view(), name='project_agreement_list'),
     path('project-aggrement/download/<int:serial_no>/<int:project_id>/', download_project_agreement_workorder_pdf, name='project_agreement_pdf_download'),
     path('project_aggrement_workorder/preview-template/<int:serial_no>/<int:project_id>/', preview_project_aggrement_workorder_template, name='project-aggrement-workorder-preview-template'),
     
