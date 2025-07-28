@@ -87,10 +87,39 @@ from datetime import date
 
 from projects.models.Installment_Payment.payment_related_details import PaymentRelatedDetail
 from projects.models.project import Project
+import nepali_datetime as ndt
+# def generate_payment_bill_pdf(request, project_id):
+#     try:
+#        project = Project.objects.get(pk=project_id)
+#     except Project.DoesNotExist:
+#         return HttpResponse("Project not found", status=404)
+
+#     payment_details = PaymentRelatedDetail.objects.filter(
+#         project=project, is_active=True
+#     ).order_by('created_at')
+
+#     if not payment_details.exists():
+#         return HttpResponse("No payment records found", status=404)
+
+#     context = {
+#         "project_name": project.project_name,
+#         "ward_no": project.ward_no,
+#         "payments": payment_details,
+#         "today": date.today().strftime("%Y-%m-%d")
+#     }
+
+#     html_string = render_to_string("Installment_Bill/payment_bill_template.html", context)
+#     html = HTML(string=html_string)
+#     pdf_file = html.write_pdf()
+
+#     response = HttpResponse(pdf_file, content_type="application/pdf")
+#     response['Content-Disposition'] = f'attachment; filename="payment_bill_project_{project_id}.pdf"'
+#     return response
+
 
 def generate_payment_bill_pdf(request, project_id):
     try:
-       project = Project.objects.get(pk=project_id)
+        project = Project.objects.get(pk=project_id)
     except Project.DoesNotExist:
         return HttpResponse("Project not found", status=404)
 
@@ -101,11 +130,15 @@ def generate_payment_bill_pdf(request, project_id):
     if not payment_details.exists():
         return HttpResponse("No payment records found", status=404)
 
+    # ✅ Convert today's date to Nepali date
+    nepali_today = ndt.date.from_datetime_date(date.today())
+    nepali_today_str = nepali_today.strftime("%K-%n-%D गते")   # Example: २०८२-०५-१२ गते
+
     context = {
         "project_name": project.project_name,
         "ward_no": project.ward_no,
         "payments": payment_details,
-        "today": date.today().strftime("%Y-%m-%d")
+        "today": nepali_today_str    # ✅ Use Nepali date in context
     }
 
     html_string = render_to_string("Installment_Bill/payment_bill_template.html", context)
@@ -115,4 +148,3 @@ def generate_payment_bill_pdf(request, project_id):
     response = HttpResponse(pdf_file, content_type="application/pdf")
     response['Content-Disposition'] = f'attachment; filename="payment_bill_project_{project_id}.pdf"'
     return response
-
