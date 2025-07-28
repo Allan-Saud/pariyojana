@@ -213,10 +213,24 @@ USE_TZ = True
 
 # STATIC_URL = '/static/'
 # STATICFILES_DIRS = [BASE_DIR / "static"]
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [
+#     BASE_DIR / "projects/static",
+# ]
+# STATIC_ROOT = BASE_DIR / "staticfiles"
+
+import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "projects/static",
+    BASE_DIR / "projects" / "static",  # adjust if your static files are somewhere else
 ]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"  # <-- This must be a folder path for collectstatic
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
