@@ -10,6 +10,8 @@ from project_settings.models.project_level import ProjectLevel
 from projects.my_widgets import SafeForeignKeyWidget 
 
 class ProjectResource(resources.ModelResource):
+    serial_number = fields.Field(column_name='serial_number', attribute='serial_number', readonly=True)
+    
     area = fields.Field(
         column_name='क्षेत्र',
         attribute='area',
@@ -31,7 +33,7 @@ class ProjectResource(resources.ModelResource):
         widget=SafeForeignKeyWidget(ExpenditureCenter, 'name')
     )
     project_level = fields.Field(
-        column_name='Project Level',
+        column_name='योजनाको स्तर',
         attribute='project_level',
         widget=SafeForeignKeyWidget(ProjectLevel, 'name')
     )
@@ -45,14 +47,28 @@ class ProjectResource(resources.ModelResource):
         attribute='unit',
         widget=SafeForeignKeyWidget(Unit, 'name')
     )
-
+    project_name = fields.Field(column_name='योजना तथा कार्यक्रम', attribute='project_name')
+    budget = fields.Field(column_name='बजेट', attribute='budget')
+    ward_no = fields.Field(column_name='वडा नंं', attribute='ward_no')
+    status = fields.Field(column_name='स्थिती', attribute='status')
+    location = fields.Field(column_name='योजना संचालन स्थान', attribute='location')
+    location_gps = fields.Field(column_name='GPS समन्वय', attribute='location_gps')
+    outcome = fields.Field(column_name='सम्पन्न गर्ने परिणाम', attribute='outcome')
     class Meta:
         model = Project
-        import_id_fields = ('project_name',)  # your unique field
+        import_id_fields = ('project_name',)  # or another unique field for updates
         fields = (
-            'serial_number', 'project_name', 'area', 'sub_area', 'source',
-            'expenditure_center', 'project_level', 'budget', 'ward_no', 'status',
-            'fiscal_year', 'location', 'location_gps', 'outcome', 'unit', 'is_active'
+            'serial_number',  # included for export only (readonly)
+            'project_name', 'area', 'sub_area', 'source',
+            'expenditure_center', 'project_level', 'budget',
+            'ward_no', 'status', 'fiscal_year',
+            'location', 'location_gps', 'outcome', 'unit'
         )
         export_order = fields
+
+    def before_import_row(self, row, **kwargs):
+        fy_name = row.get('आर्थिक वर्ष')
+        if fy_name:
+            fiscal_year_obj, created = FiscalYear.objects.get_or_create(year=fy_name)
+            row['fiscal_year'] = fiscal_year_obj.id
 
