@@ -6,120 +6,6 @@
   <style>
     body {
       font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
-      margin: 40px;
-      line-height: 1.8;
-    }
-
-    .center {
-      text-align: center;
-    }
-
-    .header, .address {
-      margin-bottom: 10px;
-    }
-
-    .bill-container {
-      margin-top: 30px;
-    }
-
-    .bill-title {
-      text-align: center;
-      font-size: 20px;
-      margin-bottom: 20px;
-      text-decoration: underline;
-      font-weight: bold;
-    }
-
-    .bill-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    .bill-table th, .bill-table td {
-      border: 1px solid #000;
-      padding: 8px 12px;
-      text-align: left;
-    }
-
-    .bill-table th {
-      background-color: #f2f2f2;
-    }
-
-    .footer {
-      margin-top: 60px;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="center">
-    <div class="header">
-      <h2>बर्दगोरिया गाउँपालिका</h2>
-      <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
-    </div>
-    <div class="address">
-      <p>मूडा, कैलाली</p>
-      <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-    </div>
-  </div>
-
-  <div class="bill-container">
-    <div class="bill-title">बिल विवरण</div>
-
-    <table class="bill-table">
-      <tr>
-        <th>योजना नाम</th>
-        <td>{{ project_name }}</td>
-      </tr>
-      <tr>
-        <th>उपभोक्ता नाम</th>
-        <td>{{ consumer_committee_name }}</td>
-      </tr>
-      <tr>
-        <th>अनुमानित लागत</th>
-        <td>{{ estimated_cost }} रुपैयाँ</td>
-      </tr>
-      <tr>
-        <th>कन्टिन्जेन्सी प्रतिशत</th>
-        <td>{{ contingency_percent }}%</td>
-      </tr>
-      <tr>
-        <th>कन्टिन्जेन्सी रकम</th>
-        <td>{{ contingency_amount }} रुपैयाँ</td>
-      </tr>
-      <tr>
-        <th>कुल अनुमानित लागत</th>
-        <td>{{ total_estimated_cost }} रुपैयाँ</td>
-      </tr>
-      <tr>
-        <th>स्वीकृत बजेट</th>
-        <td>{{ allocated_budget }} रुपैयाँ</td>
-      </tr>
-      <tr>
-        <th>मिति</th>
-        <td>{{ today }}</td>
-      </tr>
-    </table>
-  </div>
-
-  <div class="footer">
-    <p><strong>तयार गर्ने:</strong> ..................................................</p>
-    <p><strong>पद:</strong> ..................................................</p>
-  </div>
-
-</body>
-</html> {% endcomment %}
-
-
-<!DOCTYPE html>
-<html lang="ne">
-<head>
-  <meta charset="UTF-8">
-  <title>बिल विवरण</title>
-  <style>
-    body {
-      font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
       margin: 20px;
       line-height: 1.6;
       background-color: #f9f9f9;
@@ -265,5 +151,151 @@
       <p><strong>पद:</strong> <span class="signature-line"></span></p>
     </div>
   </div>
+</body>
+</html> {% endcomment %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <title>बिल विवरण</title>
+    <style>
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
+            margin: 40px; /* Provides space on all sides like a letter */
+            line-height: 1.8;
+            color: #000000; /* Default text color is black */
+            background-color: #ffffff;
+            max-width: 800px; /* Constrains width for a letter-like appearance */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .letterhead {
+            display: flex;
+            align-items: flex-start; /* Aligns items to the top */
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            margin-right: 20px;
+        }
+
+        .logo img {
+            width: 100px; /* Adjust logo size as needed */
+            height: auto;
+        }
+        
+        .header-content {
+            flex-grow: 1; /* Allows header text to take remaining space */
+            text-align: center;
+            color: #ff0000; /* Red color for header and address text */
+        }
+
+        .header-content h2,
+        .header-content h3,
+        .header-content p {
+            margin: 0;
+            padding: 2px 0;
+        }
+
+        .bill-container {
+            margin-top: 30px;
+        }
+
+        .bill-title {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .bill-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .bill-table th,
+        .bill-table td {
+            border: 1px solid #000000; /* Simple black border */
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .bill-table th {
+            width: 40%;
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 60px;
+        }
+
+         .footer p {
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="letterhead">
+        <div class="logo">
+            {% comment %} <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Coat_of_arms_of_Nepal.svg/120px-Coat_of_arms_of_Nepal.svg.png" alt="नेपाल सरकारको लोगो"> {% endcomment %}
+            <img src="{% static 'images/nepal-govt.png' %}" alt="नेपाल सरकारको लोगो">
+        </div>
+        <div class="header-content">
+            <h2>बर्दगोरिया गाउँपालिका</h2>
+            <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+            <p>मूडा, कैलाली</p>
+            <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+        </div>
+    </div>
+
+    <div class="bill-container">
+        <div class="bill-title">बिल विवरण</div>
+        <table class="bill-table">
+            <tr>
+                <th>योजना नाम</th>
+                <td>{{ project_name }}</td>
+            </tr>
+            <tr>
+                <th>उपभोक्ता नाम</th>
+                <td>{{ consumer_committee_name }}</td>
+            </tr>
+            <tr>
+                <th>अनुमानित लागत</th>
+                <td>{{ estimated_cost }} रुपैयाँ</td>
+            </tr>
+            <tr>
+                <th>कन्टिन्जेन्सी प्रतिशत</th>
+                <td>{{ contingency_percent }}%</td>
+            </tr>
+            <tr>
+                <th>कन्टिन्जेन्सी रकम</th>
+                <td>{{ contingency_amount }} रुपैयाँ</td>
+            </tr>
+            <tr>
+                <th>कुल अनुमानित लागत</th>
+                <td>{{ total_estimated_cost }} रुपैयाँ</td>
+            </tr>
+            <tr>
+                <th>स्वीकृत बजेट</th>
+                <td>{{ allocated_budget }} रुपैयाँ</td>
+            </tr>
+            <tr>
+                <th>मिति</th>
+                <td>{{ today }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        <p><strong>तयार गर्ने:</strong> ..................................................</p>
+        <p><strong>पद:</strong> .....................................................</p>
+    </div>
+
 </body>
 </html>
