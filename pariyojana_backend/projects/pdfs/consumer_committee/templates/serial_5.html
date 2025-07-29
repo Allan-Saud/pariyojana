@@ -1,287 +1,329 @@
 <!DOCTYPE html>
 <html lang="ne">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>उपभोक्ता समिति गठन सम्बन्धी आम भेला</title>
-  <style>
-    @page {
-      size: A4;
-      margin: 1.5cm;
-    }
-    body {
-      font-family: Kalimati, 'Noto Sans Devanagari', sans-serif;
-      font-size: 14px;
-      line-height: 1.6;
-      margin: 0;
-      padding: 20px;
-      background: white;
-    }
-    .document-wrapper {
-      background-color: white;
-      padding: 25px;
-      border: 2px solid #ddd;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .header {
-      background-color: #dc2626;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin: -25px -25px 25px -25px;
-      border-bottom: 3px solid #b91c1c;
-    }
-    .header h2 {
-      margin: 0 0 5px 0;
-      font-size: 22px;
-      font-weight: bold;
-    }
-    .header h3 {
-      margin: 0 0 15px 0;
-      font-size: 18px;
-      font-weight: normal;
-    }
-    .address {
-      text-align: center;
-      margin-bottom: 25px;
-      font-size: 14px;
-    }
-    .address p {
-      margin: 5px 0;
-    }
-    .meeting-title {
-      text-align: center;
-      font-weight: bold;
-      font-size: 18px;
-      color: #333;
-      margin: 20px 0;
-      padding: 10px;
-      background-color: #f8f9fa;
-      border-left: 4px solid #dc2626;
-    }
-    .meeting-details {
-      margin: 20px 0;
-      padding: 15px;
-      background-color: #f9f9f9;
-      border: 1px solid #e0e0e0;
-      text-align: justify;
-    }
-    .attendance-title {
-      font-weight: bold;
-      margin: 20px 0 10px 0;
-      color: #333;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin: 15px 0;
-      font-size: 12px;
-    }
-    th, td {
-      border: 1px solid #333;
-      padding: 8px 4px;
-      text-align: center;
-    }
-    th {
-      background-color: #dc2626;
-      color: white;
-      font-weight: bold;
-    }
-    td {
-      background-color: white;
-    }
-    tbody tr:nth-child(even) td {
-      background-color: #f8f9fa;
-    }
-    .agenda-section {
-      margin: 25px 0;
-      padding: 15px;
-      background-color: #fff;
-      border: 1px solid #ddd;
-    }
-    .agenda-title {
-      font-weight: bold;
-      margin-bottom: 15px;
-      color: #dc2626;
-      font-size: 16px;
-    }
-    .agenda-item {
-      margin: 8px 0;
-      padding-left: 10px;
-    }
-    .decision-section {
-      margin: 20px 0;
-      padding: 15px;
-      background-color: #f0f8ff;
-      border: 1px solid #b3d9ff;
-    }
-    .decision-title {
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 10px;
-      font-size: 15px;
-    }
-    .decision-content {
-      margin: 10px 0;
-      text-align: justify;
-    }
-    .committee-member {
-      margin: 5px 0;
-      padding: 3px 0;
-    }
-    .page-break {
-      page-break-after: always;
-      margin: 30px 0;
-      border-top: 2px solid #dc2626;
-    }
-    @media print {
-      body {
-        -webkit-print-color-adjust: exact;
-        padding: 0;
-      }
-      .document-wrapper {
-        border: none;
-        padding: 15px;
-      }
-      .page-break {
-        page-break-after: always;
-        border: none;
-        margin: 0;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>उपभोक्ता समिति गठन सम्बन्धी आम भेला</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0.5cm; /* सबै छेउमा प्रिन्टिङका लागि स्पेस */
+        }
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', sans-serif;
+            font-size: 12px; /* फन्ट साइज अलिकति घटाएर एक पृष्ठमा अटाउने प्रयास */
+            line-height: 1.4;
+            margin: 0;
+            padding: 20px; /* सामग्रीको लागि आन्तरिक प्याडिङ */
+            background: white;
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 30px;
+            border: 2px solid #ddd; /* बाहिरी बोर्डर राखिएको छ */
+            max-width: 800px;
+            margin: 0 auto;
+            min-height: auto; /* प्रिन्टका लागि उपयुक्त */
+        }
+
+        /* हेडर सामग्रीको लागि कन्टेनर */
+        .header-content-wrapper {
+            position: relative; /* लोगोलाई सही रूपमा स्थान दिनको लागि */
+            min-height: 80px; /* लोगोको उचाइ समायोजन गर्न */
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+        }
+
+        .logo-section {
+            position: absolute; /* लोगोलाई स्वतन्त्र रूपमा स्थान दिने */
+            top: 0;
+            left: 0;
+            z-index: 1; /* लोगो अन्य सामग्रीको माथि देखियोस् भन्ने सुनिश्चित गर्छ */
+        }
+
+        .main-header-content {
+            text-align: center; /* हेडर पाठलाई पृष्ठको केन्द्रमा राख्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+            width: 100%; /* यसलाई पूर्ण चौडाई लिने बनाउँछ */
+        }
+
+        .main-header-content h2 {
+            margin: 0 0 5px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .main-header-content h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .address {
+            font-size: 14px;
+            color: #dc2626; /* ठेगाना पाठको लागि रातो रङ्ग */
+        }
+        .address p {
+            margin: 5px 0;
+        }
+
+        .meeting-title {
+            text-align: center; /* शीर्षकलाई केन्द्रमा राख्छ */
+            font-weight: bold;
+            font-size: 18px;
+            color: #333; /* पाठ कालो */
+            margin: 20px 0;
+            padding: 10px;
+            /* background-color: #f8f9fa; -- हटाइएको */
+            /* border-left: 4px solid #dc2626; -- हटाइएको */
+        }
+        .meeting-details {
+            margin: 20px 0;
+            padding: 15px;
+            /* background-color: #f9f9f9; -- हटाइएको */
+            border: none; /* बोर्डर हटाइएको */
+            text-align: justify;
+            color: #333;
+        }
+        .attendance-title {
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+            color: #333;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+            font-size: 12px;
+        }
+        th, td {
+            border: 1px solid #333; /* बोर्डर कालो */
+            padding: 8px 4px;
+            text-align: center;
+        }
+        th {
+            background-color: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* पाठ कालो */
+            font-weight: bold;
+        }
+        td {
+            background-color: white;
+            color: #333;
+        }
+        tbody tr:nth-child(even) td {
+            background-color: #f8f9fa; /* वैकल्पिक पङ्क्तिको पृष्ठभूमि हल्का खैरो */
+        }
+        .agenda-section {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: white; /* पृष्ठभूमि सेतो */
+            border: none; /* बोर्डर हटाइएको */
+            color: #333;
+        }
+        .agenda-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333; /* पाठ कालो */
+            font-size: 16px;
+        }
+        .agenda-item {
+            margin: 8px 0;
+            padding-left: 10px;
+            color: #333;
+        }
+        .decision-section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: white; /* पृष्ठभूमि सेतो */
+            border: none; /* बोर्डर हटाइएको */
+            color: #333;
+        }
+        .decision-title {
+            font-weight: bold;
+            color: #333; /* पाठ कालो */
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        .decision-content {
+            margin: 10px 0;
+            text-align: justify;
+            color: #333;
+        }
+        .committee-member {
+            margin: 5px 0;
+            padding: 3px 0;
+            color: #333;
+        }
+        .page-break {
+            page-break-after: always;
+            margin: 30px 0; /* प्रिन्टमा यो देखिदैन */
+            /* border-top: 2px solid #dc2626; -- हटाइएको */
+        }
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                padding: 0;
+                font-size: 11px; /* प्रिन्ट गर्दा अझ सानो फन्ट साइज */
+            }
+            .document-wrapper {
+                border: none;
+                padding: 15px;
+                min-height: auto;
+            }
+            .page-break {
+                page-break-after: always;
+                border: none;
+                margin: 0;
+            }
+            .main-header-content h2 {
+                font-size: 20px;
+            }
+            .main-header-content h3 {
+                font-size: 15px;
+            }
+            .address {
+                font-size: 11px;
+            }
+            .meeting-title {
+                font-size: 16px;
+            }
+            th, td {
+                padding: 6px 3px;
+            }
+            .agenda-item, .committee-member, .decision-content {
+                font-size: 11px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div style="text-align: center; margin-bottom: 10px;">
-    <img src="{{ gov_logo }}" alt="Government Logo" style="height: 80px;">
-  <div class="document-wrapper">
-    <!-- PAGE 1 -->
-    <div class="header">
-      <h2>बर्दगोरिया गाउँपालिका</h2>
-      <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+    <div class="document-wrapper">
+        <!-- HEADER SECTION -->
+        <div class="header-content-wrapper">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src="https://placehold.co/80x80/888/fff?text=Logo" alt="Government Logo" style="height: 80px;">
+            </div>
+            <div class="main-header-content">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="meeting-title">
+            उपभोक्ता समिति गठन सम्बन्धी स्थानीय समुदायको आम भेला
+        </div>
+
+        <div class="meeting-details">
+            आज मिति २०....... साल महिना गते वार वजे यस ललितपुर महानगरपालिका वडा नं. १ को ktm स्थानमा {{ project_name }} गर्ने सम्वन्धी योजना संचालन गर्ने सम्वन्धमा वडा अध्यक्ष वडा सदस्य श्री .. ज्यू को समुपस्थितीमा देहायका कार्यसूचीमा छलफल गर्न आयोजित भेलाको उपस्थिती देहाय वमोजिम छन्।
+        </div>
+
+        <div class="attendance-title">उपस्थिती</div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">क्र.सं.</th>
+                    <th rowspan="2">नाम थर</th>
+                    <th rowspan="2">उमेर</th>
+                    <th colspan="2">लिङ्ग</th>
+                    <th rowspan="2">सम्पर्क नं.</th>
+                </tr>
+                <tr>
+                    <th>महिला</th>
+                    <th>पुरुष</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>१</td>
+                    <td>वडा नं. का वडा अध्यक्ष/सदस्य श्री</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                {% for i in range_2_46 %}
+                <tr>
+                    <td>{{ i }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="page-break"></div>
+
+        <!-- PAGE 2 - AGENDA AND DECISIONS -->
+        <div class="agenda-section">
+            <div class="agenda-title">छलफलको कार्यसूची</div>
+            <div class="agenda-item">1. उपभोक्ता समिति गठन सम्वन्धमा ।</div>
+            <div class="agenda-item">2. अनुगमन तथा सहजिकरण समिति गठन सम्वन्धमा ।</div>
+            <div class="agenda-item">3. उपभोक्ता समितिको नाम र छाप सम्वन्धमा ।</div>
+            <div class="agenda-item">4. विविध</div>
+        </div>
+
+        <div class="decision-section">
+            <div class="decision-title">निर्णय नं.१</div>
+            <div class="decision-content">
+                छलफलको कार्यसुची १ को विषयमा छलफल हुँदा देहायका महानुभावहरु रहनु भएको उपभोक्ता समिति गठन गर्ने निर्णय गरियो ।
+            </div>
+            
+            {% with official_by_post.chairman as chairman %}
+            <div class="committee-member">अध्यक्ष श्री {{ chairman }}</div>
+            {% endwith %}
+            
+            {% with official_by_post.secretary as secretary %}
+            <div class="committee-member">सचिव श्री {{ secretary }}</div>
+            {% endwith %}
+            
+            {% with official_by_post.treasurer as treasurer %}
+            <div class="committee-member">कोषाध्यक्ष श्री {{ treasurer }}</div>
+            {% endwith %}
+            
+            {% for member in official_by_post.members %}
+            <div class="committee-member">सदस्य श्री {{ member }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="decision-section">
+            <div class="decision-title">निर्णय नं.२</div>
+            <div class="decision-content">
+                छलफलको कार्यसूची २ को विषयमा छलफल हुँदा देहायको महानुभावहरु रहनु भएको अनुगमन तथा सहजिकरण समिति गठन गर्ने निर्णय गरियो।
+            </div>
+            
+            {% with monitoring_by_post.coordinator as coordinator %}
+            <div class="committee-member">संयोजक श्री {{ coordinator }}</div>
+            {% endwith %}
+            
+            {% with monitoring_by_post.member_secretary as member_secretary %}
+            <div class="committee-member">सदस्य सचिव श्री {{ member_secretary }}</div>
+            {% endwith %}
+            
+            {% for member in monitoring_by_post.members %}
+            <div class="committee-member">सदस्य श्री {{ member }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="decision-section">
+            <div class="decision-title">निर्णय नं.३</div>
+            <div class="decision-content">
+                छलफलक कार्यसूची नं. ३ अनुसार उपभोक्ता समितिको नाम श्री राखेर छाप राखे निर्णय गरियो।
+            </div>
+        </div>
+
+        <div class="decision-section">
+            <div class="decision-title">निर्णय. ४</div>
+            <div class="decision-content">
+                माथि उल्लेखीत समितिहरु गठन गर्न सहयोग गर्नु हुने सम्पुर्ण उपस्थीतमा धन्यवाद ज्ञापन गर्दै अन्य छलफलको कार्यसूची नरहेकोले आजको भेला सम्पन्न भएको घोषणा गरियो।
+            </div>
+        </div>
     </div>
-    
-    <div class="address">
-      <p>मूडा, कैलाली</p>
-      <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-    </div>
-
-    <div class="meeting-title">
-      उपभोक्ता समिति गठन सम्बन्धी स्थानीय समुदायको आम भेला
-    </div>
-
-    <div class="meeting-details">
-      आज मिति २०....... साल महिना गते वार वजे यस ललितपुर महानगरपालिका वडा नं. १ को ktm स्थानमा {{ project_name }} गर्ने सम्वन्धी योजना संचालन गर्ने सम्वन्धमा वडा अध्यक्ष वडा सदस्य श्री .. ज्यू को समुपस्थितीमा देहायका कार्यसूचीमा छलफल गर्न आयोजित भेलाको उपस्थिती देहाय वमोजिम छन्।
-    </div>
-
-    <div class="attendance-title">उपस्थिती</div>
-
-    <table>
-      <thead>
-        <tr>
-          <th rowspan="2">क्र.सं.</th>
-          <th rowspan="2">नाम थर</th>
-          <th rowspan="2">उमेर</th>
-          <th colspan="2">लिङ्ग</th>
-          <th rowspan="2">सम्पर्क नं.</th>
-        </tr>
-        <tr>
-          <th>महिला</th>
-          <th>पुरुष</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>१</td>
-          <td>वडा नं. का वडा अध्यक्ष/सदस्य श्री</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        {% for i in range_2_46 %}
-        <tr>
-          <td>{{ i }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-    <div class="page-break"></div>
-
-    <!-- PAGE 2 -->
-    <div class="agenda-section">
-      <div class="agenda-title">छलफलको कार्यसूची</div>
-      <div class="agenda-item">1. उपभोक्ता समिति गठन सम्वन्धमा ।</div>
-      <div class="agenda-item">2. अनुगमन तथा सहजिकरण समिति गठन सम्वन्धमा ।</div>
-      <div class="agenda-item">3. उपभोक्ता समितिको नाम र छाप सम्वन्धमा ।</div>
-      <div class="agenda-item">4. विविध</div>
-    </div>
-
-    <div class="decision-section">
-      <div class="decision-title">निर्णय नं.१</div>
-      <div class="decision-content">
-        छलफलको कार्यसुची १ को विषयमा छलफल हुँदा देहायका महानुभावहरु रहनु भएको उपभोक्ता समिति गठन गर्ने निर्णय गरियो ।
-      </div>
-      
-      {% with official_by_post.chairman as chairman %}
-      <div class="committee-member">अध्यक्ष श्री {{ chairman }}</div>
-      {% endwith %}
-      
-      {% with official_by_post.secretary as secretary %}
-      <div class="committee-member">सचिव श्री {{ secretary }}</div>
-      {% endwith %}
-      
-      {% with official_by_post.treasurer as treasurer %}
-      <div class="committee-member">कोषाध्यक्ष श्री {{ treasurer }}</div>
-      {% endwith %}
-      
-      {% for member in official_by_post.members %}
-      <div class="committee-member">सदस्य श्री {{ member }}</div>
-      {% endfor %}
-    </div>
-
-    <div class="page-break"></div>
-
-    <!-- PAGE 3 -->
-    <div class="decision-section">
-      <div class="decision-title">निर्णय नं.२</div>
-      <div class="decision-content">
-        छलफलको कार्यसूची २ को विषयमा छलफल हुँदा देहायको महानुभावहरु रहनु भएको अनुगमन तथा सहजिकरण समिति गठन गर्ने निर्णय गरियो।
-      </div>
-      
-      {% with monitoring_by_post.coordinator as coordinator %}
-      <div class="committee-member">संयोजक श्री {{ coordinator }}</div>
-      {% endwith %}
-      
-      {% with monitoring_by_post.member_secretary as member_secretary %}
-      <div class="committee-member">सदस्य सचिव श्री {{ member_secretary }}</div>
-      {% endwith %}
-      
-      {% for member in monitoring_by_post.members %}
-      <div class="committee-member">सदस्य श्री {{ member }}</div>
-      {% endfor %}
-    </div>
-
-    <div class="decision-section">
-      <div class="decision-title">निर्णय नं.३</div>
-      <div class="decision-content">
-        छलफलक कार्यसूची नं. ३ अनुसार उपभोक्ता समितिको नाम श्री राखेर छाप राखे निर्णय गरियो।
-      </div>
-    </div>
-
-    <div class="decision-section">
-      <div class="decision-title">निर्णय. ४</div>
-      <div class="decision-content">
-        माथि उल्लेखीत समितिहरु गठन गर्न सहयोग गर्नु हुने सम्पुर्ण उपस्थीतमा धन्यवाद ज्ञापन गर्दै अन्य छलफलको कार्यसूची नरहेकोले आजको भेला सम्पन्न भएको घोषणा गरियो।
-      </div>
-    </div>
-  </div>
 </body>
 </html>

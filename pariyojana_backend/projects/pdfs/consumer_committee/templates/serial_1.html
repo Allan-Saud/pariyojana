@@ -7,21 +7,21 @@
     <style>
         @page {
             size: A4;
-            margin: 0.5cm;
+            margin: 0.5cm; /* Space on all sides for printing */
         }
         body {
             font-family: Kalimati, 'Noto Sans Devanagari', Devanagari, sans-serif;
             font-size: 11px;
             line-height: 1.3;
             margin: 0;
-            padding: 10px;
+            padding: 10px; /* Internal padding for content */
             background: white;
-            color: #333;
+            color: #333; /* Default text color for most content (dark gray, almost black) */
         }
         
         .header-container {
             display: flex;
-            align-items: flex-start;
+            align-items: flex-start; /* Aligns logo to the top */
             margin-bottom: 15px;
         }
         
@@ -32,8 +32,8 @@
         
         .header-section {
             flex-grow: 1;
-            text-align: center;
-            color: #dc2626; /* Red color for header */
+            text-align: center; /* Centers the header text */
+            color: #dc2626; /* Red color for header text */
         }
         
         .header-section h1 {
@@ -48,7 +48,7 @@
         }
         
         .address {
-            color: #dc2626; /* Red color for address */
+            color: #dc2626; /* Red color for address text */
             font-size: 11px;
             margin-top: 8px;
         }
@@ -62,12 +62,14 @@
             margin: 10px 0;
             font-weight: bold;
             font-size: 11px;
+            color: #333; /* Black */
         }
         
         .subject-line {
             margin: 10px 0;
             font-size: 12px;
             font-weight: bold;
+            color: #333; /* Black */
         }
         
         .content-section {
@@ -78,7 +80,7 @@
             text-align: center;
             margin: 10px 0;
             font-style: italic;
-            color: #666;
+            color: #333; /* Changed to black */
             font-size: 10px;
         }
         
@@ -87,7 +89,7 @@
             font-weight: bold;
             margin: 10px 0;
             font-size: 14px;
-            color: #dc2626;
+            color: #333; /* Changed to black */
         }
         
         .project-details {
@@ -99,7 +101,7 @@
         .project-details h3 {
             text-align: center;
             margin-bottom: 10px;
-            color: #dc2626;
+            color: #333; /* Changed to black */
             font-size: 14px;
         }
         
@@ -118,10 +120,11 @@
             font-weight: bold;
             display: inline-block;
             min-width: 160px;
+            color: #333; /* Black */
         }
         
         .field-value {
-            color: #555;
+            color: #333; /* Changed to black */
         }
         
         .quotes-section {
@@ -141,12 +144,12 @@
         .quote.primary {
             font-weight: bold;
             font-size: 12px;
-            color: #dc2626;
+            color: #333; /* Changed to black */
         }
         
         .quote.secondary {
             font-size: 10px;
-            color: #666;
+            color: #333; /* Changed to black */
             line-height: 1.4;
         }
         
@@ -166,14 +169,15 @@
             margin-top: 25px;
             padding-top: 5px;
             font-size: 11px;
+            color: #333; /* Black */
         }
         
         @media print {
             body {
-                padding: 0;
+                padding: 0; /* Remove padding when printing as @page margin handles it */
             }
             @page {
-                margin: 0.5cm;
+                margin: 0.5cm; /* Ensure print margin remains */
             }
         }
     </style>
@@ -181,7 +185,8 @@
 <body>
     <div class="header-container">
         <div class="logo-section">
-            <img src="{{ gov_logo }}" alt="Government Logo" style="height: 60px;">
+            <!-- Ensure you replace {{ gov_logo }} with an actual image URL for the logo -->
+            <img src="https://placehold.co/60x60/888/fff?text=Logo" alt="Government Logo" style="height: 60px;">
         </div>
         <div class="header-section">
             <h1>बर्दगोरिया गाउँपालिका</h1>
