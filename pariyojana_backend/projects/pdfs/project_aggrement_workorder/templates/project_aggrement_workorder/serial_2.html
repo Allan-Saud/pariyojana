@@ -4,38 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>योजना/कार्यक्रम सम्झौता फाराम</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @page {
+            size: A4;
+            margin: 1.5cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
+        }
         body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif; /* नेपाली फन्ट प्रयोग गरियो */
+            font-size: 14px; /* फन्ट साइज */
+            line-height: 1.6; /* लाइन हाइट */
+            margin: 0;
+            padding: 20px; /* पृष्ठको चारैतिर प्याडिङ */
+            background: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 25px; /* भित्री सामग्रीको प्याडिङ */
+            border: 2px solid #ddd; /* हल्का बाहिरी बोर्डर */
+            max-width: 800px; /* अधिकतम चौडाइ */
+            margin: 0 auto; /* केन्द्रमा राख्न */
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+        }
+
+        /* हेडर क्षेत्रको लागि कन्टेनर */
+        .header-area {
+            position: relative;
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको लागि न्यूनतम उचाइ */
+            display: flex; /* फ्लेक्सबक्स लेआउट लोगो र पाठ केन्द्रित गर्न */
+            align-items: flex-start; /* शीर्षमा सामग्री पङ्क्तिबद्ध गर्न */
+        }
+
+        .logo-section {
+            flex-shrink: 0; /* लोगोलाई खुम्चिन नदिन */
+            margin-right: 20px; /* लोगो र हेडर पाठ बीचको खाली ठाउँ */
+        }
+
+        .header-content-centered {
+            flex-grow: 1; /* उपलब्ध ठाउँ लिन */
+            text-align: center; /* पाठलाई केन्द्रित गर्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+        }
+
+        .header-content-centered h2 {
+            margin: 0 0 3px 0;
+            font-size: 22px;
+            font-weight: bold;
+            color: #dc2626; /* रातो */
+        }
+        .header-content-centered h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: normal;
+            color: #dc2626; /* रातो */
+        }
+        .address-main {
+            font-size: 14px;
+            color: #dc2626; /* रातो */
+        }
+        .address-main p {
+            margin: 5px 0;
+        }
+
+        /* सामान्य पाठ र खण्ड शैलीहरू */
+        .section {
+            margin-bottom: 15px;
+        }
+        .section p {
+            margin: 5px 0;
             color: #333;
-            background-color: #f8f8f8;
-            padding: 20px;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .text-center {
+            text-align: center;
         }
-        .header-text {
-            line-height: 1.2;
+        .font-bold {
+            font-weight: bold;
         }
+        .text-xl {
+            font-size: 20px;
+        }
+        .text-lg {
+            font-size: 18px;
+        }
+
+        /* अन्डरलाइन इनपुट शैली */
         .underline-input {
             border-bottom: 1px solid #000;
             display: inline-block;
             min-width: 50px; /* Adjust as needed for length */
             height: 1.2em;
             vertical-align: middle;
+            color: #333; /* Ensuring text in input is black */
         }
+
+        /* तालिका शैलीहरू */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
             margin-bottom: 15px;
+            font-size: 13px;
         }
         table, th, td {
             border: 1px solid #000;
@@ -44,6 +113,11 @@
             padding: 8px;
             text-align: left;
             vertical-align: top;
+            color: #333;
+        }
+        th {
+            background-color: #f2f2f2; /* हल्का खैरो पृष्ठभूमि */
+            font-weight: bold;
         }
         .no-border-table td {
             border: none;
@@ -53,251 +127,202 @@
             border-right: none;
             border-top: none;
         }
+        .text-right {
+            text-align: right;
+        }
+
+        /* सूची शैली */
+        ol.custom-decimal {
+            list-style-type: decimal;
+            padding-left: 25px; /* इन्डेन्टेशन */
+        }
+        ol.custom-decimal li {
+            margin-bottom: 8px;
+        }
+        /* पेज ब्रेक */
         .page-break {
             page-break-before: always;
+            margin-top: 20px; /* ब्रेक पछि केही मार्जिन */
+        }
+
+        /* प्रिन्ट शैलीहरू */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                padding: 0;
+                font-size: 12px; /* प्रिन्ट गर्दा फन्ट साइज अलिकति कम */
+            }
+            .document-wrapper {
+                border: none;
+                padding: 0;
+            }
+            @page {
+                margin: 0.8cm; /* प्रिन्टका लागि अझ सानो मार्जिन */
+            }
+            .header-content-centered h2 {
+                font-size: 20px;
+            }
+            .header-content-centered h3 {
+                font-size: 16px;
+            }
+            .address-main {
+                font-size: 12px;
+            }
+            .section p, .underline-input, table, ol.custom-decimal li {
+                font-size: 12px;
+            }
+            th, td {
+                padding: 6px; /* प्रिन्ट गर्दा प्याडिङ कम */
+            }
+            .page-break {
+                margin-top: 10px; /* प्रिन्टमा पेज ब्रेक पछि मार्जिन कम */
+            }
         }
     </style>
 </head>
 <body>
-     <img src="{{ gov_logo }}" alt="Government Logo" style="width:100px;">
-    <div class="container">
-        <!-- Page 1 Header -->
-        <div class="text-center mb-6">
-            <div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-</div>
-
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
-
+    <div class="document-wrapper">
+        <div class="header-area">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src={{gov_logo}} alt="Government Logo" style="width:80px; height: auto;">
+            </div>
+            <div class="header-content-centered">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
         </div>
 
-        <div class="text-center mb-8">
-            <h2 class="text-xl font-bold">४. योजना/कार्यक्रम सम्झौता फाराम</h2>
+        <div class="text-center section">
+            <h2 class="text-xl font-bold" style="color:#333;">४. योजना/कार्यक्रम सम्झौता फाराम</h2>
         </div>
 
         <!-- Form Sections -->
-        <div class="grid grid-cols-2 gap-x-4 mb-4">
-            <div>
-                <p class="mb-2">योजनाको नाम : {{project_name}}</p>
-            </div>
-            <div class="text-right">
-                <p class="mb-2">योजना कोड नं</p>
-            </div>
+        <div class="section" style="display: flex; justify-content: space-between;">
+            <p>योजनाको नाम : <span class="underline-input" style="min-width: 300px;">{{project_name}}</span></p>
+            <p>योजना कोड नं <span class="underline-input"></span></p>
         </div>
 
-        <div class="grid grid-cols-4 gap-x-2 mb-4">
-            <div>
-                <p>संचालन हुने</p>
-                <p>स्थान : ktm</p>
-            </div>
-            <div>
-                <p>टोल</p>
-            </div>
-            <div>
-                <p>ललितपुर</p>
-                <p>महानगरपालिका</p>
-            </div>
-            <div class="text-right">
-                <p>ललितपुर</p>
-            </div>
+        <div class="section" style="display: flex; flex-wrap: wrap;">
+            <p style="width: 25%;">संचालन हुने</p>
+            <p style="width: 25%;">स्थान : <span class="underline-input" style="min-width: 100px;">ktm</span></p>
+            <p style="width: 25%;">टोल <span class="underline-input"></span></p>
+            <p style="width: 25%;">ललितपुर <span class="underline-input"></span></p>
+            <p style="width: 25%;">महानगरपालिका <span class="underline-input"></span></p>
+            <p style="width: 25%; text-align: right;">ललितपुर <span class="underline-input"></span></p>
         </div>
 
-        <div class="grid grid-cols-4 gap-x-2 mb-4">
-            <div>
-                {% comment %} <p>वार्ड न.ः १</p> {% endcomment %}
-                <p>{{ward_no}}</p>
-            </div>
-            <div></div>
-            <div></div>
-            <div></div>
+        <div class="section">
+            <p>{{ward_no}}</p>
         </div>
 
-        <div class="grid grid-cols-4 gap-x-2 mb-4">
-            <div>
-                <p>योजनाको किसिम :</p>
-            </div>
-            <div>
-                <p>लक्षित</p>
-            </div>
-            <div>
-                <p>अन्य</p>
-            </div>
-            <div></div>
+        <div class="section" style="display: flex; flex-wrap: wrap;">
+            <p style="width: 25%;">योजनाको किसिम :</p>
+            <p style="width: 25%;">लक्षित <span class="underline-input"></span></p>
+            <p style="width: 25%;">अन्य <span class="underline-input"></span></p>
         </div>
 
-        <div class="grid grid-cols-4 gap-x-2 mb-4">
-            <div>
-                <p>महिला</p>
-                <p>लक्षित</p>
-                <p>आयोजना</p>
-            </div>
-            <div>
-                <p>सामान्य</p>
-                <p>आयोजना</p>
-            </div>
-            <div>
-                <p>दलित, जनजाति जस्ता</p>
-                <p>पिछडिएको वर्ग</p>
-            </div>
-            <div></div>
+        <div class="section" style="display: flex; flex-wrap: wrap;">
+            <p style="width: 25%;">महिला</p>
+            <p style="width: 25%;">लक्षित</p>
+            <p style="width: 25%;">आयोजना</p>
+            <p style="width: 25%;">सामान्य</p>
+            <p style="width: 25%;">आयोजना</p>
+            <p style="width: 25%;">दलित, जनजाति जस्ता</p>
         </div>
 
-        <div class="grid grid-cols-4 gap-x-2 mb-4">
-            <div></div>
-            <div></div>
-            <div>
-                <p>सम्बन्धी आयोजना</p>
-            </div>
-            <div></div>
+        <div class="section">
+            <p style="width: 100%; text-align: left;">पिछडिएको वर्ग <span class="underline-input"></span></p>
+            <p style="width: 100%; text-align: left;">सम्बन्धी आयोजना <span class="underline-input"></span></p>
         </div>
 
-        <div class="grid grid-cols-4 gap-x-2 mb-4">
-            <div>
-                <p>योजनाको वर्गिकरण</p>
-            </div>
-            <div></div>
-            <div></div>
-            <div></div>
+        <div class="section">
+            <p>योजनाको वर्गिकरण <span class="underline-input"></span></p>
         </div>
 
-        <div class="grid grid-cols-4 gap-x-2 mb-4">
-            <div>
-                <p>सम्झौता मिति</p>
-            </div>
-            <div></div>
-            <div></div>
-            <div></div>
+        <div class="section">
+            <p>सम्झौता मिति <span class="underline-input" style="min-width: 200px;"></span></p>
         </div>
 
-        <div class="grid grid-cols-4 gap-x-2 mb-4">
-            <div>
-                <p>योजना शुरु हुने मिति</p>
-            </div>
-            <div></div>
-            <div></div>
-            <div></div>
+        <div class="section">
+            <p>योजना शुरु हुने मिति <span class="underline-input" style="min-width: 200px;"></span></p>
         </div>
 
-        <div class="grid grid-cols-4 gap-x-2 mb-4">
-            <div>
-                <p>योजना</p>
-            </div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-
-        <div class="grid grid-cols-4 gap-x-2 mb-4">
-            <div>
-                <p>संचालनमा</p>
-            </div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-
-        <div class="grid grid-cols-4 gap-x-2 mb-4">
-            <div>
-                <p>सहभागी</p>
-            </div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-
-        <div class="grid grid-cols-4 gap-x-2 mb-4">
-            <div>
-                <p>अन्य</p>
-            </div>
-            <div></div>
-            <div></div>
-            <div></div>
+        <div class="section">
+            <p>योजना <span class="underline-input"></span></p>
+            <p>संचालनमा <span class="underline-input"></span></p>
+            <p>सहभागी <span class="underline-input"></span></p>
+            <p>अन्य <span class="underline-input"></span></p>
         </div>
 
         <!-- Page 2 Content -->
         <div class="page-break"></div>
 
-        <div class="grid grid-cols-2 gap-x-4 mb-4">
-            <div>
-                <p>योजनामा संलग्न</p>
-            </div>
-            <div>
-                <p>१</p>
-            </div>
-        </div>
-        <div class="grid grid-cols-2 gap-x-4 mb-4">
-            <div>
-                <p>सामुदायिक</p>
-            </div>
-            <div>
-                <p>२</p>
-            </div>
-        </div>
-        <div class="grid grid-cols-1 mb-4">
+        <div class="section">
+            <p style="display: flex; justify-content: space-between;">
+                <span>योजनामा संलग्न</span>
+                <span>१</span>
+            </p>
+            <p style="display: flex; justify-content: space-between;">
+                <span>सामुदायिक</span>
+                <span>२</span>
+            </p>
             <p>संगठनहरुको नाम र</p>
-        </div>
-        <div class="grid grid-cols-2 gap-x-4 mb-4">
-            <div>
-                <p>संख्या</p>
-            </div>
-            <div>
-                <p>३</p>
-            </div>
-        </div>
-        <div class="grid grid-cols-1 mb-4">
-            <p>४</p>
-        </div>
-        <div class="grid grid-cols-1 mb-4">
-            <p>उपभोक्ता समितिको नाम :{{consumer_committee_name}}</p>
-        </div>
-        <div class="grid grid-cols-1 mb-4">
-            <p>Al</p>
+            <p style="display: flex; justify-content: space-between;">
+                <span>संख्या</span>
+                <span>३</span>
+            </p>
+            <p>४ <span class="underline-input"></span></p>
+            <p>उपभोक्ता समितिको नाम :<span class="underline-input" style="min-width: 300px;">{{consumer_committee_name}}</span></p>
+            <p>Al <span class="underline-input"></span></p>
         </div>
 
-        <h3 class="text-lg font-bold mt-6 mb-2">४.२. योजना/कार्यक्रमको मुख्य उद्देश्य</h3>
+        <h3 class="text-lg font-bold section" style="color:#333;">४.२. योजना/कार्यक्रमको मुख्य उद्देश्य</h3>
+        <p><span class="underline-input" style="min-width: 100%;"></span></p>
 
-        <h3 class="text-lg font-bold mt-6 mb-2">४.३ आयोजनाको लागत सम्बन्धी विवरण</h3>
-        <ul class="list-none pl-0">
-            <li class="mb-1">क) लागत अनुमान रु. {{estimated_cost}}</li>
-            <li class="mb-1">१) महानगरपालिकाबाट रु. {{municipality_amount}}</li>
-            <li class="mb-1">२) गैर सरकारी संघ-संस्था.</li>
-            <li class="mb-1">३) विदेशी दातृ संघ-संस्था..</li>
-            <li class="mb-1">४) उपभोक्ता समूहबाट रु <span class="underline-input w-20"></span>.(प्रतिशत <span class="underline-input w-10"></span>)</li>
-            <li class="mb-1">५) अन्यबाट रु. <span class="underline-input w-20"></span></li>
-            <li class="mb-1">जम्मा <span class="underline-input w-20"></span></li>
+
+        <h3 class="text-lg font-bold section" style="color:#333;">४.३ आयोजनाको लागत सम्बन्धी विवरण</h3>
+        <ul class="custom-decimal">
+            <li>क) लागत अनुमान रु. <span class="underline-input" style="min-width: 150px;">{{estimated_cost}}</span></li>
+            <li>१) महानगरपालिकाबाट रु. <span class="underline-input" style="min-width: 150px;">{{municipality_amount}}</span></li>
+            <li>२) गैर सरकारी संघ-संस्था..<span class="underline-input" style="min-width: 100px;"></span></li>
+            <li>३) विदेशी दातृ संघ-संस्था..<span class="underline-input" style="min-width: 100px;"></span></li>
+            <li>४) उपभोक्ता समूहबाट रु <span class="underline-input" style="min-width: 100px;"></span>.(प्रतिशत <span class="underline-input" style="min-width: 50px;"></span>)</li>
+            <li>५) अन्यबाट रु. <span class="underline-input" style="min-width: 100px;"></span></li>
+            <li>जम्मा <span class="underline-input" style="min-width: 100px;"></span></li>
         </ul>
 
-        <ul class="list-none pl-0 mt-4">
-            <li class="mb-1">क) ललितपुर महानगरपालिकाको कार्यालयबाट : <span class="underline-input w-40"></span></li>
-            <li class="mb-1">ख) उपभोक्ता समूहबाट : <span class="underline-input w-40"></span></li>
-            <li class="mb-1">ग) अन्य : <span class="underline-input w-40"></span></li>
+        <ul class="custom-decimal" style="list-style-type: none; padding-left: 0;">
+            <li>क) ललितपुर महानगरपालिकाको कार्यालयबाट : <span class="underline-input" style="min-width: 250px;"></span></li>
+            <li>ख) उपभोक्ता समूहबाट : <span class="underline-input" style="min-width: 250px;"></span></li>
+            <li>ग) अन्य : <span class="underline-input" style="min-width: 250px;"></span></li>
         </ul>
 
-        <h3 class="text-lg font-bold mt-6 mb-2">४.२ योजनाको विषयत क्षेत्र</h3>
-        <ul class="list-none pl-0">
-            <li class="mb-1">क) आर्थिक सामाजिक भौतिक पूर्वाधार आदि....</li>
+        <h3 class="text-lg font-bold section" style="color:#333;">४.२ योजनाको विषयत क्षेत्र</h3>
+        <ul class="custom-decimal" style="list-style-type: none; padding-left: 0;">
+            <li>क) आर्थिक सामाजिक भौतिक पूर्वाधार आदि....<span class="underline-input" style="min-width: 200px;"></span></li>
         </ul>
 
         <!-- Page 3 Content -->
         <div class="page-break"></div>
 
-        <h3 class="text-lg font-bold mt-6 mb-2">४.३ योजनाको आर्थिक प्राविधिक विवरण। योजनाको लागत अनुगमनबाट भनं</h3>
-        <ul class="list-none pl-0">
-            <li class="mb-1">क) सामुदायिक भवन भए, काठा संख्या : <span class="underline-input w-20"></span> ......... (ब. मी)</li>
-            <li class="mb-1">ख) खेल मैदान भए ... <span class="underline-input w-20"></span> मी)</li>
-            <li class="mb-1">ग) बाटो भए, लम्बाई :. <span class="underline-input w-20"></span> कि. मी. (मोटर बाटो) वा गोरेटो <span class="underline-input w-20"></span> सो को क्षेत्रफल..... <span class="underline-input w-20"></span> क्षेत्रफल</li>
-            <li class="mb-1">घ) कल्भट्ट तथा ढल भए, लम्बाईः <span class="underline-input w-20"></span>.( मी. चौडाई.... <span class="underline-input w-20"></span></li>
-            <li class="mb-1">ङ) खानेपानी भए, पाईपको लम्बाईः <span class="underline-input w-20"></span>. बितरण हुने धारा संख्याः <span class="underline-input w-20"></span>..मी</li>
-            <li class="mb-1">च) ट्याकीको साईज <span class="underline-input w-20"></span> घ.मी</li>
-            <li class="mb-1">छ) अन्य <span class="underline-input w-20"></span></li>
+        <h3 class="text-lg font-bold section" style="color:#333;">४.३ योजनाको आर्थिक प्राविधिक विवरण। योजनाको लागत अनुगमनबाट भनं</h3>
+        <ul class="custom-decimal" style="list-style-type: none; padding-left: 0;">
+            <li>क) सामुदायिक भवन भए, काठा संख्या : <span class="underline-input"></span> ......... (ब. मी)<span class="underline-input"></span></li>
+            <li>ख) खेल मैदान भए ... <span class="underline-input"></span> मी)<span class="underline-input"></span></li>
+            <li>ग) बाटो भए, लम्बाई :. <span class="underline-input"></span> कि. मी. (मोटर बाटो) वा गोरेटो <span class="underline-input"></span> सो को क्षेत्रफल..... <span class="underline-input"></span> क्षेत्रफल</li>
+            <li>घ) कल्भट्ट तथा ढल भए, लम्बाईः <span class="underline-input"></span>.( मी. चौडाई.... <span class="underline-input"></span></li>
+            <li>ङ) खानेपानी भए, पाईपको लम्बाईः <span class="underline-input"></span>. बितरण हुने धारा संख्याः <span class="underline-input"></span>..मी</li>
+            <li>च) ट्याकीको साईज <span class="underline-input"></span> घ.मी</li>
+            <li>छ) अन्य <span class="underline-input"></span></li>
         </ul>
 
-        <h3 class="text-lg font-bold mt-6 mb-2">४.४ उपभोक्ता समितिलाई प्रदान गरिने किस्ताको विवरण :</h3>
-        <table class="w-full">
+        <h3 class="text-lg font-bold section" style="color:#333;">४.४ उपभोक्ता समितिलाई प्रदान गरिने किस्ताको विवरण :</h3>
+        <table>
             <thead>
                 <tr>
                     <th>किस्ता</th>
@@ -338,82 +363,77 @@
                 </tr>
             </tbody>
         </table>
-        <p class="text-right">(ब.</p>
+        <p class="text-right">(ब.<span class="underline-input" style="min-width: 50px;"></span></p>
 
-        <h3 class="text-lg font-bold mt-6 mb-2">४.५ आयोजना मर्मत संभार खर्च व्याहोर्ने व्यवस्था (योजना सम्झौता फाराममा भए बमोजिम) सम्झौताका शर्तहरु :</h3>
-        <ol class="list-decimal pl-5">
-            <li class="mb-2">सम्झौतामा उल्लेख भएको म्याद भित्र उपभोक्ता समितिले आयोजना सम्पन्न गरिसक्नु पर्नेछ । कुनै कारण वश योजना सम्पन्न हुन नसकेमा सम्पन्न हुन नसक्नुको औचित्यको आधारमा सम्झौताको म्याद थप गर्न सक्ने छ । यसरी म्याद थप नगरी भुक्तानी/पेश्की उपलब्ध हुने छैन ।</li>
+        <h3 class="text-lg font-bold section" style="color:#333;">४.५ आयोजना मर्मत संभार खर्च व्याहोर्ने व्यवस्था (योजना सम्झौता फाराममा भए बमोजिम) सम्झौताका शर्तहरु :</h3>
+        <ol class="custom-decimal">
+            <li>सम्झौतामा उल्लेख भएको म्याद भित्र उपभोक्ता समितिले आयोजना सम्पन्न गरिसक्नु पर्नेछ । कुनै कारण वश योजना सम्पन्न हुन नसकेमा सम्पन्न हुन नसक्नुको औचित्यको आधारमा सम्झौताको म्याद थप गर्न सक्ने छ । यसरी म्याद थप नगरी भुक्तानी/पेश्की उपलब्ध हुने छैन ।</li>
         </ol>
 
         <!-- Page 4 Content -->
         <div class="page-break"></div>
 
-        <ol class="list-decimal pl-5 start-2">
-            <li class="mb-2">योजनामा लाग्ने सहयोग महानगरपालिकाले किस्ताबन्दीमा उपलब्ध गराउनेछ । पहिलो किस्ता रकम खर्च गरिसकेपछि अर्को किस्ता माग गर्नु अगाडी उपभोक्ता समितिले पहिलो किस्तामा रकम र खर्चको सार्वजनिक परीक्षण गराउनु पर्नेछ । सार्वजनिकपरीक्षण गर्ने मिति, समय र स्थान अग्रिम रुपमा सम्बद्ध सबैलाई जानकारी गराउनु पर्दछ । सो खर्च सार्वजनिक गर्ने भेलामा उपभोक्ताहरु कम्तिमा ५० प्रतिशत सम्बन्धित न.पा. प्रतिनिधिहरु, सामाजिक सेवामा संलग्न व्यक्ति, सरकारी गैर सरकार संस्थाका प्रतिनिधिहरुलाई आमन्त्रण गरी आम्दानी तथा खर्चको विवरण सार्वजनिक गरी छलफल गराउनु पर्नेछ ।</li>
-            <li class="mb-2">उपरोक्त भेलाले पहिलो किस्ता रकम खर्चको अनुमोदन गरी दोस्रो किस्ता माग गर्ने निर्णय गर्नेछ । सो निर्णयको साथ साथै नगरपालिकाबाट खटाईएका प्राविधिकले अर्को किस्ता माग गर्नु पर्नेछ । सो आधारमा महानगरपालिकाबाट तत्कालै अर्को किस्ता निकासा गर्नुपर्नेछ । सोही प्रकारले अन्तिम किस्ता लिनु अघि सो भन्दा अगाडिको निकासा/खर्च पनि सार्वजनिक गर्नुपर्नेछ ।</li>
-            <li class="mb-2">योजनामा आवश्यक प्राविधिक सहयोग न.पा र उपभोक्ता समितिबाट उपलब्ध हुनेछ ।</li>
-            <li class="mb-2">लागत सहभागिता विवरणमा उल्लेख भए अनुसार सहभगिता जुटाउनु उपभोक्ता समिति एवं सम्बन्धित निकायबोजिम्मेवारी हुनेछ ।</li>
-            <li class="mb-2">योजनासंग सम्बन्धित प्राप्त नगद / जिन्सी उपभोक्ता समितिले सम्बन्धित योजनामा मात्र खर्च गर्नु पर्नेछ । प्राप्त नगद / जिन्सीको दुरुपयोग, हिनामिना वा हानी नोक्सानी गरेमा प्रचलित नियम अनुसार कारवाही हुनेछ</li>
-            <li class="mb-2">सम्झौता पत्रमा महानगरपालिकाको कार्यालयले दस्तखत गरिसकेपछि महानगरपालिकाबाट योजनाको लागि उपलब्ध गराउन मन्जुर भएको बजेट उपभोक्ता समतिको बैंक खातामा सोझै जम्मा गर्न वा महानगरपालिका मार्फत पठाउन सक्नेछ ।</li>
-            <li class="mb-2">उपभोक्ता समितिले काम सम्पन्न गरिसकेपछि बाँकी रहन गएका खप्ने सामानहरु मर्मत सम्भार समिति गठन भएको भए सो समितिलाई र सो नभए सम्बन्धित नगरपालिकलाई बुझाउनु पर्नेछ । तर मर्मत सम्भार समितिलाई बुझाएको सामानको विवरणको एक प्रति सम्बन्धित महानगरपालिकामा जानकारीको लागि बुझाउनु पर्ने छ</li>
-            <li class="mb-2">योजनाको लागि चाहिने आवश्यक कागजात यसै साथ संलग्न गरिएको छ ।</li>
-            <li class="mb-2">उपभोक्ता समितिको पदाधिकारी मध्ये सम्झौताको आर्थिक कारोबार गर्ने व्यक्तिको नागरिकताको प्रतिलिपि संलग्न गरेका छौ ।</li>
+        <ol class="custom-decimal" start="2">
+            <li>योजनामा लाग्ने सहयोग महानगरपालिकाले किस्ताबन्दीमा उपलब्ध गराउनेछ । पहिलो किस्ता रकम खर्च गरिसकेपछि अर्को किस्ता माग गर्नु अगाडी उपभोक्ता समितिले पहिलो किस्तामा रकम र खर्चको सार्वजनिक परीक्षण गराउनु पर्नेछ । सार्वजनिकपरीक्षण गर्ने मिति, समय र स्थान अग्रिम रुपमा सम्बद्ध सबैलाई जानकारी गराउनु पर्दछ । सो खर्च सार्वजनिक गर्ने भेलामा उपभोक्ताहरु कम्तिमा ५० प्रतिशत सम्बन्धित न.पा. प्रतिनिधिहरु, सामाजिक सेवामा संलग्न व्यक्ति, सरकारी गैर सरकार संस्थाका प्रतिनिधिहरुलाई आमन्त्रण गरी आम्दानी तथा खर्चको विवरण सार्वजनिक गरी छलफल गराउनु पर्नेछ ।</li>
+            <li>उपरोक्त भेलाले पहिलो किस्ता रकम खर्चको अनुमोदन गरी दोस्रो किस्ता माग गर्ने निर्णय गर्नेछ । सो निर्णयको साथ साथै नगरपालिकाबाट खटाईएका प्राविधिकले अर्को किस्ता माग गर्नु पर्नेछ । सो आधारमा महानगरपालिकाबाट तत्कालै अर्को किस्ता निकासा गर्नुपर्नेछ । सोही प्रकारले अन्तिम किस्ता लिनु अघि सो भन्दा अगाडिको निकासा/खर्च पनि सार्वजनिक गर्नुपर्नेछ ।</li>
+            <li>योजनामा आवश्यक प्राविधिक सहयोग न.पा र उपभोक्ता समितिबाट उपलब्ध हुनेछ ।</li>
+            <li>लागत सहभागिता विवरणमा उल्लेख भए अनुसार सहभगिता जुटाउनु उपभोक्ता समिति एवं सम्बन्धित निकायबोजिम्मेवारी हुनेछ ।</li>
+            <li>योजनासंग सम्बन्धित प्राप्त नगद / जिन्सी उपभोक्ता समितिले सम्बन्धित योजनामा मात्र खर्च गर्नु पर्नेछ । प्राप्त नगद / जिन्सीको दुरुपयोग, हिनामिना वा हानी नोक्सानी गरेमा प्रचलित नियम अनुसार कारवाही हुनेछ</li>
+            <li>सम्झौता पत्रमा महानगरपालिकाको कार्यालयले दस्तखत गरिसकेपछि महानगरपालिकाबाट योजनाको लागि उपलब्ध गराउन मन्जुर भएको बजेट उपभोक्ता समतिको बैंक खातामा सोझै जम्मा गर्न वा महानगरपालिका मार्फत पठाउन सक्नेछ ।</li>
+            <li>उपभोक्ता समितिले काम सम्पन्न गरिसकेपछि बाँकी रहन गएका खप्ने सामानहरु मर्मत सम्भार समिति गठन भएको भए सो समितिलाई र सो नभए सम्बन्धित नगरपालिकलाई बुझाउनु पर्नेछ । तर मर्मत सम्भार समितिलाई बुझाएको सामानको विवरणको एक प्रति सम्बन्धित महानगरपालिकामा जानकारीको लागि बुझाउनु पर्ने छ</li>
+            <li>योजनाको लागि चाहिने आवश्यक कागजात यसै साथ संलग्न गरिएको छ ।</li>
+            <li>उपभोक्ता समितिको पदाधिकारी मध्ये सम्झौताको आर्थिक कारोबार गर्ने व्यक्तिको नागरिकताको प्रतिलिपि संलग्न गरेका छौ ।</li>
         </ol>
 
         <!-- Page 5 Content -->
         <div class="page-break"></div>
 
-        <ol class="list-decimal pl-5 start-11">
-            <li class="mb-2">उपभोक्ता समितिले योजनासंग सम्बन्धित बिल भरपाईहरु, डोर हाजिरी फारामहरु जिन्सी नगदी खाताहरु सम्मिति / समूहको निर्णय पुस्तिका आदि कागजात न.पा. वा अन्य सरोकारवाला पदाधिकारीले मागे को बखत उपलब्ध गराउनु पर्नेछ । त्यसको लेखा परीक्षण पनि गराउनु सकिनेछ ।</li>
-            <li class="mb-2">उपभोक्ता समितिका पदाधिकारीलाई कार्य स्थलमा कार्य शुरु हुनु भन्दा अगाडि अनिवार्य रुपमा योजनाको प्रकृति अनुसार अधिमुखिकरण/तालिम दिनु पर्नेछ ।</li>
-            <li class="mb-2">योजनाको सार्वजनिक परिक्षण, सूचना पाटि आम्दानी खर्चको सार्वजनिकरण तथा अन्य पारदर्शिता सम्बन्धी प्रावधानकोपालना गर्नुपर्नेछ</li>
-            <li class="mb-2">उपभोक्ता समितिले पेश्की लिएको लामो समयसम्म योजना संचालन नगर्ने, योजनाको रकमको दुरुपयोग गर्ने, आय व्ययको विवरण दुरुस्त नराखे गर्नु हुदैन । उपभोक्ता समितिको कुनै सदस्यले उपरोक्त बमोजिमको लापरबाही गरेको पाईएमा निजसंग रहेको पेश्की रकम तत्काल फिर्ता गर्नुपर्नेछ । फिर्ता नभएमा वा असल हुन नसकेमा सरकारी बाँकी सरह गरिनेछ ।</li>
-            <li class="mb-2">योजना सम्पन्न भएपछि स्थानीय निकायबाट जाँच पास गरी फरफारको प्रमाण पत्र लिनुपर्दछ । साथै योजना हस्तान्तरणलिई आवश्यक मर्मत संभारको व्यवस्था सम्बन्धित उपभोक्ताहरुले नै गर्नुपर्नेछ ।</li>
-            <li class="mb-2">१४ वर्ष मुनिका बाल श्रमिक प्रयोग गरेको पाईएमा निशर्त सम्झौता रद्द गरी कानुनी कारवाही अगाडि बढाइनेछ ।</li>
-            <li class="mb-2">उपभोक्ता समिति मार्फत संचालन हुने योजना जनसहभागिता बेगर ठेक्काको माध्यमबाट गराईएको पाईएमा तत्काल सम्झौता रद्द गरी कानुनी कारवाही अगाडि बढाइने छ ।</li>
-            <li class="mb-2">पूर्वाधार संरचनाहरु अपाङ्गमैत्री तथा बालमैत्री अवधारणा अनुसार सम्पन्न गर्नुपर्नेछ । साथै पूर्वाधार संरचना निर्माण गर्दा हरियाली प्रवर्दन कार्यलाई अगाडि बढाउनु पर्नेछ ।</li>
-            <li class="mb-2">उपभोक्ता समितिबाट सम्पन्न हुने कार्यक्रमहरु खर्चको लागत अनुमान स्वीकृत गराएर मात्र गर्नुपर्नेछ ।</li>
-            <li class="mb-2">हाम्रो नगर सुरक्षित सहरको अवधारणलाई साकार पार्न भुकम्प प्रतिरोधी संरचना निर्माण गर्नु पर्दछ ।</li>
-            <li class="mb-2">यसमा उल्लेख नभएका कुराहरु प्रचलित कानून अनुसार हुनेछ । माथी उल्लेख भए बमोजिमका शर्तहरु पालना गर्न हामी निम्न पक्षहरु मज्जुर गर्दछौ ।</li>
+        <ol class="custom-decimal" start="11">
+            <li>उपभोक्ता समितिले योजनासंग सम्बन्धित बिल भरपाईहरु, डोर हाजिरी फारामहरु जिन्सी नगदी खाताहरु सम्मिति / समूहको निर्णय पुस्तिका आदि कागजात न.पा. वा अन्य सरोकारवाला पदाधिकारीले मागे को बखत उपलब्ध गराउनु पर्नेछ । त्यसको लेखा परीक्षण पनि गराउनु सकिनेछ ।</li>
+            <li>उपभोक्ता समितिका पदाधिकारीलाई कार्य स्थलमा कार्य शुरु हुनु भन्दा अगाडि अनिवार्य रुपमा योजनाको प्रकृति अनुसार अधिमुखिकरण/तालिम दिनु पर्नेछ ।</li>
+            <li>योजनाको सार्वजनिक परिक्षण, सूचना पाटि आम्दानी खर्चको सार्वजनिकरण तथा अन्य पारदर्शिता सम्बन्धी प्रावधानकोपालना गर्नुपर्नेछ</li>
+            <li>उपभोक्ता समितिले पेश्की लिएको लामो समयसम्म योजना संचालन नगर्ने, योजनाको रकमको दुरुपयोग गर्ने, आय व्ययको विवरण दुरुस्त नराखे गर्नु हुदैन । उपभोक्ता समितिको कुनै सदस्यले उपरोक्त बमोजिमको लापरबाही गरेको पाईएमा निजसंग रहेको पेश्की रकम तत्काल फिर्ता गर्नुपर्नेछ । फिर्ता नभएमा वा असल हुन नसकेमा सरकारी बाँकी सरह गरिनेछ ।</li>
+            <li>योजना सम्पन्न भएपछि स्थानीय निकायबाट जाँच पास गरी फरफारको प्रमाण पत्र लिनुपर्दछ । साथै योजना हस्तान्तरणलिई आवश्यक मर्मत संभारको व्यवस्था सम्बन्धित उपभोक्ताहरुले नै गर्नुपर्नेछ ।</li>
+            <li>१४ वर्ष मुनिका बाल श्रमिक प्रयोग गरेको पाईएमा निशर्त सम्झौता रद्द गरी कानुनी कारवाही अगाडि बढाइनेछ ।</li>
+            <li>उपभोक्ता समिति मार्फत संचालन हुने योजना जनसहभागिता बेगर ठेक्काको माध्यमबाट गराईएको पाईएमा तत्काल सम्झौता रद्द गरी कानुनी कारवाही अगाडि बढाइने छ ।</li>
+            <li>पूर्वाधार संरचनाहरु अपाङ्गमैत्री तथा बालमैत्री अवधारणा अनुसार सम्पन्न गर्नुपर्नेछ । साथै पूर्वाधार संरचना निर्माण गर्दा हरियाली प्रवर्दन कार्यलाई अगाडि बढाउनु पर्नेछ ।</li>
+            <li>उपभोक्ता समितिबाट सम्पन्न हुने कार्यक्रमहरु खर्चको लागत अनुमान स्वीकृत गराएर मात्र गर्नुपर्नेछ ।</li>
+            <li>हाम्रो नगर सुरक्षित सहरको अवधारणलाई साकार पार्न भुकम्प प्रतिरोधी संरचना निर्माण गर्नु पर्दछ ।</li>
+            <li>यसमा उल्लेख नभएका कुराहरु प्रचलित कानून अनुसार हुनेछ । माथी उल्लेख भए बमोजिमका शर्तहरु पालना गर्न हामी निम्न पक्षहरु मज्जुर गर्दछौ ।</li>
         </ol>
 
         <!-- Page 6 Content -->
         <div class="page-break"></div>
 
-        <div class="mt-8">
-            <p class="font-bold mb-4">उपभोक्ता समितिको तर्फबाट</p>
-            <p class="mb-2">दस्तखतः <span class="underline-input w-40"></span></p>
-            <p class="mb-2">नाम, थरः <span class="underline-input w-40">{{chairperson_name}}</span></p>
-            <p class="mb-2">पदः अध्यक्ष</p>
-            <p class="mb-2">ठेगाना : None</p>
-            <p class="mb-2">{% if project.</p>
-            <p class="mb-2">मिति : <span class="underline-input w-40"></span></p>
+        <div class="section">
+            <p class="font-bold">उपभोक्ता समितिको तर्फबाट</p>
+            <p>दस्तखतः <span class="underline-input" style="min-width: 250px;"></span></p>
+            <p>नाम, थरः <span class="underline-input" style="min-width: 250px;">{{chairperson_name}}</span></p>
+            <p>पदः अध्यक्ष</p>
+            <p>ठेगाना : <span class="underline-input" style="min-width: 250px;">None</span></p>
+            <p>मिति : <span class="underline-input" style="min-width: 250px;"></span></p>
         </div>
 
-        <table class="no-border-table mt-8">
+        <table class="no-border-table" style="margin-top: 30px;">
             <tbody>
                 <tr>
-                    <td class="text-center">उपभोक्ता</td>
-                    <td class="text-center">कार्यालयको छाप</td>
-                </tr>
-                <tr>
-                    <td class="text-center">समितिको छाप</td>
-                    <td></td>
+                    <td class="text-center" style="border: 1px solid #333; padding: 15px; width: 50%;">उपभोक्ता समितिको छाप</td>
+                    <td class="text-center" style="border: 1px solid #333; padding: 15px; width: 50%;">कार्यालयको छाप</td>
                 </tr>
             </tbody>
         </table>
 
-        <div class="mt-8 text-center">
-            <p class="mb-1">फाँटवाला (प्राविधिक शाखा प्रमुख। योजना शाखा प्रमुख योजना शाखा प्रमुख</p>
-            <p class="mb-1">प्र.प्र.अ. वा अधिकार प्राप्त व्यक्ति</p>
+        <div class="text-center" style="margin-top: 30px;">
+            <p>फाँटवाला (प्राविधिक शाखा प्रमुख। योजना शाखा प्रमुख योजना शाखा प्रमुख</p>
+            <p>प्र.प्र.अ. वा अधिकार प्राप्त व्यक्ति</p>
         </div>
 
         <!-- Page 7 Content -->
         <div class="page-break"></div>
 
-        <div class="mt-8">
-            <p class="font-bold mb-4">साक्षीहरुः</p>
-            <table class="w-full">
+        <div class="section">
+            <p class="font-bold">साक्षीहरुः</p>
+            <table>
                 <thead>
                     <tr>
                         <th>सि.नं.</th>
@@ -469,7 +489,6 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 </body>
 </html>

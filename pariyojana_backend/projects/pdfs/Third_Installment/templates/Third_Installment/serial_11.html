@@ -1,294 +1,412 @@
 <!DOCTYPE html>
-<html>
+<html lang="ne">
 <head>
-<title>Public Audit Form</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
-    background-color: #f9f9f9;
-  }
-  .container {
-    max-width: 800px;
-    margin: auto;
-    border: 1px solid #ddd;
-    padding: 30px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    background-color: #fff;
-  }
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .header h2, .header h3 {
-    margin: 5px 0;
-  }
-  .address {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  .annex {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .section {
-    margin-bottom: 20px;
-  }
-  .section h3 {
-    margin-bottom: 10px;
-  }
-  .section p {
-    margin: 5px 0;
-  }
-  .indent {
-    margin-left: 20px;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  table, th, td {
-    border: 1px solid black;
-  }
-  th, td {
-    padding: 8px;
-    text-align: left;
-  }
-  .gender-split {
-    display: flex;
-    justify-content: space-between;
-  }
-  .gender-split p {
-    flex: 1;
-  }
-  .signature-line {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-  }
-  .signature-line div {
-    flex: 1;
-    text-align: center;
-  }
-  .note {
-    font-size: 0.9em;
-    margin-top: 20px;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>सार्वजनिक परीक्षण फाराम</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
+        }
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif; /* नेपाली फन्ट प्रयोग गरियो */
+            font-size: 14px; /* फन्ट साइज */
+            line-height: 1.6; /* लाइन हाइट */
+            margin: 0;
+            padding: 20px; /* पृष्ठको चारैतिर प्याडिङ */
+            background: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 25px; /* भित्री सामग्रीको प्याडिङ */
+            /* border: 1px solid #ddd; */ /* बोर्डर हटाइयो, सादगीका लागि */
+            max-width: 800px; /* अधिकतम चौडाइ */
+            margin: 0 auto; /* केन्द्रमा राख्न */
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+        }
+
+        /* हेडर क्षेत्रको लागि कन्टेनर */
+        .header-area {
+            position: relative;
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको लागि न्यूनतम उचाइ */
+            display: flex; /* फ्लेक्सबक्स लेआउट लोगो र पाठ केन्द्रित गर्न */
+            align-items: flex-start; /* शीर्षमा सामग्री पङ्क्तिबद्ध गर्न */
+        }
+
+        .logo-section {
+            flex-shrink: 0; /* लोगोलाई खुम्चिन नदिन */
+            margin-right: 20px; /* लोगो र हेडर पाठ बीचको खाली ठाउँ */
+        }
+
+        .header-content-centered {
+            flex-grow: 1; /* उपलब्ध ठाउँ लिन */
+            text-align: center; /* पाठलाई केन्द्रित गर्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+        }
+
+        .header-content-centered h2 {
+            margin: 0 0 3px 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .header-content-centered h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .address-main {
+            font-size: 14px;
+        }
+        .address-main p {
+            margin: 5px 0;
+        }
+
+        /* मुख्य सामग्री शैलीहरू */
+        .main-content {
+            color: #333; /* पूर्वनिर्धारित पाठ रङ्ग */
+            padding: 0 5px; /* भित्री प्याडिङ */
+        }
+
+        .annex {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333; /* कालो पाठ */
+        }
+
+        .annex h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #333; /* कालो पाठ */
+        }
+
+        .section p {
+            margin: 5px 0;
+        }
+
+        .indent {
+            margin-left: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 13px; /* तालिकाको फन्ट साइज */
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f8f8f8; /* तालिका हेडरका लागि हल्का पृष्ठभूमि */
+            font-weight: bold;
+        }
+
+        .gender-split {
+            display: flex;
+            justify-content: space-between;
+            /* margin-left: 20px; */ /* indent संग नदोहोरियोस् भनेर हटाइयो */
+        }
+        .gender-split p {
+            flex: 1;
+            margin: 0 10px; /* लिंग विभाजन बीच खाली ठाउँ */
+        }
+
+        .signature-line-flex { /* नयाँ क्लास नाम */
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            flex-wrap: wrap; /* सानो स्क्रिनका लागि र्‍याप गर्न */
+            gap: 10px;
+        }
+
+        .signature-box { /* नयाँ क्लास नाम */
+            flex: 1;
+            text-align: center;
+            min-width: 180px; /* प्रत्येक हस्ताक्षर बक्सको न्यूनतम चौडाइ */
+            margin: 10px 0; /* बक्सहरू बीचको ठाउँ */
+        }
+
+        .signature-box p {
+            margin: 3px 0; /* हस्ताक्षर पाठको मार्जिन */
+        }
+
+        .signature-line-dotted { /* नयाँ क्लास नाम */
+            border-bottom: 1px dotted #333; /* बिन्दुदार रेखा */
+            width: 100%;
+            margin-bottom: 5px;
+            height: 1.2em; /* रेखाको लागि पर्याप्त उचाइ */
+        }
+
+        .note {
+            font-size: 0.9em;
+            margin-top: 20px;
+            color: #333; /* कालो पाठ */
+        }
+
+        /* प्रिन्ट विशिष्ट शैलीहरू */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                padding: 0;
+                font-size: 12px; /* प्रिन्ट गर्दा फन्ट साइज अलिकति सानो */
+            }
+            .document-wrapper {
+                border: none;
+                padding: 0;
+            }
+            @page {
+                margin: 0.8cm;
+            }
+            .header-content-centered h2 {
+                font-size: 20px;
+            }
+            .header-content-centered h3 {
+                font-size: 16px;
+            }
+            .address-main {
+                font-size: 12px;
+            }
+            .main-content p, .main-content ul li, table, th, td {
+                font-size: 12px;
+            }
+            .signature-box {
+                min-width: 150px; /* प्रिन्टमा हस्ताक्षर बक्सहरू अझ कम्प्याक्ट */
+            }
+        }
+    </style>
 </head>
 <body>
-<img src="{{ gov_logo }}" alt="Government Logo">
+    <div class="document-wrapper">
+        <div class="header-area">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src={{gov_logo}} alt="Government Logo" style="width:80px; height: auto;">
+            </div>
+            <div class="header-content-centered">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
 
-<div class="container">
-  <div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-</div>
+        <div class="main-content">
+            <div class="annex">
+                <h3>अनुसूची ४</h3>
+                <p>(कार्यविधिको दफा १६ (७) सँग सम्वन्धित) सार्वजनिक परीक्षण<br>(Public Audit) फारामको ढाँचा पेश गरेको कार्यालयः</p>
+            </div>
 
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
+            <div class="section">
+                <h3>१. आयोजनाको विवरण</h3>
+                <p class="indent">आयोजनाको नामः {{project_name}}</p>
+                <p class="indent">क) स्थलः {{location}}</p>
+                <p class="indent">ख) लागत अनुमानः {{estimated_cost}}</p>
+                <p class="indent">ग) आयोजना शुरू हुने मितिः{{work_order_date}}</p>
+                <p class="indent">घ) आयोजना सम्पन्न हुने मितिः{{end_date}}</p>
+            </div>
 
+            <div class="section">
+                <h3>२. उपभोक्ता समिति/सामुदायिक संस्थाको</h3>
+                <p class="indent">क) नामः {{consumer_committee_name}}</p>
+                <p class="indent">ख) अध्यक्षको नामः {{chairman_name}}</p>
+                <p class="indent">ग) सदस्य संख्याः</p>
+                <div class="gender-split indent">
+                    <p>महिलाः</p>
+                    <p>पुरूषः</p>
+                </div>
+            </div>
 
-  <div class="annex">
-    <h3>अनुसूची ४</h3>
-    <p>(कार्यविधिको दफा १६ (७) सँग सम्वन्धित) सार्वजनिक परीक्षण<br>(Public Audit) फारामको ढाँचा पेश गरेको कार्यालयः</p>
-  </div>
+            <div class="section">
+                <h3>३. आम्दानी खर्चको विवरणः</h3>
+                <p class="indent">१. आम्दानी तर्फ जम्मा रुः</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>आम्दानीको श्रोत (कहाँबाट कति नगद तथा जिन्सी प्राप्त भयो खुलाउने)</th>
+                            <th>रकम वा परिमाण</th>
+                            <th>कैफियत</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-  <div class="section">
-    <h3>१. आयोजनाको विवरण</h3>
-    <p class="indent">आयोजनाको नामः {{project_name}}</p>
-    <p class="indent">क) स्थलः {{location}}</p>
-    <p class="indent">ख) लागत अनुमानः {{estimated_cost}}</p>
-    <p class="indent">ग) आयोजना शुरू हुने मितिः{{work_order_date}}</p>
-    <p class="indent">घ) आयोजना सम्पन्न हुने मितिः{{end_date}}</p>
-  </div>
+                <p class="indent">ख) खर्च तर्फ</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>खर्चको विवरण</th>
+                            <th>दर</th>
+                            <th>परिमाण</th>
+                            <th>जम्मा</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>१. सामाग्री (के के सामाग्री खरिद भयो?)</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>२. ज्याला (के मा कति भुक्तानी भयो ?)</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>३. श्रमदान (कति जनाले श्रमदान गरे ?)</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>४. व्यवस्थापन खर्च (ढुवानी तथा अन्य खर्च)</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-  <div class="section">
-    <h3>२. उपभोक्ता समिति/सामुदायिक संस्थाको</h3>
-    <p class="indent">क) नामः {{chairman_name}}</p>
-    <p class="indent">ख) अध्यक्षको नामः {{consumer_committee_name}}</p>
-    <p class="indent">ग) सदस्य संख्याः</p>
-    <div class="gender-split indent">
-      <p>महिलाः</p>
-      <p>पुरूषः</p>
+                <p class="indent">ग) मौज्दात</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>विवरण</th>
+                            <th>रकम वा परिमाण</th>
+                            <th>कैफियत</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>१ नगद</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>बैंक</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>व्यक्तिको जिम्मा</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>२ सामग्रीहरु</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="indent">घ) भुक्तानी दिन बाँकी</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>विवरण</th>
+                            <th>रकम वा परिमाण</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h3>४. सम्पन्न आयोजनाको लक्ष्य तथा प्रगति विवरण</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>कामको विवरण</th>
+                            <th>लक्ष्य</th>
+                            <th>प्रगति</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h3>५. आयोजनाले पुत्र्याएको लाभ तथा प्रत्यक्ष रूपमा लाभान्वित जनसंख्या (आयोजना सञ्चालन भएको स्थानका उपभोक्ताहरू)</h3>
+            </div>
+
+            <div class="section">
+                <h3>६. आयोजना सञ्चालन गर्दा आयोजक संस्थामा कामको जिम्मेवारी बाँडफाँड (कस कसले कस्तो कस्तो कामको जिम्मेवारी लिएका थिए ? खुलाउने)</h3>
+            </div>
+
+            <div class="section">
+                <h3>उपस्थितिः</h3>
+                <p>१</p>
+                <p>२</p>
+                <p>३</p>
+                <p>४</p>
+                <p>५</p>
+                <p>६</p>
+                <p>७</p>
+            </div>
+
+            <div class="signature-line-flex">
+                <div class="signature-box">
+                    <div class="signature-line-dotted"></div>
+                    <p>रोहबरः उपभोक्ता समितिको अध्यक्षको नामथरः {{chairman_name}}</p>
+                    <p>दस्तखत</p>
+                </div>
+                <div class="signature-box">
+                    <div class="signature-line-dotted"></div>
+                    <p>सचिव {{secretary_name}}</p>
+                    <p>दस्तखत</p>
+                </div>
+            </div>
+
+            <div class="note">
+                <p>द्रष्टव्यः सार्वजनिक परिक्षण कार्यक्रममा उपस्थित सरोकारवालाहरुको उपस्थिति अनिवार्य रूपमा संलग्न हुनुपर्नेछ ।</p>
+            </div>
+
+            <div class="signature-line-flex" style="margin-top: 50px;">
+                <div class="signature-box">
+                    <div class="signature-line-dotted"></div>
+                    <p>प्रमाणित गर्नेः सम्वन्धित वडाका वडा अध्यक्षको नाम थरः</p>
+                    <p>दस्तखतः</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <div class="section">
-    <h3>३. आम्दानी खर्चको विवरणः</h3>
-    <p class="indent">१. आम्दानी तर्फ जम्मा रुः</p>
-    <table>
-      <thead>
-        <tr>
-          <th>आम्दानीको श्रोत (कहाँबाट कति नगद तथा जिन्सी प्राप्त भयो खुलाउने)</th>
-          <th>रकम वा परिमाण</th>
-          <th>कैफियत</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <p class="indent">ख) खर्च तर्फ</p>
-    <table>
-      <thead>
-        <tr>
-          <th>खर्चको विवरण</th>
-          <th>दर</th>
-          <th>परिमाण</th>
-          <th>जम्मा</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>१. सामाग्री (के के सामाग्री खरिद भयो?)</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>२. ज्याला (के मा कति भुक्तानी भयो ?)</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>३. श्रमदान (कति जनाले श्रमदान गरे ?)</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>४. व्यवस्थापन खर्च (ढुवानी तथा अन्य खर्च)</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <p class="indent">ग) मौज्दात</p>
-    <table>
-      <thead>
-        <tr>
-          <th>विवरण</th>
-          <th>रकम वा परिमाण</th>
-          <th>कैफियत</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>१ नगद</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>बैंक</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>व्यक्तिको जिम्मा</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>२ सामग्रीहरु</td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <p class="indent">घ) भुक्तानी दिन बाँकी</p>
-    <table>
-      <thead>
-        <tr>
-          <th>विवरण</th>
-          <th>रकम वा परिमाण</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="section">
-    <h3>४. सम्पन्न आयोजनाको लक्ष्य तथा प्रगति विवरण</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>कामको विवरण</th>
-          <th>लक्ष्य</th>
-          <th>प्रगति</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="section">
-    <h3>५. आयोजनाले पुत्र्याएको लाभ तथा प्रत्यक्ष रूपमा लाभान्वित जनसंख्या (आयोजना सञ्चालन भएको स्थानका उपभोक्ताहरू)</h3>
-  </div>
-
-  <div class="section">
-    <h3>६. आयोजना सञ्चालन गर्दा आयोजक संस्थामा कामको जिम्मेवारी बाँडफाँड (कस कसले कस्तो कस्तो कामको जिम्मेवारी लिएका थिए ? खुलाउने)</h3>
-  </div>
-
-  <div class="section">
-    <h3>उपस्थितिः</h3>
-    <p>१</p>
-    <p>२</p>
-    <p>३</p>
-    <p>४</p>
-    <p>५</p>
-    <p>६</p>
-    <p>७</p>
-  </div>
-
-  <div class="signature-line">
-    <div>
-      <p>रोहबरः उपभोक्ता समितिको अध्यक्षको नामथरः {{chairman_name}}</p>
-      <p>दस्तखत</p>
-    </div>
-    <div>
-      <p>सचिव {{secretary_name}}</p>
-      <p>दस्तखत</p>
-    </div>
-  </div>
-
-  <div class="note">
-    <p>द्रष्टव्यः सार्वजनिक परिक्षण कार्यक्रममा उपस्थित सरोकारवालाहरुको उपस्थिति अनिवार्य रूपमा संलग्न हुनुपर्नेछ ।</p>
-  </div>
-
-  <div class="signature-line" style="margin-top: 50px;">
-    <div>
-      <p>प्रमाणित गर्नेः सम्वन्धित वडाका वडा अध्यक्षको नाम थरः</p>
-      <p>दस्तखतः</p>
-    </div>
-  </div>
-
-</div>
-
 </body>
 </html>

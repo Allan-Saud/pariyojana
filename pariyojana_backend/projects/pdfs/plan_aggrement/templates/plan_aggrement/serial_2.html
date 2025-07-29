@@ -1,76 +1,208 @@
 <!DOCTYPE html>
 <html lang="ne">
 <head>
-  <meta charset="UTF-8">
-  <title>योजना सम्झौता निवेदन</title>
-  <style>
-    body {
-      font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
-      line-height: 1.6;
-      margin: 40px;
-    }
-    h1, h2, h3 {
-      text-align: center;
-      margin: 0;
-    }
-    .section {
-      margin-top: 20px;
-    }
-    ul {
-      list-style-type: decimal;
-      margin-left: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>योजना सम्झौता निवेदन</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0.8cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
+        }
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif; /* नेपाली फन्ट प्रयोग गरियो */
+            font-size: 13px; /* फन्ट साइज समायोजित गरियो */
+            line-height: 1.5; /* लाइन हाइट समायोजित गरियो */
+            margin: 0;
+            padding: 15px; /* प्याडिङ कम गरियो */
+            background: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 20px; /* प्याडिङ कम गरियो */
+            border: 2px solid #ddd; /* बाहिरी बोर्डर राखिएको छ */
+            max-width: 800px;
+            margin: 0 auto;
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+        }
+
+        /* हेडर क्षेत्रको लागि कन्टेनर */
+        .header-area {
+            position: relative;
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको लागि न्यूनतम उचाइ */
+        }
+
+        .logo-section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        /* केन्द्रमा राखिएको हेडर पाठ */
+        .header-content-centered {
+            text-align: center; /* पाठलाई केन्द्रित गर्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+            /* लोगोको ठाउँ खाली गर्नका लागि मार्जिन प्रयोग गर्नुहोस् */
+            margin-left: 80px; /* लोगोको चौडाइ अनुसार समायोजित गरियो */
+            margin-right: 0;
+            flex-grow: 1; /* यदि फ्लेक्स कन्टेनर भित्र छ भने उपलब्ध ठाउँ लिन */
+        }
+
+        .header-content-centered h2 {
+            margin: 0 0 3px 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: #dc2626;
+        }
+        .header-content-centered h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            font-weight: normal;
+            color: #dc2626;
+        }
+        .address-main {
+            font-size: 12px;
+            color: #dc2626;
+        }
+        .address-main p {
+            margin: 3px 0;
+        }
+
+        /* मुख्य सामग्रीका लागि शैलीहरू */
+        .main-content {
+            padding: 0 5px; /* भित्री प्याडिङ */
+        }
+        .main-content .center-text {
+            text-align: center;
+            color: #333; /* कालो पाठ */
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .main-content .center-text h2 {
+            font-size: 18px;
+            margin: 0;
+        }
+        .main-content .center-text h3 {
+            font-size: 16px;
+            margin: 5px 0 0 0;
+        }
+
+        .section {
+            margin-top: 20px;
+        }
+        .section p {
+            margin-bottom: 8px;
+            text-align: justify;
+        }
+        ul {
+            list-style-type: decimal;
+            margin-left: 20px;
+            padding: 0;
+            color: #333; /* कालो पाठ */
+        }
+        ul li {
+            margin-bottom: 5px;
+        }
+        strong {
+            color: #333; /* कालो पाठ */
+        }
+
+        /* प्रिन्ट शैलीहरू */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                padding: 0;
+                font-size: 11px; /* प्रिन्ट गर्दा फन्ट साइज अलिकति कम */
+            }
+            .document-wrapper {
+                border: none;
+                padding: 0;
+            }
+            @page {
+                margin: 0.5cm; /* प्रिन्टका लागि अझ सानो मार्जिन */
+            }
+            .header-content-centered h2 {
+                font-size: 18px;
+            }
+            .header-content-centered h3 {
+                font-size: 14px;
+            }
+            .address-main {
+                font-size: 10px;
+            }
+            .main-content .center-text h2 {
+                font-size: 16px;
+            }
+            .main-content .center-text h3 {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
-<img src="{{ gov_logo }}" alt="Government Logo" style="width:100px;">
+    <div class="document-wrapper">
+        <div class="header-area">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src={{gov_logo}} alt="Government Logo" style="width:80px; height: auto;">
+            </div>
+            <div class="header-content-centered">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
 
- <div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-</div>
+        <div class="main-content">
+            <div class="center-text">
+                <h2>{{ city }}</h2>
+                <h3>{{ office }}</h3>
+            </div>
 
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
+            <div class="section">
+                <p>
+                    श्रीमान् प्रमुख प्रशासकीय अधिकृतज्यू/श्रीमान् सचिवज्यू<br>
+                    गाउँ कार्यपालिकाको कार्यालय/वडा समितिको कार्यालय
+                </p>
 
+                <p>मितिः -</p>
 
-  <div class="section">
-    <p>
-      श्रीमान् प्रमुख प्रशासकीय अधिकृतज्यू/श्रीमान् सचिवज्यू<br>
-      गाउँ कार्यपालिकाको कार्यालय/वडा समितिको कार्यालय
-    </p>
+                <p><strong>विषयः</strong> योजना सम्झौता गराई पाउँ भन्ने सम्वन्धमा ।</p>
 
-    <p>मितिः -</p>
+                <p>
+                    उपर्युक्त विषयमा चालु आर्थिक वर्षको वडास्तरीय/नगरस्तरीय/विषयगत सामाजिक विकास
+                    तर्फको बजेट शिर्षकमा <strong>{{ project_name }}</strong> गर्ने सम्वन्धि योजनाको लागि 
+                    <strong>रु {{ budget }}</strong> वरावरको रकम विनियोजन भएको हुँदा सो योजनाको लागि मिति
+                    .......... गतेको आम भेलाबाट गठित उपभोक्ता समितिवाट व्यहोर्ने रकम 
+                    नगद दाखिला गराई योजना सम्झौताका लागि आवश्यक कागजातहरु सहित यो निवेदन पेश गरेका छौ।
+                </p>
+            </div>
 
-    <p><strong>विषयः</strong> योजना सम्झौता गराई पाउँ भन्ने सम्वन्धमा ।</p>
+            <div class="section">
+                <p><strong>संलग्न कागजातहरु:</strong></p>
+                <ul>
+                    <li>उपभोक्ता समिति गठन आम भेलाको निर्णय प्रति</li>
+                    <li>उपभोक्ता समिति गठन सम्बन्धी वडा कार्यालयको सिफारिस</li>
+                    <li>उपभोक्ता समितिको पदाधिकारीहरुको नागरिकताको प्रतिलिपि</li>
+                    <li>योजना संचालन हुने स्थानको फोटो</li>
+                </ul>
+            </div>
 
-    <p>
-      उपर्युक्त विषयमा चालु आर्थिक वर्षको वडास्तरीय/नगरस्तरीय/विषयगत सामाजिक विकास
-      तर्फको बजेट शिर्षकमा <strong>{{ project_name }}</strong> गर्ने सम्वन्धि योजनाको लागि 
-      <strong>रु {{ budget }}</strong> वरावरको रकम विनियोजन भएको हुँदा सो योजनाको लागि मिति
-      .......... गतेको आम भेलाबाट गठित उपभोक्ता समितिवाट व्यहोर्ने रकम 
-      नगद दाखिला गराई योजना सम्झौताका लागि आवश्यक कागजातहरु सहित यो निवेदन पेश गरेका छौ।
-    </p>
-  </div>
-
-  <div class="section">
-    <p><strong>संलग्न कागजातहरु:</strong></p>
-    <ul>
-      <li>उपभोक्ता समिति गठन आम भेलाको निर्णय प्रति</li>
-      <li>उपभोक्ता समिति गठन सम्बन्धी वडा कार्यालयको सिफारिस</li>
-      <li>उपभोक्ता समितिको पदाधिकारीहरुको नागरिकताको प्रतिलिपि</li>
-      <li>योजना संचालन हुने स्थानको फोटो</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <p><strong>निवेदक</strong></p>
-    {% for member in committee_members %}
-        <p>{{ member.post }}ः - {{ member.name }}</p>
-    {% endfor %}
-  </div>
-
+            <div class="section">
+                <p><strong>निवेदक</strong></p>
+                {% for member in committee_members %}
+                    <p>{{ member.post }}ः - {{ member.name }}</p>
+                {% empty %}
+                    <p>कोई सदस्य विवरण उपलब्ध छैन।</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </body>
 </html>

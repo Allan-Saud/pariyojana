@@ -1,239 +1,335 @@
 <!DOCTYPE html>
-<html>
+<html lang="ne">
 <head>
-<title>Ward Level Project Monitoring and Supervision Committee</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
-    background-color: #f9f9f9;
-  }
-  .container {
-    max-width: 800px;
-    margin: auto;
-    border: 1px solid #ddd;
-    padding: 30px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    background-color: #fff;
-  }
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .header h2, .header h3 {
-    margin: 5px 0;
-  }
-  .address {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  .committee-title {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .intro-paragraph {
-    margin-bottom: 30px;
-  }
-  .section {
-    margin-bottom: 20px;
-  }
-  .section h3 {
-    margin-bottom: 10px;
-  }
-  .section p {
-    margin: 5px 0;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  table, th, td {
-    border: 1px solid black;
-  }
-  th, td {
-    padding: 8px;
-    text-align: left;
-  }
-  .indent {
-    margin-left: 20px;
-  }
-  .checkbox-group {
-    display: flex;
-    margin-bottom: 5px;
-  }
-  .checkbox-group p {
-    margin: 0;
-    flex: 1;
-  }
-  .signature-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 30px;
-  }
-  .signature-table td {
-    padding: 8px;
-    vertical-align: top;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>वडा स्तरीय योजना अनुगमन तथा सुपरिवेक्षण समिति</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
+        }
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif; /* नेपाली फन्ट प्रयोग गरियो */
+            font-size: 14px; /* फन्ट साइज */
+            line-height: 1.6; /* लाइन हाइट */
+            margin: 0;
+            padding: 20px; /* पृष्ठको चारैतिर प्याडिङ */
+            background: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 25px; /* भित्री सामग्रीको प्याडिङ */
+            /* border: 1px solid #ddd; */ /* बोर्डर हटाइयो, सादगीका लागि */
+            max-width: 800px; /* अधिकतम चौडाइ */
+            margin: 0 auto; /* केन्द्रमा राख्न */
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+        }
+
+        /* हेडर क्षेत्रको लागि कन्टेनर */
+        .header-area {
+            position: relative;
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको लागि न्यूनतम उचाइ */
+            display: flex; /* फ्लेक्सबक्स लेआउट लोगो र पाठ केन्द्रित गर्न */
+            align-items: flex-start; /* शीर्षमा सामग्री पङ्क्तिबद्ध गर्न */
+        }
+
+        .logo-section {
+            flex-shrink: 0; /* लोगोलाई खुम्चिन नदिन */
+            margin-right: 20px; /* लोगो र हेडर पाठ बीचको खाली ठाउँ */
+        }
+
+        .header-content-centered {
+            flex-grow: 1; /* उपलब्ध ठाउँ लिन */
+            text-align: center; /* पाठलाई केन्द्रित गर्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+        }
+
+        .header-content-centered h2 {
+            margin: 0 0 3px 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .header-content-centered h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .address-main {
+            font-size: 14px;
+        }
+        .address-main p {
+            margin: 5px 0;
+        }
+
+        /* मुख्य सामग्री शैलीहरू */
+        .main-content {
+            color: #333; /* पूर्वनिर्धारित पाठ रङ्ग */
+            padding: 0 5px; /* भित्री प्याडिङ */
+        }
+
+        .committee-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #333; /* कालो पाठ */
+        }
+
+        .intro-paragraph {
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #333; /* कालो पाठ */
+        }
+
+        .section p {
+            margin: 5px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 13px; /* तालिकाको फन्ट साइज */
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f8f8f8; /* तालिका हेडरका लागि हल्का पृष्ठभूमि */
+            font-weight: bold;
+        }
+
+        .indent {
+            margin-left: 20px;
+        }
+        .checkbox-group {
+            display: flex;
+            margin-bottom: 5px;
+            gap: 20px; /* चेकबक्स विकल्पहरू बीचको खाली ठाउँ */
+        }
+        .checkbox-group p {
+            margin: 0;
+            flex: 1;
+            min-width: 100px; /* प्रत्येक चेकबक्सको न्यूनतम चौडाइ */
+        }
+        .signature-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            font-size: 13px;
+        }
+        .signature-table td {
+            padding: 8px;
+            vertical-align: top;
+            border: 1px solid black; /* हस्ताक्षर तालिकामा बोर्डर सुनिश्चित गर्न */
+        }
+
+        /* प्रिन्ट विशिष्ट शैलीहरू */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                padding: 0;
+                font-size: 12px; /* प्रिन्ट गर्दा फन्ट साइज अलिकति सानो */
+            }
+            .document-wrapper {
+                border: none;
+                padding: 0;
+            }
+            @page {
+                margin: 0.8cm;
+            }
+            .header-content-centered h2 {
+                font-size: 20px;
+            }
+            .header-content-centered h3 {
+                font-size: 16px;
+            }
+            .address-main {
+                font-size: 12px;
+            }
+            .main-content p, .main-content ul li, table, th, td {
+                font-size: 12px;
+            }
+            .signature-table td {
+                font-size: 11px; /* प्रिन्टमा हस्ताक्षर तालिकाको फन्ट साइज अझ सानो */
+            }
+        }
+    </style>
 </head>
 <body>
-<img src="{{ gov_logo }}" alt="Government Logo">
+    <div class="document-wrapper">
+        <div class="header-area">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src={{gov_logo}} alt="Government Logo" style="width:80px; height: auto;">
+            </div>
+            <div class="header-content-centered">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
 
-<div class="container">
-  <div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-</div>
+        <div class="main-content">
+            <h2 class="committee-title">वडा स्तरीय योजना अनुगमन तथा सुपरिवेक्षण समिति</h2>
 
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
+            <div class="intro-paragraph">
+                <p>आज मिति ....गतेका दिन यस ललितपुर महानगरपालिकाका वडा अध्यक्ष एवं वडा .. ज्युको स्तरीय योजना अनुगमन तथा सुपरिवेक्षण समितका संयोजक श्री ज्युको संयोजकत्वमा देहायको उपस्थितिमा स्थलगत अनुगमन गरियो।</p>
+                <p>अनुगमन गरेको मितिः</p>
+            </div>
 
+            <div class="section">
+                <p>१. योजनाको नामः {{project_name}}</p>
+                <p>२. योजना निर्माण स्थलः {{location}}</p>
+                <p class="indent">वडा नं. {{ward_no}}</p>
+                <p class="indent">स्थानः {{location}}</p>
+                <p>३. योजना निर्माण शुरु मितिः{{work_order_date}}</p>
+                <p>४. योजना सम्पन्न भएको मितिः</p>
+            </div>
 
-  <h2 class="committee-title">वडा स्तरीय योजना अनुगमन तथा सुपरिवेक्षण समिति</h2>
+            <div class="section">
+                <h3>५. संझौता र भुक्तानी विवरण</h3>
+                <p class="indent">सम्झौता रकमः रु</p>
+                <p class="indent">हालसम्म भुक्तानी रकम रु ............</p>
+                <p class="indent">भुक्तानी बाँकी रकम रु</p>
+            </div>
 
-  <div class="intro-paragraph">
-    <p>आज मिति ....गतेका दिन यस ललितपुर महानगरपालिकाका वडा अध्यक्ष एवं वडा .. ज्युको स्तरीय योजना अनुगमन तथा सुपरिवेक्षण समितका संयोजक श्री ज्युको संयोजकत्वमा देहायको उपस्थितिमा स्थलगत अनुगमन गरियो।</p>
-    <p>अनुगमन गरेको मितिः</p>
-  </div>
+            <div class="section">
+                <p>६. भौतिक प्रगतिः २.०० प्रतिशतमा</p>
+            </div>
 
-  <div class="section">
-    <p>१. योजनाको नामः {{project_name}}</p>
-    <p>२. योजना निर्माण स्थलः {{location}}</p>
-    <p class="indent">वडा नं. {{ward_no}}</p>
-    <p class="indent">स्थानः {{location}}</p>
-    <p>३. योजना निर्माण शुरु मितिः{{work_order_date}}</p>
-    <p>४. योजना सम्पन्न भएको मितिः</p>
-  </div>
+            <div class="section">
+                <h3>७. योजना कार्यान्वयनमा तोकिएको</h3>
+                <div class="checkbox-group">
+                    <p>गुणस्तर अनुसार</p>
+                    <p>(क) भएको</p>
+                    <p>(ख) नभएको</p>
+                </div>
+                <div class="checkbox-group">
+                    <p>लागत अनुसार</p>
+                    <p>(क) भएको</p>
+                    <p>(ख) नभएको</p>
+                </div>
+                <div class="checkbox-group">
+                    <p>समय अनुसार</p>
+                    <p>(क) भएको</p>
+                    <p>(ख) नभएको</p>
+                </div>
+            </div>
 
-  <div class="section">
-    <h3>५. संझौता र भुक्तानी विवरण</h3>
-    <p class="indent">सम्झौता रकमः रु</p>
-    <p class="indent">हालसम्म भुक्तानी रकम रु ............</p>
-    <p class="indent">भुक्तानी बाँकी रकम रु</p>
-  </div>
+            <div class="section">
+                <h3>८. योजना कार्यान्वयनमा गरिएका संझौताका शर्तको पालनाः</h3>
+                <p>(क) भएको</p>
+                <p>(ख) नभएको</p>
+            </div>
 
-  <div class="section">
-    <p>६. भौतिक प्रगतिः २.०० प्रतिशतमा</p>
-  </div>
+            <div class="section">
+                <h3>९. उपभोक्ताहरुको लागत सहभागिातको अवस्थाः</h3>
+            </div>
 
-  <div class="section">
-    <h3>७. योजना कार्यान्वयनमा तोकिएको</h3>
-    <div class="checkbox-group">
-      <p>गुणस्तर अनुसार</p>
-      <p>(क) भएको</p>
-      <p>(ख) नभएको</p>
+            <div class="section">
+                <h3>१०. योजनावाट अपेक्षित प्रतिफल प्राप्त हुन सक्ने अवस्था</h3>
+                <p>(क) भएको</p>
+                <p>(ख) नभएको</p>
+            </div>
+
+            <div class="section">
+                <h3>११. योजनाको समग्र उपलव्धि को अवस्था र दिगोपनाः</h3>
+            </div>
+
+            <div class="section">
+                <h3>१२. सार्वजनिक सुनुवाई तथा सार्वजनिक परिक्षणः</h3>
+                <p>(क) गरेको</p>
+                <p>(ख) नगरेको</p>
+            </div>
+
+            <div class="section">
+                <h3>१३. उपभोक्ता समिति अन्तर्गत रहेको अनुगमन तथा सहजीकरण समितिको निर्णय र सुझावः</h3>
+            </div>
+
+            <div class="section">
+                <h3>१४. कार्यान्वयन गर्ने निकायका अध्यक्षको धारणा र प्रतिवद्धताः</h3>
+            </div>
+
+            <div class="section">
+                <h3>१५. स्थानीय उपभोगकर्ताहरुको धारणाः</h3>
+            </div>
+
+            <div class="section">
+                <h3>१६. अनुगमन गरिएको भए अनुगमनको क्रममा दिइएको सुझाव कार्यन्वयन भए नभएकोः</h3>
+            </div>
+
+            <div class="section">
+                <h3>१७. योजनाको सूचना पाटी</h3>
+                <p>क) राखेको</p>
+                <p>ख) नराखेको</p>
+            </div>
+
+            <div class="section">
+                <h3>१८. अनुगमन समिति तथा सुपरिवेक्षणको सुझाव र टिप्पणीः</h3>
+            </div>
+
+            <h3>अनुगमन तथा सुपरिवेक्षण गर्ने पदाधिकारी</h3>
+            <table class="signature-table">
+                <tr>
+                    <td>क)</td>
+                    <td>पदः संयोजक/वडा अध्यक्ष<br>नामथरः</td>
+                    <td>दस्तखतः</td>
+                </tr>
+                <tr>
+                    <td>ख)</td>
+                    <td>पदः वडा सदस्य<br>नामथरः</td>
+                    <td>दस्तखतः</td>
+                </tr>
+                <tr>
+                    <td>ग)</td>
+                    <td>पदः वडा सदस्य<br>नामथरः</td>
+                    <td>दस्तखतः</td>
+                </tr>
+                <tr>
+                    <td>घ)</td>
+                    <td>पदः वडा सदस्य<br>नामथरः</td>
+                    <td>दस्तखतः</td>
+                </tr>
+                <tr>
+                    <td>ङ)</td>
+                    <td>पदः वडा सदस्य<br>नामथरः</td>
+                    <td>दस्तखतः</td>
+                </tr>
+                <tr>
+                    <td>च)</td>
+                    <td>पदः सदस्य सचिव (वडा सचिव)<br>नामथरः</td>
+                    <td>दस्तखतः</td>
+                </tr>
+                <tr>
+                    <td>छ)</td>
+                    <td>पदःवडा प्राविधिक (आमन्त्रित)<br>नामथरः</td>
+                    <td>दस्तखतः</td>
+                </tr>
+            </table>
+
+            <p style="text-align: center; margin-top: 20px; color: #333;">(अनुगमनको क्रमको फोटोहरु अनिवार्य समावेश गर्नु पर्ने)</p>
+        </div>
     </div>
-    <div class="checkbox-group">
-      <p>लागत अनुसार</p>
-      <p>(क) भएको</p>
-      <p>(ख) नभएको</p>
-    </div>
-    <div class="checkbox-group">
-      <p>समय अनुसार</p>
-      <p>(क) भएको</p>
-      <p>(ख) नभएको</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <h3>८. योजना कार्यान्वयनमा गरिएका संझौताका शर्तको पालनाः</h3>
-    <p>(क) भएको</p>
-    <p>(ख) नभएको</p>
-  </div>
-
-  <div class="section">
-    <h3>९. उपभोक्ताहरुको लागत सहभागिातको अवस्थाः</h3>
-  </div>
-
-  <div class="section">
-    <h3>१०. योजनावाट अपेक्षित प्रतिफल प्राप्त हुन सक्ने अवस्था</h3>
-    <p>(क) भएको</p>
-    <p>(ख) नभएको</p>
-  </div>
-
-  <div class="section">
-    <h3>११. योजनाको समग्र उपलव्धि को अवस्था र दिगोपनाः</h3>
-  </div>
-
-  <div class="section">
-    <h3>१२. सार्वजनिक सुनुवाई तथा सार्वजनिक परिक्षणः</h3>
-    <p>(क) गरेको</p>
-    <p>(ख) नगरेको</p>
-  </div>
-
-  <div class="section">
-    <h3>१३. उपभोक्ता समिति अन्तर्गत रहेको अनुगमन तथा सहजीकरण समितिको निर्णय र सुझावः</h3>
-  </div>
-
-  <div class="section">
-    <h3>१४. कार्यान्वयन गर्ने निकायका अध्यक्षको धारणा र प्रतिवद्धताः</h3>
-  </div>
-
-  <div class="section">
-    <h3>१५. स्थानीय उपभोगकर्ताहरुको धारणाः</h3>
-  </div>
-
-  <div class="section">
-    <h3>१६. अनुगमन गरिएको भए अनुगमनको क्रममा दिइएको सुझाव कार्यन्वयन भए नभएकोः</h3>
-  </div>
-
-  <div class="section">
-    <h3>१७. योजनाको सूचना पाटी</h3>
-    <p>क) राखेको</p>
-    <p>ख) नराखेको</p>
-  </div>
-
-  <div class="section">
-    <h3>१८. अनुगमन समिति तथा सुपरिवेक्षणको सुझाव र टिप्पणीः</h3>
-  </div>
-
-  <h3>अनुगमन तथा सुपरिवेक्षण गर्ने पदाधिकारी</h3>
-  <table class="signature-table">
-    <tr>
-      <td>क)</td>
-      <td>पदः संयोजक/वडा अध्यक्ष<br>नामथरः</td>
-      <td>दस्तखतः</td>
-    </tr>
-    <tr>
-      <td>ख)</td>
-      <td>पदः वडा सदस्य<br>नामथरः</td>
-      <td>दस्तखतः</td>
-    </tr>
-    <tr>
-      <td>ग)</td>
-      <td>पदः वडा सदस्य<br>नामथरः</td>
-      <td>दस्तखतः</td>
-    </tr>
-    <tr>
-      <td>घ)</td>
-      <td>पदः वडा सदस्य<br>नामथरः</td>
-      <td>दस्तखतः</td>
-    </tr>
-    <tr>
-      <td>ङ)</td>
-      <td>पदः वडा सदस्य<br>नामथरः</td>
-      <td>दस्तखतः</td>
-    </tr>
-    <tr>
-      <td>च)</td>
-      <td>पदः सदस्य सचिव (वडा सचिव)<br>नामथरः</td>
-      <td>दस्तखतः</td>
-    </tr>
-    <tr>
-      <td>छ)</td>
-      <td>पदःवडा प्राविधिक (आमन्त्रित)<br>नामथरः</td>
-      <td>दस्तखतः</td>
-    </tr>
-  </table>
-
-  <p style="text-align: center; margin-top: 20px;">(अनुगमनको क्रमको फोटोहरु अनिवार्य समावेश गर्नु पर्ने)</p>
-
-</div>
-
 </body>
 </html>

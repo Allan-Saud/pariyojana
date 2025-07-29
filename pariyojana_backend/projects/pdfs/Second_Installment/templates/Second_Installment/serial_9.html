@@ -1,73 +1,179 @@
 <!DOCTYPE html>
-<html>
+<html lang="ne">
 <head>
-<title>सम्झौता बमोजिमको दोश्रो किस्ता रकम उपलव्ध गराई दिनु हुन</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 20px;
-  }
-  .container {
-    width: 80%;
-    margin: auto;
-    border: 1px solid #eee;
-    padding: 20px;
-  }
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .content {
-    margin-bottom: 30px;
-  }
-  .footer {
-    margin-top: 30px;
-    text-align: right;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>सम्झौता बमोजिमको दोश्रो किस्ता रकम उपलव्ध गराई दिनु हुन</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
+        }
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif; /* नेपाली फन्ट प्रयोग गरियो */
+            font-size: 14px; /* फन्ट साइज */
+            line-height: 1.6; /* लाइन हाइट */
+            margin: 0;
+            padding: 20px; /* पृष्ठको चारैतिर प्याडिङ */
+            background: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 25px; /* भित्री सामग्रीको प्याडिङ */
+            /* border: 1px solid #ddd; */ /* बोर्डर हटाइयो, सादगीका लागि */
+            max-width: 800px; /* अधिकतम चौडाइ */
+            margin: 0 auto; /* केन्द्रमा राख्न */
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+        }
+
+        /* हेडर क्षेत्रको लागि कन्टेनर */
+        .header-area {
+            position: relative;
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको लागि न्यूनतम उचाइ */
+            display: flex; /* फ्लेक्सबक्स लेआउट लोगो र पाठ केन्द्रित गर्न */
+            align-items: flex-start; /* शीर्षमा सामग्री पङ्क्तिबद्ध गर्न */
+        }
+
+        .logo-section {
+            flex-shrink: 0; /* लोगोलाई खुम्चिन नदिन */
+            margin-right: 20px; /* लोगो र हेडर पाठ बीचको खाली ठाउँ */
+        }
+
+        .header-content-centered {
+            flex-grow: 1; /* उपलब्ध ठाउँ लिन */
+            text-align: center; /* पाठलाई केन्द्रित गर्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+        }
+
+        .header-content-centered h2 {
+            margin: 0 0 3px 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .header-content-centered h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .address-main {
+            font-size: 14px;
+        }
+        .address-main p {
+            margin: 5px 0;
+        }
+
+        /* मुख्य सामग्री शैलीहरू */
+        .main-content {
+            color: #333; /* पूर्वनिर्धारित पाठ रङ्ग */
+            padding: 0 5px; /* भित्री प्याडिङ */
+        }
+
+        .content {
+            margin-bottom: 30px;
+        }
+        .attachments {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .applicant {
+            margin-top: 30px;
+        }
+        p {
+            margin: 5px 0;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .underline {
+            text-decoration: underline;
+        }
+
+        .subject-line {
+            text-align: center; /* विषयलाई केन्द्रित गर्न */
+            font-weight: bold;
+            text-decoration: underline;
+            margin: 15px 0;
+            color: #333;
+        }
+
+        .signature-box {
+            margin-top: 40px;
+            text-align: left; /* बायाँ पङ्क्तिबद्धता */
+        }
+
+        .signature-line {
+            border-top: 1px solid #333;
+            width: 200px; /* हस्ताक्षर रेखाको चौडाइ */
+            margin-bottom: 5px;
+            display: inline-block; /* रेखालाई पाठको रूपमा राख्न */
+        }
+
+        /* प्रिन्ट विशिष्ट शैलीहरू */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact; /* रङ्गहरू निर्दिष्ट गरेअनुसार प्रिन्ट भएको सुनिश्चित गर्छ */
+                padding: 0;
+                font-size: 12px; /* प्रिन्ट गर्दा फन्ट साइज अलिकति सानो */
+            }
+            .document-wrapper {
+                border: none; /* प्रिन्टमा बोर्डर हटाउनुहोस् */
+                padding: 0;
+            }
+            @page {
+                margin: 0.8cm; /* प्रिन्टिङका लागि कम मार्जिन */
+            }
+            .header-content-centered h2 {
+                font-size: 20px;
+            }
+            .header-content-centered h3 {
+                font-size: 16px;
+            }
+            .address-main {
+                font-size: 12px;
+            }
+            .main-content p, .main-content ul li, table, th, td {
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <img src="{{ gov_logo }}" alt="Government Logo">
+    <div class="document-wrapper">
+        <div class="header-area">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src={{gov_logo}} alt="Government Logo" style="width:80px; height: auto;">
+            </div>
+            <div class="header-content-centered">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
 
+        <div class="main-content">
+            <div class="content">
+                <p>श्रीमान् प्रमुख प्रशासकीय अधिकृतज्यू/श्रीमान् सचिव ज्यू</p>
+                <p>गाउँ कार्यपालिकाको कार्यालय/वडा समितिको कार्यालय</p>
+                <p>मितिः-.....</p>
+                <p class="subject-line">विषयः- सम्झौता बमोजिमको दोश्रो किस्ता रकम उपलव्ध गराई दिनु हुन।</p>
+                <p>उपर्युक्त विषयमा चालु आर्थिक वर्षको वडास्तरीय/नगरस्तरीय/विषयगत सामाजिक</p>
+                <p>विकास तर्फको भैपरी वजेट शिर्षकमा <span class="bold">{{project_name}}</span> गर्ने सम्बन्धी योजनाको लागि मिति .............. मा</p>
+                <p>सम्झौता भए अनुसार प्रथम किस्ता रकम बरावरको काम भईसकेकोले प्रथम किस्ता रकम बराबरको पेस्की फछ्यौट</p>
+                <p>गरि सम्झौतामा उल्लेखित व्योहोरा तथा प्रचलित नियमानुसार दोश्रो किस्ता रकम पेश्कि स्वरुप</p>
+                <p>उपलव्ध गराई दिनु हुन सिफारिसका साथ अनुरोध गरिन्छ ।</p>
+            </div>
 
-<div class="container">
-  <div class="header">
-    <div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-</div>
-
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
-
-  </div>
-
-  <div class="content">
-    <p>श्रीमान् प्रमुख प्रशासकीय अधिकृत ज्यू</p>
-    <p>गाउँ कार्यपालिकाको कार्यालय</p>
-    <p>पुल्चोक ललितपुर ।</p>
-    <p>मितिः.....</p>
-    <p>विषयः- सम्झौता बमोजिमको दोश्रो किस्ता रकम उपलव्ध गराई दिनु हुन।</p>
-    <p>उपर्युक्त</p>
-    <p>विषयमा चालु आर्थिक वर्षको वडास्तरीय/नगरस्तरीय/विषयगत सामाजिक</p>
-    <p>विकास तर्फको भैपरी वजेट शिर्षकमा <b>{{project_name}}</b> गर्ने सम्बन्धी योजनाको लागि मिति .............. मा</p>
-    <p>सम्झौता भए अनुसार</p>
-    <p>प्रथम किस्ता रकम बरावरको काम भईसकेकोले प्रथम किस्ता रकम बराबरको पेस्की फछ्यौट</p>
-    <p>गरि सम्झौतामा उल्लेखित व्योहोरा तथा प्रचलित नियमानुसार दोश्रो किस्ता रकम पेश्कि स्वरुप</p>
-    <p>उपलव्ध गराई दिनु हुन सिफारिसका साथ अनुरोध गरिन्छ ।</p>
-  </div>
-
-  {% comment %} <div class="footer">
-    <p>वडा अध्यक्ष</p>
-  </div> {% endcomment %}
-  <div class="signature-box" justify="left"> 
-        <div class="dotted-line">............................</div>
-        <p>वडा अध्यक्ष</p>
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <p>वडा अध्यक्ष</p>
+            </div>
+        </div>
     </div>
-</div>
-
 </body>
 </html>

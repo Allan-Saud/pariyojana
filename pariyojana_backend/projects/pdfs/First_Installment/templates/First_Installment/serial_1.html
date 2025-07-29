@@ -1,144 +1,207 @@
 <!DOCTYPE html>
-<html>
+<html lang="ne">
 <head>
-<title>उपभोक्ता समितिको वैठक</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 20px;
-  }
-  .container {
-    width: 80%;
-    margin: auto;
-    border: 1px solid #eee;
-    padding: 20px;
-  }
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .details {
-    margin-bottom: 20px;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  table, th, td {
-    border: 1px solid black;
-  }
-  th, td {
-    padding: 8px;
-    text-align: left;
-  }
-  .decision {
-    margin-top: 20px;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>उपभोक्ता समितिको वैठक</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0.8cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
+        }
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
+            font-size: 12px; /* फन्ट साइज अलिकति कम गरियो */
+            line-height: 1.4; /* लाइन हाइट अलिकति कम गरियो */
+            margin: 0;
+            padding: 15px; /* प्याडिङ कम गरियो */
+            background: white;
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 20px; /* प्याडिङ कम गरियो */
+            border: 2px solid #ddd; /* बाहिरी बोर्डर राखिएको छ */
+            max-width: 800px;
+            margin: 0 auto;
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+            min-height: 95vh; /* सामग्रीलाई एक पृष्ठमा राख्न मद्दत गर्छ */
+        }
+
+        /* हेडर सामग्री र लोगोको लागि मुख्य कन्टेनर */
+        .header-container {
+            position: relative; /* लोगोलाई सही रूपमा स्थान दिनको लागि */
+            display: flex; /* टेक्स्टलाई केन्द्रित गर्न */
+            align-items: flex-start; /* लोगो र टेक्स्टलाई शीर्षबाट सुरु गर्न */
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको उचाइ समायोजन गर्न */
+        }
+
+        .logo-section {
+            position: absolute; /* लोगोलाई स्वतन्त्र रूपमा स्थान दिने */
+            top: 0;
+            left: 0;
+            z-index: 10; /* लोगो अन्य सामग्रीको माथि देखियोस् भन्ने सुनिश्चित गर्छ */
+        }
+
+        .center-header-text {
+            flex-grow: 1; /* यो तत्वलाई उपलब्ध ठाउँ लिन अनुमति दिन्छ */
+            text-align: center; /* पाठलाई पृष्ठको केन्द्रमा राख्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+            padding-left: 80px; /* लोगोको लागि ठाउँ बनाउन */
+        }
+
+        .center-header-text h2 {
+            margin: 0 0 3px 0; /* मार्जिन कम गरियो */
+            font-size: 20px; /* फन्ट साइज कम गरियो */
+            font-weight: bold;
+            color: #dc2626; /* रातो रङ्ग */
+        }
+        .center-header-text h3 {
+            margin: 0 0 10px 0; /* मार्जिन कम गरियो */
+            font-size: 16px; /* फन्ट साइज कम गरियो */
+            font-weight: normal;
+            color: #dc2626; /* रातो रङ्ग */
+        }
+        .address-main {
+            font-size: 12px; /* फन्ट साइज कम गरियो */
+            color: #dc2626; /* ठेगाना पाठको लागि रातो रङ्ग */
+        }
+        .address-main p {
+            margin: 3px 0; /* मार्जिन कम गरियो */
+        }
+
+        .details {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .details p {
+            margin: 5px 0;
+        }
+
+        h3 {
+            color: #333; /* शीर्षक कालो */
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+        table, th, td {
+            border: 1px solid #333; /* बोर्डर कालो */
+            color: #333; /* पाठ कालो */
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: white; /* पृष्ठभूमि सेतो */
+            font-weight: bold;
+        }
+        .decision {
+            margin-top: 20px;
+            color: #333;
+        }
+        .decision p {
+            margin: 5px 0;
+        }
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                padding: 0;
+                font-size: 10px; /* प्रिन्ट गर्दा अझ सानो फन्ट साइज */
+            }
+            .document-wrapper {
+                border: none;
+                padding: 0;
+            }
+            @page {
+                margin: 0.5cm; /* प्रिन्टका लागि अझ सानो मार्जिन */
+            }
+            .center-header-text h2 {
+                font-size: 18px;
+            }
+            .center-header-text h3 {
+                font-size: 14px;
+            }
+            .address-main {
+                font-size: 10px;
+            }
+            .details p, h3, .decision p {
+                font-size: 10px;
+            }
+            th, td {
+                padding: 4px 3px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="document-wrapper">
+        <div class="header-container">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src={{gov_logo}} alt="Government Logo" style="height: 80px;">
+            </div>
+            <div class="center-header-text">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
 
-<div class="header">
-  <img src="{{ gov_logo }}" alt="गाउँपालिका लोगो" style="height: 80px; margin-bottom: 10px;">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-  <h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-  <div class="address">
-    <p>मूडा, कैलाली</p>
-    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-  </div>
-</div>
+        <!-- अनावश्यक डुप्लिकेट ठेगाना हटाइएको छ -->
 
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
+        <div class="details">
+            <p>उपभोक्ता समितिको वैठक नं २</p>
+            <p>आज मिति २०...... साल &nbsp;&nbsp; महिना....... गते &nbsp;&nbsp; वार</p>
+            <p>बिहान/दिउसो &nbsp;&nbsp; वजे यस उपभोक्ता समितिका अध्यक्ष श्री la ज्युको अध्यक्षतामा वसेको वैठकको</p>
+            <p>उपस्थिति र निर्णयहरु देहाय वमोजिम छन।</p>
+        </div>
 
-  </div>
+        <h3>उपस्थिती</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>पद</th>
+                    <th>नाम थर दस्तखत</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for official in officials %}
+                <tr>
+                    <td>{{ official.post }}</td>
+                    <td>श्री {{ official.full_name }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2">कोही पनि विवरण उपलब्ध छैन।</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-  <div class="details">
-    <p>उपभोक्ता समितिको वैठक नं २</p>
-    <p>आज मिति २०...... साल &nbsp;&nbsp; महिना....... गते &nbsp;&nbsp; वार</p>
-    <p>बिहान/दिउसो &nbsp;&nbsp; वजे यस उपभोक्ता समितिका अध्यक्ष श्री la ज्युको अध्यक्षतामा वसेको वैठकको</p>
-    <p>उपस्थिति र निर्णयहरु देहाय वमोजिम छन।</p>
-  </div>
+        <div class="decision">
+            <h3>बैठकको छलफलको कार्यसची</h3>
+            <p>१. निर्माण कार्य शुरु गर्ने सम्वन्धमा ।</p>
+            <p>२. विविध अन्य विषय सम्वन्धमा ।</p>
 
-  <h3>उपस्थिती</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>पद</th>
-        <th>नाम थर दस्तखत</th>
-      </tr>
-    </thead>
-    {% comment %} <tbody>
-      <tr>
-        <td>अध्यक्ष</td>
-        <td>श्री ram</td>
-      </tr>
-      <tr>
-        <td>सचिव</td>
-        <td>श्री sita</td>
-      </tr>
-      <tr>
-        <td>कोषाध्यक्ष</td>
-        <td>श्री hari</td>
-      </tr>
-      <tr>
-        <td>सदस्य</td>
-        <td>श्री gta</td>
-      </tr>
-      <tr>
-        <td>सदस्य</td>
-        <td>श्री swar</td>
-      </tr>
-      <tr>
-        <td>सदस्य</td>
-        <td>श्री sila</td>
-      </tr>
-      <tr>
-        <td>सदस्य</td>
-        <td>श्री mila</td>
-      </tr>
-      <tr>
-        <td>सदस्य</td>
-        <td>श्री ram</td>
-      </tr>
-      <tr>
-        <td>सदस्य</td>
-        <td>श्री asd</td>
-      </tr>
-    </tbody> {% endcomment %}
-    <tbody>
-  {% for official in officials %}
-    <tr>
-      <td>{{ official.post }}</td>
-      <td>श्री {{ official.full_name }}</td>
-    </tr>
-  {% empty %}
-    <tr>
-      <td colspan="2">कोही पनि विवरण उपलब्ध छैन।</td>
-    </tr>
-  {% endfor %}
-</tbody>
+            <h3>निर्णय नं.१</h3>
+            <p>बैठकको कार्यसूची नं. १ को सम्वन्धमा छलफल हुँदा मिति .............. गतेको</p>
+            <p>सम्झौता तथा मिति ............ गतेको महानगरपालिका/वडा कार्यालयको कार्यादेश</p>
+            <p>बमोजिम स्वीकृत लागत अनुमान बमोजिम मिति ...............गते देखि निर्माण काय शुरु</p>
+            <p>गर्ने निर्णय गरियो।</p>
 
-  </table>
-
-  <div class="decision">
-    <h3>बैठकको छलफलको कार्यसची</h3>
-    <p>१. निर्माण कार्य शुरु गर्ने सम्वन्धमा ।</p>
-    <p>२. विविध अन्य विषय सम्वन्धमा ।</p>
-
-    <h3>निर्णय नं.१</h3>
-    <p>बैठकको कार्यसूची नं. १ को सम्वन्धमा छलफल हुँदा मिति .............. गतेको</p>
-    <p>सम्झौता तथा मिति ............ गतेको महानगरपालिका/वडा कार्यालयको कार्यादेश</p>
-    <p>बमोजिम स्वीकृत लागत अनुमान बमोजिम मिति ...............गते देखि निर्माण काय शुरु</p>
-    <p>गर्ने निर्णय गरियो।</p>
-
-    <h3>निर्णय नं.२</h3>
-  </div>
-</div>
-
+            <h3>निर्णय नं.२</h3>
+        </div>
+    </div>
 </body>
 </html>

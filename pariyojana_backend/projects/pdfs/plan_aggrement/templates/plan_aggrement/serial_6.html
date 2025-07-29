@@ -1,69 +1,150 @@
 <!DOCTYPE html>
 <html lang="ne">
 <head>
-  <meta charset="UTF-8" />
-  <title>उपभोक्ता सम्झौता सम्बन्धी टिप्पणी</title>
-  <style>
-    html, body {
-      height: auto;
-      margin: 0;
-      padding: 0;
-      font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
-      line-height: 1.8;
-      direction: ltr;
-      display: block;
-      vertical-align: top;
-      text-align: left;
-    }
-    body {
-      margin: 40px;
-    }
-    .center {
-      text-align: center;
-    }
-    .header, .address {
-      margin-bottom: 10px;
-    }
-    .container {
-      margin-top: 20px;
-      padding-top: 0;
-      display: block;
-      text-align: left;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>उपभोक्ता सम्झौता सम्बन्धी टिप्पणी</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
+        }
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif; /* नेपाली फन्ट प्रयोग गरियो */
+            font-size: 14px; /* फन्ट साइज */
+            line-height: 1.6; /* लाइन हाइट */
+            margin: 0;
+            padding: 20px; /* पृष्ठको चारैतिर प्याडिङ */
+            background: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 25px; /* भित्री सामग्रीको प्याडिङ */
+            border: 2px solid #ddd; /* हल्का बाहिरी बोर्डर */
+            max-width: 800px; /* अधिकतम चौडाइ */
+            margin: 0 auto; /* केन्द्रमा राख्न */
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+        }
+
+        /* हेडर क्षेत्रको लागि कन्टेनर */
+        .header-area {
+            position: relative;
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको लागि न्यूनतम उचाइ */
+            display: flex; /* फ्लेक्सबक्स लेआउट लोगो र पाठ केन्द्रित गर्न */
+            align-items: flex-start; /* शीर्षमा सामग्री पङ्क्तिबद्ध गर्न */
+        }
+
+        .logo-section {
+            flex-shrink: 0; /* लोगोलाई खुम्चिन नदिन */
+            margin-right: 20px; /* लोगो र हेडर पाठ बीचको खाली ठाउँ */
+        }
+
+        .header-content-centered {
+            flex-grow: 1; /* उपलब्ध ठाउँ लिन */
+            text-align: center; /* पाठलाई केन्द्रित गर्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+        }
+
+        .header-content-centered h2 {
+            margin: 0 0 3px 0;
+            font-size: 22px;
+            font-weight: bold;
+            color: #dc2626; /* रातो */
+        }
+        .header-content-centered h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: normal;
+            color: #dc2626; /* रातो */
+        }
+        .address-main {
+            font-size: 14px;
+            color: #dc2626; /* रातो */
+        }
+        .address-main p {
+            margin: 5px 0;
+        }
+
+        /* मुख्य सामग्रीका लागि शैलीहरू */
+        .container-content {
+            padding: 0 5px; /* भित्री प्याडिङ */
+            color: #333; /* कालो पाठ */
+        }
+        .container-content p {
+            margin: 10px 0;
+            text-align: justify;
+        }
+        .container-content p strong {
+            color: #333; /* कालो पाठ */
+        }
+
+        /* प्रिन्ट शैलीहरू */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                padding: 0;
+                font-size: 12px; /* प्रिन्ट गर्दा फन्ट साइज अलिकति कम */
+            }
+            .document-wrapper {
+                border: none;
+                padding: 0;
+            }
+            @page {
+                margin: 0.8cm; /* प्रिन्टका लागि अझ सानो मार्जिन */
+            }
+            .header-content-centered h2 {
+                font-size: 20px;
+            }
+            .header-content-centered h3 {
+                font-size: 16px;
+            }
+            .address-main {
+                font-size: 12px;
+            }
+            .container-content p {
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-<img src="{{ gov_logo }}" alt="Government Logo" style="width:100px;">
+    <div class="document-wrapper">
+        <div class="header-area">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src={{gov_logo}} alt="Government Logo" style="width:80px; height: auto;">
+            </div>
+            <div class="header-content-centered">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
 
-  <div class="center">
-    <div class="header">
-      <h2>बर्दगोरिया गाउँपालिका</h2>
-      <h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
+        <div class="container-content">
+            <p><strong>योजना नाम:</strong> {{ project_name }}</p>
+            <p><strong>वडा नं:</strong> {{ ward_no }}</p>
+
+            <p><strong>टिप्पणी:</strong></p>
+            <p>
+                प्रस्तुत योजनाको कार्यान्वयन उपभोक्ता समितिमार्फत संचालन गरिनुपर्ने भएकोले, सम्बन्धित उपभोक्ता समितिले आवश्यक सबै प्रक्रिया पुरा गरी सम्झौता गर्न निवेदन दिएको छ। सो समितिले योजना संचालनका लागि आवश्यक बैठक गरी निर्णय पनि गरेको छ। समितिको तर्फबाट नयाँ बैंक खाता सञ्चालन, कार्यान्वयन स्थलको फोटो, र वडा कार्यालयको सिफारिस समेत प्राप्त भइसकेको छ।
+            </p>
+            <p>
+                उक्त सबै आधारमा योजना सम्झौता प्रक्रिया अगाडि बढाउन उपयुक्त देखिएकोले उपभोक्ता समितिसँग सम्झौता गर्न सिफारिस गर्दछु।
+            </p>
+
+            <p>..................................................</p>
+            <p>
+                <strong>सिफारिश गर्ने:</strong> {{ prepared_by }} <br />
+                पद: {{ position }} <br />
+                मिति: {{ agreement_date }}
+            </p>
+        </div>
     </div>
-
-    <div class="address">
-      <p>मूडा, कैलाली</p>
-      <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-    </div>
-  </div>
-
-  <div class="container">
-    <p><strong>योजना नाम:</strong> {{ project_name }}</p>
-    <p><strong>वडा नं:</strong> {{ ward_no }}</p>
-
-    <p><strong>टिप्पणी:</strong></p>
-    <p>
-      प्रस्तुत योजनाको कार्यान्वयन उपभोक्ता समितिमार्फत संचालन गरिनुपर्ने भएकोले, सम्बन्धित उपभोक्ता समितिले आवश्यक सबै प्रक्रिया पुरा गरी सम्झौता गर्न निवेदन दिएको छ। सो समितिले योजना संचालनका लागि आवश्यक बैठक गरी निर्णय पनि गरेको छ। समितिको तर्फबाट नयाँ बैंक खाता सञ्चालन, कार्यान्वयन स्थलको फोटो, र वडा कार्यालयको सिफारिस समेत प्राप्त भइसकेको छ।
-    </p>
-    <p>
-      उक्त सबै आधारमा योजना सम्झौता प्रक्रिया अगाडि बढाउन उपयुक्त देखिएकोले उपभोक्ता समितिसँग सम्झौता गर्न सिफारिस गर्दछु।
-    </p>
-
-    <p>..................................................</p>
-    <p><strong>सिफारिश गर्ने:</strong> {{ prepared_by }} <br />
-    पद: {{ position }} <br />
-    मिति: {{ agreement_date }}</p>
-  </div>
-
 </body>
 </html>

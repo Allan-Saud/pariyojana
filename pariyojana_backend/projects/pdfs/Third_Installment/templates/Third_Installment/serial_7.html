@@ -1,96 +1,170 @@
 <!DOCTYPE html>
-<html>
+<html lang="ne">
 <head>
-<title>Final Installment Request</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
-    background-color: #f9f9f9;
-  }
-  .container {
-    max-width: 800px;
-    margin: auto;
-    border: 1px solid #ddd;
-    padding: 30px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    background-color: #fff;
-  }
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .header h2, .header h3 {
-    margin: 5px 0;
-  }
-  .address {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  .date {
-    text-align: right;
-    margin-bottom: 20px;
-  }
-  .recipient-info {
-    margin-bottom: 20px;
-  }
-  .recipient-info p {
-    margin: 5px 0;
-  }
-  .subject {
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  .content-paragraph {
-    margin-bottom: 20px;
-    text-align: justify;
-  }
-  .signature {
-    text-align: right;
-    margin-top: 50px;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>अन्तिम किस्ता रकमको लागि निवेदन</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
+        }
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif; /* नेपाली फन्ट प्रयोग गरियो */
+            font-size: 14px; /* फन्ट साइज */
+            line-height: 1.6; /* लाइन हाइट */
+            margin: 0;
+            padding: 20px; /* पृष्ठको चारैतिर प्याडिङ */
+            background: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 25px; /* भित्री सामग्रीको प्याडिङ */
+            max-width: 800px; /* अधिकतम चौडाइ */
+            margin: 0 auto; /* केन्द्रमा राख्न */
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+        }
+
+        /* हेडर क्षेत्रको लागि कन्टेनर */
+        .header-area {
+            position: relative;
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको लागि न्यूनतम उचाइ */
+            display: flex; /* फ्लेक्सबक्स लेआउट लोगो र पाठ केन्द्रित गर्न */
+            align-items: flex-start; /* शीर्षमा सामग्री पङ्क्तिबद्ध गर्न */
+        }
+
+        .logo-section {
+            flex-shrink: 0; /* लोगोलाई खुम्चिन नदिन */
+            margin-right: 20px; /* लोगो र हेडर पाठ बीचको खाली ठाउँ */
+        }
+
+        .header-content-centered {
+            flex-grow: 1; /* उपलब्ध ठाउँ लिन */
+            text-align: center; /* पाठलाई केन्द्रित गर्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+        }
+
+        .header-content-centered h2 {
+            margin: 0 0 3px 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .header-content-centered h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .address-main {
+            font-size: 14px;
+        }
+        .address-main p {
+            margin: 5px 0;
+        }
+
+        /* मुख्य सामग्री शैलीहरू */
+        .main-content {
+            color: #333; /* पूर्वनिर्धारित पाठ रङ्ग */
+            padding: 0 5px; /* भित्री प्याडिङ */
+        }
+
+        .date-info,
+        .recipient-info p,
+        .content-paragraph p,
+        .signature-details p {
+            margin: 5px 0; /* अनुच्छेद र सूची वस्तुहरूको लागि मार्जिन */
+            color: #333; /* कालो पाठ रङ्ग */
+        }
+
+        .date-info {
+            text-align: right;
+        }
+
+        .subject-line {
+            font-weight: bold;
+            text-align: center; /* विषयलाई केन्द्रित गर्न */
+            text-decoration: underline; /* विषयलाई अन्डरलाइन गर्न */
+            margin: 15px 0;
+            color: #333; /* विषय पाठ कालो */
+        }
+
+        .content-paragraph {
+            text-align: justify; /* अनुच्छेदलाई दायाँ र बायाँ दुवैतिर मिलाउन */
+        }
+
+        .signature-details {
+            margin-top: 30px;
+            text-align: right;
+        }
+
+        /* प्रिन्ट विशिष्ट शैलीहरू */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact; /* रङ्गहरू निर्दिष्ट गरेअनुसार प्रिन्ट भएको सुनिश्चित गर्छ */
+                padding: 0;
+                font-size: 12px; /* प्रिन्ट गर्दा फन्ट साइज अलिकति सानो */
+            }
+            .document-wrapper {
+                border: none; /* प्रिन्टमा बोर्डर हटाउनुहोस् */
+                padding: 0;
+            }
+            @page {
+                margin: 0.8cm; /* प्रिन्टिङका लागि कम मार्जिन */
+            }
+            .header-content-centered h2 {
+                font-size: 20px;
+            }
+            .header-content-centered h3 {
+                font-size: 16px;
+            }
+            .address-main {
+                font-size: 12px;
+            }
+            .main-content p, .main-content ul li, table, th, td {
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-<img src="{{ gov_logo }}" alt="Government Logo">
+    <div class="document-wrapper">
+        <div class="header-area">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src={{gov_logo}} alt="Government Logo" style="width:80px; height: auto;">
+            </div>
+            <div class="header-content-centered">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
 
-<div class="container">
-  <div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-</div>
+        <div class="main-content">
+            <div class="date-info">
+                <p>मितिः- २०८.../.../.....</p>
+            </div>
 
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
+            <div class="recipient-info">
+                <p>श्रीमान् प्रमुख प्रशासकीय अधिकृतज्यू/श्रीमान् सचिव ज्यू</p>
+                <p>गाउँ कार्यपालिकाको कार्यालय/वडा समितिको कार्यालय</p>
+            </div>
 
+            <p class="subject-line">विषयः- सम्झौता बमोजिमको अन्तिम किस्ता रकम उपलब्ध गराई दिनु हुन।</p>
 
-  <div class="date">
-    <p>मितिः</p>
-  </div>
+            <div class="content-paragraph">
+                <p>उपर्युक्त विषयमा चालु आर्थिक वर्षको वडास्तरीय/नगरस्तरीय/विषयगत सामाजिक विकास तर्फको भैपरी वजेट शिर्षकमा <b>{{project_name}}</b> योजना संचालन गर्नको लागि मिति .............. मा उपभोक्ता समिति <b>{{consumer_committee_name}}</b> सँग सम्झौता भए अनुसार योजनाको कार्य सम्पन्न भएको, योजनाको सार्वजनिक परिक्षण सम्पन्न भएको, आम्दानी खर्च सार्वजनिक भैसकेको र वडा स्तरीय अनुगमन तथा सुपरिवेक्षण समितिले अनुगमन समेत गरि सकेकोले उक्त योजनासँग सम्बन्धित उपभोक्ता समितिको नामको पहिलो/दोश्रो किस्ता पेश्की फर्छयौट गरी प्राविधिकबाट नाँपजाँच सहित मुल्यांकित अन्तिम किस्ता रकम उपलव्ध गराई दिनु हुन सिफारिसका साथ अनुरोध गरिन्छ ।</p>
+            </div>
 
-  <div class="recipient-info">
-    <p>श्रीमान् प्रमुख प्रशासकीय अधिकृतज्यू</p>
-    <p>गाउँ कार्यपालिकाको कार्यालय</p>
-    <p>पुल्चोक ललितपुर ।</p>
-  </div>
-
-  <div class="subject">
-    <p>विषयः- सम्झौता बमोजिमको अन्तिम किस्ता रकम उपलब्ध गराई दिनु हुन।</p>
-  </div>
-
-  <div class="content-paragraph">
-<p>उपर्युक्त विषयमा चालु आर्थिक वर्षको वडास्तरीय/नगरस्तरीय/विषयगत सामाजिक विकास तर्फको भैपरी वजेट शिर्षकमा {{project_name}} योजना संचालन गर्नको लागि मिति मा उपभोक्ता समिति {{consumer_committee_name}} सँग सम्झौता भए अनुसार योजनाको कार्य सम्पन्न भएको, योजनाको सार्वजनिक परिक्षण सम्पन्न भएको, आम्दानी खर्च सार्वजनिक भैसकेको र वडा स्तरीय अनुगमन तथा सुपरिवेक्षण समितिले अनुगमन समेत गरि सकेकोले उक्त योजनासँग सम्बन्धित उपभोक्ता समितिको नामको पहिलो/दोश्रो किस्ता पेश्की फर्छयौट गरी प्राविधिकबाट नाँपजाँच सहित मुल्यांकित अन्तिम किस्ता रकम उपलव्ध गराई दिनु हुन सिफारिसका साथ अनुरोध गरिन्छ ।</p>
-  </div>
-
-  <div class="signature">
-    <p>वडा अध्यक्ष</p>
-  </div>
-
-</div>
-
+            <div class="signature-details">
+                <p>...............</p>
+                <p>वडा अध्यक्ष</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

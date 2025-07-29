@@ -1,130 +1,211 @@
 <!DOCTYPE html>
-<html>
+<html lang="ne">
 <head>
-<title>Project/Program Handover Form</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
-    background-color: #f9f9f9;
-  }
-  .container {
-    max-width: 800px;
-    margin: auto;
-    border: 1px solid #ddd;
-    padding: 30px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    background-color: #fff;
-  }
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .header h2, .header h3 {
-    margin: 5px 0;
-  }
-  .address {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  .form-title {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .intro-paragraph {
-    margin-bottom: 30px;
-    text-align: justify;
-  }
-  .section-details {
-    margin-bottom: 20px;
-  }
-  .section-details p {
-    margin: 5px 0;
-  }
-  .signature-section {
-    margin-top: 40px;
-    display: flex;
-    justify-content: space-between;
-    text-align: center;
-  }
-  .signature-block {
-    flex: 1;
-    margin: 0 10px;
-  }
-  .signature-block p {
-    margin: 5px 0;
-  }
-  .witnesses {
-    margin-top: 30px;
-  }
-  .note {
-    font-size: 0.9em;
-    margin-top: 30px;
-    text-align: center;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>योजना/कार्यक्रम हस्तान्तरण फाराम</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
+        }
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif; /* नेपाली फन्ट प्रयोग गरियो */
+            font-size: 14px; /* फन्ट साइज */
+            line-height: 1.6; /* लाइन हाइट */
+            margin: 0;
+            padding: 20px; /* पृष्ठको चारैतिर प्याडिङ */
+            background: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 25px; /* भित्री सामग्रीको प्याडिङ */
+            /* border: 1px solid #ddd; */ /* बोर्डर हटाइयो, सादगीका लागि */
+            max-width: 800px; /* अधिकतम चौडाइ */
+            margin: 0 auto; /* केन्द्रमा राख्न */
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+        }
+
+        /* हेडर क्षेत्रको लागि कन्टेनर */
+        .header-area {
+            position: relative;
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको लागि न्यूनतम उचाइ */
+            display: flex; /* फ्लेक्सबक्स लेआउट लोगो र पाठ केन्द्रित गर्न */
+            align-items: flex-start; /* शीर्षमा सामग्री पङ्क्तिबद्ध गर्न */
+        }
+
+        .logo-section {
+            flex-shrink: 0; /* लोगोलाई खुम्चिन नदिन */
+            margin-right: 20px; /* लोगो र हेडर पाठ बीचको खाली ठाउँ */
+        }
+
+        .header-content-centered {
+            flex-grow: 1; /* उपलब्ध ठाउँ लिन */
+            text-align: center; /* पाठलाई केन्द्रित गर्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+        }
+
+        .header-content-centered h2 {
+            margin: 0 0 3px 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .header-content-centered h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .address-main {
+            font-size: 14px;
+        }
+        .address-main p {
+            margin: 5px 0;
+        }
+
+        /* मुख्य सामग्री शैलीहरू */
+        .main-content {
+            color: #333; /* पूर्वनिर्धारित पाठ रङ्ग */
+            padding: 0 5px; /* भित्री प्याडिङ */
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #333; /* कालो पाठ */
+        }
+
+        .intro-paragraph {
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .section-details p {
+            margin: 5px 0;
+        }
+
+        .signature-section {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap; /* सानो स्क्रिनका लागि र्‍याप गर्न */
+            gap: 10px;
+        }
+
+        .signature-block {
+            flex: 1;
+            margin: 10px 0; /* बक्सहरू बीचको ठाउँ */
+            text-align: center;
+            min-width: 180px; /* हस्ताक्षर बक्सको न्यूनतम चौडाइ */
+        }
+
+        .signature-block p {
+            margin: 3px 0; /* हस्ताक्षर पाठको मार्जिन */
+        }
+
+        .witnesses {
+            margin-top: 30px;
+        }
+
+        .note {
+            font-size: 0.9em;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        /* प्रिन्ट विशिष्ट शैलीहरू */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                padding: 0;
+                font-size: 12px; /* प्रिन्ट गर्दा फन्ट साइज अलिकति सानो */
+            }
+            .document-wrapper {
+                border: none;
+                padding: 0;
+            }
+            @page {
+                margin: 0.8cm;
+            }
+            .header-content-centered h2 {
+                font-size: 20px;
+            }
+            .header-content-centered h3 {
+                font-size: 16px;
+            }
+            .address-main {
+                font-size: 12px;
+            }
+            .main-content p, .main-content ul li, table, th, td {
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-<img src="{{ gov_logo }}" alt="Government Logo">
+    <div class="document-wrapper">
+        <div class="header-area">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src={{gov_logo}} alt="Government Logo" style="width:80px; height: auto;">
+            </div>
+            <div class="header-content-centered">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
 
-<div class="container">
-  <div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-</div>
+        <div class="main-content">
+            <h2 class="form-title">योजना/कार्यक्रम हस्तान्तरण फाराम</h2>
 
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
+            <div class="intro-paragraph">
+                <p>ललितपुर महानगरपालिका वडा १ मा वार्षिक नगर विकास योजना अन्तर्गत संचालित तपसिलमा उल्लेखित योजना निर्माण, व्यवस्थापन तथा सन्चालनको लागि महानगरपालिका वडा कार्यालय र स्थानीय उपभोक्ता समिति विच सम्झौता भई उक्त कार्य सम्झौता वमोजिम कार्यसम्पन्न कार्य स्वीकार भएकोले स्थानीय उपभोक्ता समितिलाई सार्वजिनक खरिद नियमावली २०६४ को नियम ९७, उपनियम १२ वमोजिजम योजना मर्मत सम्भार लगायत रेखदेख गर्ने गरी आयोजना/कार्यक्रम हस्तान्तरण गरी दिईएको/लिईएको छ।</p>
+                <p>तपशिल</p>
+            </div>
 
+            <div class="section-details">
+                <p>आयोजना/योजनाको नामः {{project_name}}</p>
+                <p>आयोजना/योजना स्थलः ललितपुर महानगरपिलका वडा नं. {{ward_no}} को {{location}}</p>
+                <p>सम्झौता रकम रु. {{agreement_amount}}</p>
+                <p>लागत सहभागिता रकम रु.{{public_participation_amount}}</p>
+                <p>सम्झौता मितिः {{agreement_date}}</p>
+                <p>स्थानीय उपभोक्ता समितिको नामः {{consumer_committee_name}}</p>
+                <p>समितिको अध्यक्ष नामः {{chairman_name}}</p>
+                <p>आयोजना/योजना सम्पन्न रकम रु.:</p>
+                <p>जम्मा रकम रु. {{total_cost}}</p>
+                <p>कार्य सम्पन्न मितिः</p>
+            </div>
 
-  <h2 class="form-title">योजना/कार्यक्रम हस्तान्तरण फाराम</h2>
+            <div class="signature-section">
+                <div class="signature-block">
+                    <p>हस्तान्तरण गरी लिनेको हस्ताक्षर</p>
+                    <p>उपभोक्ता समितिको अध्यक्ष</p>
+                </div>
+                <div class="signature-block">
+                    <p>हस्तान्तरण गरी दिनेको हस्ताक्षर</p>
+                    <p>महानगरपालिका/वडा कार्यालय</p>
+                </div>
+            </div>
 
-  <div class="intro-paragraph">
-    <p>ललितपुर महानगरपालिका वडा १ मा वार्षिक नगर विकास योजना अन्तर्गत संचालित तपसिलमा उल्लेखित योजना निर्माण, व्यवस्थापन तथा सन्चालनको लागि महानगरपालिका वडा कार्यालय र स्थानीय उपभोक्ता समिति विच सम्झौता भई उक्त कार्य सम्झौता वमोजिम कार्यसम्पन्न कार्य स्वीकार भएकोले स्थानीय उपभोक्ता समितिलाई सार्वजिनक खरिद नियमावली २०६४ को नियम ९७, उपनियम १२ वमोजिजम योजना मर्मत सम्भार लगायत रेखदेख गर्ने गरी आयोजना/कार्यक्रम हस्तान्तरण गरी दिईएको/लिईएको छ।</p>
-    <p>तपशिल</p>
-  </div>
+            <div class="witnesses">
+                <p>साक्षीहरुः</p>
+                <p>नामः</p>
+                <p>पदः</p>
+                <p>नामः</p>
+                <p>पदः</p>
+            </div>
 
-  <div class="section-details">
-    <p>आयोजना/योजनाको नामः {{project_name}}</p>
-    <p>आयोजना/योजना स्थलः ललितपुर महानगरपिलका वडा नं. {{ward_no}} को {{location}}</p>
-    <p>सम्झौता रकम रु. {{agreement_amount}}</p>
-    <p>लागत सहभागिता रकम रु.{{public_participation_amount}}</p>
-    <p>सम्झौता मितिः {{agreement_date}}</p>
-    <p>स्थानीय उपभोक्ता समितिको नामः {{consumer_committee_name}}</p>
-    <p>समितिको अध्यक्ष नामः {{chairman_name}}</p>
-    <p>आयोजना/योजना सम्पन्न रकम रु.:</p>
-    <p>जम्मा रकम रु. {{total_cost}}</p>
-    <p>कार्य सम्पन्न मितिः</p>
-  </div>
-
-  <div class="signature-section">
-    <div class="signature-block">
-      <p>हस्तान्तरण गरी लिनेको हस्ताक्षर</p>
-      <p>उपभोक्ता समितिको अध्यक्ष</p>
+            <div class="note">
+                <p>(माथि उल्लेखित योजना हामी उपभोता समितिलेनै मर्मत सम्भार तथा रेखदेख गर्ने गरि हस्तान्तरण गरि लियौं/दियौं)</p>
+            </div>
+        </div>
     </div>
-    <div class="signature-block">
-      <p>हस्तान्तरण गरी दिनेको हस्ताक्षर</p>
-      <p>महानगरपालिका/वडा कार्यालय</p>
-    </div>
-  </div>
-
-  <div class="witnesses">
-    <p>साक्षीहरुः</p>
-    <p>नामः</p>
-    <p>पदः</p>
-    <p>नामः</p>
-    <p>पदः</p>
-  </div>
-
-  <div class="note">
-    <p>(माथि उल्लेखित योजना हामी उपभोता समितिलेनै मर्मत सम्भार तथा रेखदेख गर्ने गरि हस्तान्तरण गरि लियौं/दियौं)</p>
-  </div>
-
-</div>
-
 </body>
 </html>

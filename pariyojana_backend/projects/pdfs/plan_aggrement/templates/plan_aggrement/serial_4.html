@@ -1,92 +1,230 @@
 <!DOCTYPE html>
 <html lang="ne">
 <head>
-  <meta charset="UTF-8">
-  <title>बैंक खाता सञ्चालन सिफारिस</title>
-  <style>
-    body {
-      font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif;
-      margin: 40px;
-      line-height: 1.8;
-    }
-    .center {
-      text-align: center;
-    }
-    .section {
-      margin-top: 20px;
-    }
-    .signature-box {
-      margin-top: 40px;
-    }
-    ul {
-      list-style-type: decimal;
-      margin-left: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>बैंक खाता सञ्चालन सिफारिस</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0.8cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
+        }
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif; /* नेपाली फन्ट प्रयोग गरियो */
+            font-size: 13px; /* फन्ट साइज समायोजित गरियो */
+            line-height: 1.6; /* लाइन हाइट समायोजित गरियो */
+            margin: 0;
+            padding: 15px; /* प्याडिङ कम गरियो */
+            background: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 20px; /* प्याडिङ कम गरियो */
+            border: 2px solid #ddd; /* बाहिरी बोर्डर राखिएको छ */
+            max-width: 800px;
+            margin: 0 auto;
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+        }
+
+        /* हेडर क्षेत्रको लागि कन्टेनर */
+        .header-area {
+            position: relative;
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको लागि न्यूनतम उचाइ */
+        }
+
+        .logo-section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        /* केन्द्रमा राखिएको हेडर पाठ */
+        .header-content-centered {
+            text-align: center; /* पाठलाई केन्द्रित गर्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+            /* लोगोको ठाउँ खाली गर्नका लागि मार्जिन प्रयोग गर्नुहोस् */
+            margin-left: 80px; /* लोगोको चौडाइ अनुसार समायोजित गरियो */
+            margin-right: 0;
+            flex-grow: 1; /* यदि फ्लेक्स कन्टेनर भित्र छ भने उपलब्ध ठाउँ लिन */
+        }
+
+        .header-content-centered h2 {
+            margin: 0 0 3px 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: #dc2626;
+        }
+        .header-content-centered h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            font-weight: normal;
+            color: #dc2626;
+        }
+        .address-main {
+            font-size: 12px;
+            color: #dc2626;
+        }
+        .address-main p {
+            margin: 3px 0;
+        }
+
+        /* मुख्य सामग्रीका लागि शैलीहरू */
+        .main-content {
+            padding: 0 5px; /* भित्री प्याडिङ */
+        }
+
+        .section {
+            margin-top: 20px;
+        }
+        .section p {
+            margin-bottom: 8px;
+            text-align: justify;
+        }
+        /* विषय पाठलाई केन्द्रित गर्नका लागि नयाँ शैली */
+        .subject-center {
+            text-align: center;
+        }
+        ul {
+            list-style-type: decimal;
+            margin-left: 20px;
+            padding: 0;
+            color: #333; /* कालो पाठ */
+        }
+        ul li {
+            margin-bottom: 5px;
+        }
+        strong {
+            color: #333; /* कालो पाठ */
+        }
+
+        .signature-box {
+            margin-top: 40px;
+        }
+        .signature-box p {
+            margin-bottom: 5px;
+            text-align: left; /* हस्ताक्षर विवरण बायाँ पङ्क्तिबद्ध */
+        }
+        .signature-name {
+            font-weight: bold;
+            color: #333;
+        }
+        .signature-role {
+            font-size: 12px;
+            color: #555;
+        }
+        .stamp-placeholder {
+            width: 80px;
+            height: 80px;
+            border: 1px solid #ccc; /* सरल बोर्डर */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #666;
+            margin: 10px 0; /* माथि र तल केही मार्जिन */
+        }
+
+        /* प्रिन्ट शैलीहरू */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                padding: 0;
+                font-size: 11px; /* प्रिन्ट गर्दा फन्ट साइज अलिकति कम */
+            }
+            .document-wrapper {
+                border: none;
+                padding: 0;
+            }
+            @page {
+                margin: 0.5cm; /* प्रिन्टका लागि अझ सानो मार्जिन */
+            }
+            .header-content-centered h2 {
+                font-size: 18px;
+            }
+            .header-content-centered h3 {
+                font-size: 14px;
+            }
+            .address-main {
+                font-size: 10px;
+            }
+            .main-content p {
+                font-size: 11px;
+            }
+            ul li {
+                font-size: 11px;
+            }
+            .signature-box p {
+                font-size: 11px;
+            }
+        }
+    </style>
 </head>
 <body>
-<img src="{{ gov_logo }}" alt="Government Logo" style="width:100px;">
+    <div class="document-wrapper">
+        <div class="header-area">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src={{gov_logo}} alt="Government Logo" style="width:80px; height: auto;">
+            </div>
+            <div class="header-content-centered">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
 
-  <div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-</div>
+        <div class="main-content">
+            <div class="section">
+                <p>श्री प्रमुख प्रशासकीय अधिकृत ज्यू,</p>
+                <p>गाउँ कार्यपालिकाको कार्यालय,</p>
+                <p>पुल्चोक, ललितपुर ।</p>
+                <p>श्री वडा अध्यक्ष ज्यू</p>
+                <p>..... कार्यालय</p>
+                <p>मितिः ............</p>
+            </div>
 
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
+            <div class="section">
+                <div class="subject-center"><strong>विषयः- नयाँ बैंक खाता सञ्चालन सिफारिस सम्बन्धमा ।</strong></div>
 
+                <p>
+                    उपरोक्त विषयमा यस उपभोक्ता समिति मार्फत सञ्चालन हुने गरी मिति २०..... मा 
+                    <strong>{{ project_name }}</strong> नामको योजना सम्झौता भई कायदिश समेत प्राप्त भएकोले,
+                    यस उपभोक्ता समिति को आम्दानी खर्च हिसाब दुरुस्त राख बैंकिङ्ग प्रणाली उपयुक्त हुने भएकोले तोकिएको 
+                    बैङ्कमा देहायको पदाधिकारीहरूको दस्तखत रहने गरी उपभोक्ता समिति को नाममा बैंक खाता सञ्चालन 
+                    व्यवस्थाका लागि उ.स.को मिति .......... निर्णयानुसार आवश्यक सिफारिस गरी पाउन यो निवेदन पेश 
+                    गरेको छु । सिफारिस गरी पाउँ ।
+                </p>
+            </div>
 
-  <div class="section">
-    <p>श्री प्रमुख प्रशासकीय अधिकृत ज्यू,</p>
-    <p>गाउँ कार्यपालिकाको कार्यालय,</p>
-    <p>पुल्चोक, ललितपुर ।</p>
-    <p>श्री वडा अध्यक्ष ज्यू</p>
-    <p>..... कार्यालय</p>
-    <p>मितिः ............</p>
-  </div>
+            <div class="section signature-box">
+                <p><strong>निवेदक</strong></p>
+                <p>सहीछापः -</p>
 
-  <div class="section">
-    <p><strong>विषयः- नयाँ बैंक खाता सञ्चालन सिफारिस सम्बन्धमा ।</strong></p>
+                {% for chairperson in chairpersons %}
+                    <p class="signature-name">नामथरः {{ chairperson.name }}</p>
+                {% empty %}
+                    <p class="signature-name">नामथरः ........</p>
+                {% endfor %}
 
-    <p>
-      उपरोक्त विषयमा यस उपभोक्ता समिति मार्फत सञ्चालन हुने गरी मिति २०..... मा 
-      <strong>{{ project_name }}</strong> नामको योजना सम्झौता भई कायदिश समेत प्राप्त भएकोले,
-      यस उपभोक्ता समितिको आम्दानी खर्च हिसाब दुरुस्त राख बैंकिङ्ग प्रणाली उपयुक्त हुने भएकोले तोकिएको 
-      बैङ्कमा देहायको पदाधिकारीहरूको दस्तखत रहने गरी उपभोक्ता समितिको नाममा बैंक खाता सञ्चालन 
-      व्यवस्थाका लागि उ.स.को मिति .......... निर्णयानुसार आवश्यक सिफारिस गरी पाउन यो निवेदन पेश 
-      गरेको छु । सिफारिस गरी पाउँ ।
-    </p>
-  </div>
+                <p class="signature-role">पदः अध्यक्ष</p>
+                <p class="signature-committee">उपभोक्ता समिति</p>
+                <div class="stamp-placeholder">उपभोक्ता समिति को छाप</div>
+            </div>
 
-  <div class="section signature-box">
-  <div class="section signature-box">
-  <p><strong>निवेदक</strong></p>
-
- <p>सहीछापः -</p>
-
-{% for chairperson in chairpersons %}
-  <p>नामथरः {{ chairperson.name }}</p>
-{% empty %}
-  <p>नामथरः ........</p>
-{% endfor %}
-
-<p>पदः अध्यक्ष</p>
-<p>उपभोक्ता समिति</p>
-<p>उपभोक्ता समितिको छाप</p>
-
-</div>
-
-
-
-  <div class="section">
-    <p><strong>संलग्न प्रमाण कागज</strong></p>
-    <ul>
-      <li>बैङ्क खाता सञ्चालन हुने पदाधिकारीको नागरिकताको प्रमाणीत प्रतिलिपि पाना-</li>
-      <li>उपभोक्ता समितिको बैठकको निर्णय प्रतिलिपि पाना-</li>
-    </ul>
-  </div>
-
+            <div class="section">
+                <p><strong>संलग्न प्रमाण कागज</strong></p>
+                <ul>
+                    <li>बैङ्क खाता सञ्चालन हुने पदाधिकारीको नागरिकताको प्रमाणीत प्रतिलिपि पाना-</li>
+                    <li>उपभोक्ता समिति को बैठकको निर्णय प्रतिलिपि पाना-</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

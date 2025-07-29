@@ -65,7 +65,7 @@ from django.conf import settings
 from weasyprint import HTML, CSS
 import openpyxl
 from openpyxl.styles import Font, Alignment
-
+from django.templatetags.static import static
 class WardLevelProjectDownloadReport(APIView):
     def get_queryset(self, request):
         queryset = WardLevelProject.objects.filter(is_deleted=False)
@@ -135,10 +135,12 @@ class WardLevelProjectDownloadReport(APIView):
             'sub_area': obj.sub_area.name if obj.sub_area else '',
             'budget': obj.budget,
         } for i, obj in enumerate(queryset)]
+        gov_logo = f'file://{os.path.join(settings.BASE_DIR, "static/images/nepal-govt.png")}'
 
         html_string = render_to_string('planning/report_template.html', {
             'title': 'बर्दगोरिया गाउँपालिका',
-            'projects': data
+            'projects': data,
+             'gov_logo': gov_logo
         })
 
         css_path = os.path.join(settings.BASE_DIR, 'static', 'css', 'pdf_styles.css')

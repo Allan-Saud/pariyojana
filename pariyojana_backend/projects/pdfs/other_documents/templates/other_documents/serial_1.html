@@ -4,31 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>योजना कार्यान्वयन चेक लिष्ट</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS removed as custom CSS is used for simplicity and specific styling -->
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f8f8;
-            padding: 20px;
+        @page {
+            size: A4;
+            margin: 0.8cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
         }
-        .container {
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif; /* नेपाली फन्ट प्रयोग गरियो */
+            font-size: 12px; /* फन्ट साइज अलिकति कम गरियो */
+            line-height: 1.4; /* लाइन हाइट अलिकति कम गरियो */
+            margin: 0;
+            padding: 15px; /* प्याडिङ कम गरियो */
+            background: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 20px; /* प्याडिङ कम गरियो */
+            border: 2px solid #ddd; /* बाहिरी बोर्डर राखिएको छ */
             max-width: 800px;
             margin: 0 auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+            /* min-height हटाएको छ किनकि यो बहु-पृष्ठ कागजात हो */
         }
+
+        /* हेडर सामग्री र लोगोको लागि मुख्य कन्टेनर */
+        .header-container {
+            position: relative; /* लोगोलाई सही रूपमा स्थान दिनको लागि */
+            display: flex; /* टेक्स्टलाई केन्द्रित गर्न */
+            align-items: flex-start; /* लोगो र टेक्स्टलाई शीर्षबाट सुरु गर्न */
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको उचाइ समायोजन गर्न */
+        }
+
+        .logo-section {
+            position: absolute; /* लोगोलाई स्वतन्त्र रूपमा स्थान दिने */
+            top: 0;
+            left: 0;
+            z-index: 10; /* लोगो अन्य सामग्रीको माथि देखियोस् भन्ने सुनिश्चित गर्छ */
+        }
+
+        .center-header-text {
+            flex-grow: 1; /* यो तत्वलाई उपलब्ध ठाउँ लिन अनुमति दिन्छ */
+            text-align: center; /* पाठलाई पृष्ठको केन्द्रमा राख्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+            padding-left: 80px; /* लोगोको लागि ठाउँ बनाउन */
+        }
+
+        .center-header-text h2 {
+            margin: 0 0 3px 0; /* मार्जिन कम गरियो */
+            font-size: 20px; /* फन्ट साइज कम गरियो */
+            font-weight: bold;
+            color: #dc2626; /* रातो रङ्ग */
+        }
+        .center-header-text h3 {
+            margin: 0 0 10px 0; /* मार्जिन कम गरियो */
+            font-size: 16px; /* फन्ट साइज कम गरियो */
+            font-weight: normal;
+            color: #dc2626; /* रातो रङ्ग */
+        }
+        .address-main {
+            font-size: 12px; /* फन्ट साइज कम गरियो */
+            color: #dc2626; /* ठेगाना पाठको लागि रातो रङ्ग */
+        }
+        .address-main p {
+            margin: 3px 0; /* मार्जिन कम गरियो */
+        }
+
+        /* चेकलिस्टका शीर्षकहरूको लागि शैली */
+        .main-checklist-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333; /* कालो पाठ */
+        }
+        .main-checklist-title p {
+            margin: 0;
+        }
+
+        /* तालिका शैली */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
             margin-bottom: 15px;
+            color: #333; /* तालिकाको पाठ कालो */
         }
         table, th, td {
-            border: 1px solid #000;
+            border: 1px solid #333; /* तालिकाको बोर्डर कालो */
         }
         th, td {
             padding: 8px;
@@ -36,35 +101,88 @@
             vertical-align: top;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: white; /* हेडरको पृष्ठभूमि सेतो */
+            font-weight: bold;
+            color: #333; /* हेडरको पाठ कालो */
         }
-        .text-center {
-            text-align: center;
+
+        /* तलको 'चेकजाँच गर्ने' र 'प्रमाणित गर्ने' पाठका लागि शैली */
+        .flex-signature-area {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 32px; /* Tailwind mt-8 को बराबर */
+            color: #333; /* पाठ कालो */
         }
-        .page-break {
-            page-break-before: always;
+
+        /* प्रिन्ट शैलीहरू */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact; /* रङ्गहरू सही रूपमा प्रिन्ट होस् भन्ने सुनिश्चित गर्छ */
+                padding: 0;
+                font-size: 10px; /* प्रिन्ट गर्दा अझ सानो फन्ट साइज */
+            }
+            .document-wrapper {
+                border: none; /* प्रिन्ट गर्दा बोर्डर हटाउँछ */
+                padding: 0;
+            }
+            @page {
+                margin: 0.5cm; /* प्रिन्टका लागि अझ सानो मार्जिन */
+            }
+            .center-header-text h2 {
+                font-size: 18px;
+            }
+            .center-header-text h3 {
+                font-size: 14px;
+            }
+            .address-main {
+                font-size: 10px;
+            }
+            .main-checklist-title {
+                font-size: 14px; /* शीर्षकहरूको लागि प्रिन्ट फन्ट साइज समायोजित गरियो */
+            }
+            th, td {
+                padding: 4px 3px; /* प्रिन्टका लागि सानो प्याडिङ */
+            }
+            .page-break {
+                page-break-before: always; /* नयाँ पृष्ठबाट सुरु गर्छ */
+                margin: 0; /* पृष्ठ विभाजनमा अतिरिक्त मार्जिन हटाउँछ */
+            }
         }
     </style>
 </head>
 <body>
-    <img src="{{ gov_logo }}" alt="Government Logo">
+    <div class="document-wrapper">
+        <div class="header-container">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                 <img src="{{ gov_logo }}" alt="Government Logo">
+                
+            </div>
+            <div class="center-header-text">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
 
-    <div class="container">
         <!-- Header -->
-        <div class="text-center mb-6">
-            <p class="text-lg font-bold">आर्थिक वर्ष २०८===========/०८============= ==== को योजना</p>
-            <p class="text-lg font-bold">कार्यान्वयन चेक लिष्ट (भए/नभएको चिन्ह लगाउने)</p>
+        <div class="main-checklist-title">
+            <p>आर्थिक वर्ष २०८===========/०८============= ==== को योजना</p>
+            <p>कार्यान्वयन चेक लिष्ट (भए/नभएको चिन्ह लगाउने)</p>
         </div>
 
         <!-- First Installment Checklist Table -->
         <table>
             <thead>
                 <tr>
-                    <th class="w-1/12">क्र.स</th>
-                    <th class="w-4/12">सम्झौता गरी पहिलो किस्ता रकम<br>कामको विवरण</th>
-                    <th class="w-5/12">माग गर्दा संलग्न गर्नु पर्ने कागजातहरु<br>मापदण्ड</th>
-                    <th class="w-1/12">भए</th>
-                    <th class="w-1/12">नभएको</th>
+                    <th style="width: 8.33%;">क्र.स</th>
+                    <th style="width: 33.33%;">सम्झौता गरी पहिलो किस्ता रकम<br>कामको विवरण</th>
+                    <th style="width: 41.67%;">माग गर्दा संलग्न गर्नु पर्ने कागजातहरु<br>मापदण्ड</th>
+                    <th style="width: 8.33%;">भए</th>
+                    <th style="width: 8.33%;">नभएको</th>
                 </tr>
             </thead>
             <tbody>
@@ -192,7 +310,7 @@
             </tbody>
         </table>
 
-        <div class="flex justify-between mt-8">
+        <div class="flex-signature-area">
             <p>चेकजाँच गर्ने</p>
             <p>प्रमाणित गर्ने</p>
         </div>
@@ -200,19 +318,19 @@
         <!-- Page 2 Content -->
         <div class="page-break"></div>
 
-        <div class="text-center mb-6">
-            <p class="text-lg font-bold">दोश्रो किस्ता रकम माग गर्दा संलग्न गर्नु पर्ने कागजातहरु</p>
+        <div class="main-checklist-title">
+            <p>दोश्रो किस्ता रकम माग गर्दा संलग्न गर्नु पर्ने कागजातहरु</p>
         </div>
 
         <!-- Second Installment Checklist Table -->
         <table>
             <thead>
                 <tr>
-                    <th class="w-1/12">क्र.स</th>
-                    <th class="w-4/12">कामको विवरण</th>
-                    <th class="w-5/12">मापदण्ड</th>
-                    <th class="w-1/12">भए</th>
-                    <th class="w-1/12">नभएको</th>
+                    <th style="width: 8.33%;">क्र.स</th>
+                    <th style="width: 33.33%;">कामको विवरण</th>
+                    <th style="width: 41.67%;">मापदण्ड</th>
+                    <th style="width: 8.33%;">भए</th>
+                    <th style="width: 8.33%;">नभएको</th>
                 </tr>
             </thead>
             <tbody>
@@ -304,7 +422,7 @@
                 <tr>
                     <td>११</td>
                     <td>सूचना पाटी (रु. ५ लाख भन्दा<br>माथिका योजनाको हकमा)</td>
-                    <td>योजना संम्झौता सम्वन्धि कार्यविधि २०७८ को<br>अनुसूची ३ वमोजिमको ढाँचामा योजना कार्यस्थलमा<br>सूचना पाटी</td>
+                    <td>योजना संम्झौता सम्वन्धि कार्यविधि २०७८ को अनुसूची<br>३ वमोजिमको ढाँचामा योजना कार्यस्थलमा<br>सूचना पाटी</td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -339,7 +457,7 @@
             </tbody>
         </table>
 
-        <div class="flex justify-between mt-8">
+        <div class="flex-signature-area">
             <p>चेकजाँच गर्ने</p>
             <p>प्रमाणित गर्ने</p>
         </div>
@@ -347,24 +465,24 @@
         <!-- Page 3 Content -->
         <div class="page-break"></div>
 
-        <div class="text-center mb-6">
-            <p class="text-lg font-bold">अन्तिम किस्ता रकम माग गर्दा संलग्न गर्नु पर्ने कागजातहरु</p>
+        <div class="main-checklist-title">
+            <p>अन्तिम किस्ता रकम माग गर्दा संलग्न गर्नु पर्ने कागजातहरु</p>
         </div>
 
         <!-- Final Installment Checklist Table -->
         <table>
             <thead>
                 <tr>
-                    <th class="w-1/12">क्र.स</th>
-                    <th class="w-4/12">कामको विवरण</th>
-                    <th class="w-5/12">मापदण्ड</th>
-                    <th class="w-1/12">भए</th>
-                    <th class="w-1/12">नभएको</th>
+                    <th style="width: 8.33%;">क्र.स</th>
+                    <th style="width: 33.33%;">कामको विवरण</th>
+                    <th style="width: 41.67%;">मापदण्ड</th>
+                    <th style="width: 8.33%;">भए</th>
+                    <th style="width: 8.33%;">नभएको</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td rowspan="2"></td>
+                    <td rowspan="2">१</td>
                     <td rowspan="2">उपभोक्ता समितिको कार्यसम्पन्नको<br>निर्णय तथा निवेदन</td>
                     <td>सम्झौता अनुसारको मिति भित्र नै कार्य सम्पन्न<br>भएको निर्णय</td>
                     <td></td>
@@ -393,35 +511,35 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td></td>
+                    <td>३</td>
                     <td>ठेक्का सम्बन्धी विल</td>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td>३</td>
+                    <td>४</td>
                     <td>कार्य सम्पन्न/कार्य स्वीकार प्रतिवेदन</td>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td>४</td>
+                    <td>५</td>
                     <td>योजनाको फोटो</td>
                     <td>योजनाको कार्य सम्पन्न भएको अवस्थाको फोटो</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td>५</td>
+                    <td>६</td>
                     <td>वडा कार्यालयको सिफारिस</td>
                     <td>अन्तिम किस्ता भुक्तानीको रकम सम्बन्धी सक्कल<br>सिफारिस</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td rowspan="2"></td>
+                    <td rowspan="2">७</td>
                     <td rowspan="2">अनुगमन तथा सुपरिवेक्षण प्रतिवेदन<br>तथा जाँचपास समितिको निर्णय</td>
                     <td>महानगरपालिका उपप्रमुखज्यूको संयोजकत्वमा गठित<br>अनुगमन समितिको प्राविधिक तथा सुपरिवेक्षण<br>प्रतिवेदन पेश</td>
                     <td></td>
@@ -433,35 +551,35 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td></td>
+                    <td>८</td>
                     <td>जाँचपास समितिवाट जाँच पास गरिएको</td>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td>७</td>
+                    <td>९</td>
                     <td>सार्वजनिक परिक्षण</td>
                     <td>कार्यविधि २०७८ को अनुसूची ४ वमोजिमको<br>ढाँचामा प्रतिवेदन तयार</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td>८</td>
+                    <td>१०</td>
                     <td>खर्च सार्वजनिक सूचना फाराम</td>
                     <td>कार्यविधि २०७८ को अनुसूची ५ वमोजिमको ढाँचामा</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td>९</td>
+                    <td>११</td>
                     <td>उपभोक्ता समितिको भौतिक तथा<br>वितिय प्रगति प्रतिवेदन</td>
                     <td>कार्यविधि २०७८ को अनुसूची ६ वमोजिमको<br>ढाँचामा</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td rowspan="2">१०</td>
+                    <td rowspan="2">१२</td>
                     <td rowspan="2">सामान खरिद गरेको विल</td>
                     <td>रु २० हजार भन्दा कमको कारोवार भए PAN विल</td>
                     <td></td>
@@ -473,36 +591,36 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td>११</td>
+                    <td>१३</td>
                     <td>डोर हाजिरी</td>
                     <td>उपभोक्ता समितिका पदाधिकारीवाट स्वीकृती</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td>१२</td>
+                    <td>१४</td>
                     <td>सामान ढुवानी भए</td>
                     <td>चालक अनुमति पत्र गाडीको बिलवुक सहितको</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td>१३</td>
+                    <td>१५</td>
                     <td>कार्य चालु रँहदाको अनुगमन</td>
                     <td>योजनाको कार्य चालु रहदा विचविचमा समिति वा अन्य<br>पदाधिकारीवाट अनुगमन</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td>१४</td>
+                    <td>१६</td>
                     <td>अन्य..................</td>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td>१५</td>
-                    <td>अन्य.</td>
+                    <td>१७</td>
+                    <td>अन्य......</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -510,7 +628,7 @@
             </tbody>
         </table>
 
-        <div class="flex justify-between mt-8">
+        <div class="flex-signature-area">
             <p>चेकजाँच गर्ने</p>
             <p>प्रमाणित गर्ने</p>
         </div>
@@ -518,3 +636,4 @@
     </div>
 </body>
 </html>
+

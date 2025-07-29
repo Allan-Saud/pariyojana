@@ -1,140 +1,213 @@
 <!DOCTYPE html>
-<html>
+<html lang="ne">
 <head>
-<title>उपभोक्ता समितिको बैठक</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 20px;
-  }
-  .container {
-    width: 80%;
-    margin: auto;
-    border: 1px solid #eee;
-    padding: 20px;
-  }
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .details {
-    margin-bottom: 20px;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  table, th, td {
-    border: 1px solid black;
-  }
-  th, td {
-    padding: 8px;
-    text-align: left;
-  }
-  .decision {
-    margin-top: 20px;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>उपभोक्ता समितिको बैठक</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
+        }
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif; /* नेपाली फन्ट प्रयोग गरियो */
+            font-size: 14px; /* फन्ट साइज */
+            line-height: 1.6; /* लाइन हाइट */
+            margin: 0;
+            padding: 20px; /* पृष्ठको चारैतिर प्याडिङ */
+            background: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 25px; /* भित्री सामग्रीको प्याडिङ */
+            border: 1px solid #ddd; /* हल्का बाहिरी बोर्डर */
+            max-width: 800px; /* अधिकतम चौडाइ */
+            margin: 0 auto; /* केन्द्रमा राख्न */
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+        }
+
+        /* हेडर क्षेत्रको लागि कन्टेनर */
+        .header-area {
+            position: relative;
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको लागि न्यूनतम उचाइ */
+            display: flex; /* फ्लेक्सबक्स लेआउट लोगो र पाठ केन्द्रित गर्न */
+            align-items: flex-start; /* शीर्षमा सामग्री पङ्क्तिबद्ध गर्न */
+        }
+
+        .logo-section {
+            flex-shrink: 0; /* लोगोलाई खुम्चिन नदिन */
+            margin-right: 20px; /* लोगो र हेडर पाठ बीचको खाली ठाउँ */
+        }
+
+        .header-content-centered {
+            flex-grow: 1; /* उपलब्ध ठाउँ लिन */
+            text-align: center; /* पाठलाई केन्द्रित गर्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+        }
+
+        .header-content-centered h2 {
+            margin: 0 0 3px 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .header-content-centered h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .address-main {
+            font-size: 14px;
+        }
+        .address-main p {
+            margin: 5px 0;
+        }
+
+        /* मुख्य सामग्री शैलीहरू */
+        .main-content {
+            color: #333; /* पूर्वनिर्धारित पाठ रङ्ग */
+            padding: 0 5px; /* भित्री प्याडिङ */
+        }
+
+        .section {
+            margin-bottom: 20px; /* प्रत्येक खण्ड पछि खाली ठाउँ */
+        }
+
+        .details p {
+            margin: 5px 0;
+            color: #333; /* विवरण पाठ कालो */
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        /* तालिका शैली */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+            color: #333; /* तालिका पाठ कालो */
+        }
+        th {
+            background-color: #f2f2f2; /* तालिका हेडर पृष्ठभूमि हल्का खैरो */
+            font-weight: bold;
+        }
+
+        /* निर्णय खण्ड */
+        .decision h3 {
+            color: #333; /* निर्णय शीर्षक कालो */
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .decision p {
+            margin: 5px 0;
+            text-align: justify; /* निर्णय पाठलाई न्यायोचित */
+            color: #333; /* निर्णय पाठ कालो */
+        }
+
+        /* प्रिन्ट विशिष्ट शैलीहरू */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact; /* रङ्गहरू निर्दिष्ट गरेअनुसार प्रिन्ट भएको सुनिश्चित गर्छ */
+                padding: 0;
+                font-size: 12px; /* प्रिन्ट गर्दा फन्ट साइज अलिकति सानो */
+            }
+            .document-wrapper {
+                border: none; /* प्रिन्टमा बोर्डर हटाउनुहोस् */
+                padding: 0;
+            }
+            @page {
+                margin: 0.8cm; /* प्रिन्टिङका लागि कम मार्जिन */
+            }
+            .header-content-centered h2 {
+                font-size: 20px;
+            }
+            .header-content-centered h3 {
+                font-size: 16px;
+            }
+            .address-main {
+                font-size: 12px;
+            }
+            .main-content p, .main-content ul li, table, th, td {
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <img src="{{ gov_logo }}" alt="Government Logo">
+    <div class="document-wrapper">
+        <div class="header-area">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src={{gov_logo}} alt="Government Logo" style="width:80px; height: auto;">
+            </div>
+            <div class="header-content-centered">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
 
+        <div class="main-content">
+            <div class="details section">
+                <p>उपभोक्ता समितिको बैठक नं ३</p>
+                <p>आज मिति २०...... साल &nbsp;&nbsp; महिना....... गते &nbsp;&nbsp; वार</p>
+                <p>बिहान/दिउसो &nbsp;&nbsp; वजे यस उपभोक्ता समितिका अध्यक्ष श्री {{chairman_name}} ज्युको अध्यक्षतामा वसेको बैठकको उपस्थिति र</p>
+                <p>निर्णयहरु देहाय वमोजिम छन ।</p>
+            </div>
 
-<div class="container">
-  <div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-</div>
+            <h3 class="bold">उपस्थिती</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>पद</th>
+                        <th>नाम थर दस्तखत</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for official in officials %}
+                    <tr>
+                        <td>{{ official.post }}</td>
+                        <td>श्री {{ official.full_name }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2">कोही पनि विवरण उपलब्ध छैन।</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
+            <div class="decision">
+                <h3>बैठकको छलफलको कार्यसूची</h3>
+                <p>१. निर्माण कार्य शुरु गर्ने सम्बन्धमा ।</p>
+                <p>२. विविध अन्य विषय सम्बन्धमा ।</p>
 
+                <h3>निर्णय नं.१</h3>
+                <p>बैठकको कार्यसूची नं.१ को सम्बन्धमा छलफल हुँदा मिति .............. गतेको</p>
+                <p>सम्झौता तथा मिति ............ गतेको महानगरपालिका/वडा कार्यालयको कार्यादेश बमो</p>
+                <p>जिम स्वीकृत लागत अनुमान बमोजिम पहिलो किस्ता रकम बराबरको निर्माण कार्य गरि सकिएकोले</p>
+                <p>प्राविधिक नाँपजाँचको लागि र दोश्रो किस्ता रकम माग गर्ने सम्बन्धमा वडा कार्यालय/महानगरपालि</p>
+                <p>कामा निवेदन पेश गर्ने निर्णय गरियो।</p>
 
-  <div class="details">
-    <p>उपभोक्ता समितिको बैठक नं ३</p>
-    <p>आज मिति २०...... साल &nbsp;&nbsp; महिना....... गते &nbsp;&nbsp; वार</p>
-    <p>बिहान/दिउसो &nbsp;&nbsp; वजे यस उपभोक्ता समितिका अध्यक्ष श्री {{chairman_name}} ज्युको अध्यक्षतामा वसेको बैठकको उपस्थिति र</p>
-    <p>निर्णयहरु देहाय वमोजिम छन ।</p>
-  </div>
-
-  <h3>उपस्थिती</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>पद</th>
-        <th>नाम थर दस्तखत</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% comment %} <tr>
-        <td>अध्यक्ष</td>
-        <td>श्री ram</td>
-      </tr>
-      <tr>
-        <td>सचिव</td>
-        <td>श्री sita</td>
-      </tr>
-      <tr>
-        <td>कोषाध्यक्ष</td>
-        <td>श्री hari</td>
-      </tr>
-      <tr>
-        <td>सदस्य</td>
-        <td>श्री gta</td>
-      </tr>
-      <tr>
-        <td>सदस्य</td>
-        <td>श्री swar</td>
-      </tr>
-      <tr>
-        <td>सदस्य</td>
-        <td>श्री sila</td>
-      </tr>
-      <tr>
-        <td>सदस्य</td>
-        <td>श्री mila</td>
-      </tr>
-      <tr>
-        <td>सदस्य</td>
-        <td>श्री ram</td>
-      </tr>
-      <tr>
-        <td>सदस्य</td>
-        <td>श्री asd</td>
-      </tr> {% endcomment %}
-  {% for official in officials %}
-    <tr>
-      <td>{{ official.post }}</td>
-      <td>श्री {{ official.full_name }}</td>
-    </tr>
-  {% empty %}
-    <tr>
-      <td colspan="2">कोही पनि विवरण उपलब्ध छैन।</td>
-    </tr>
-  {% endfor %}
-
-    </tbody>
-  </table>
-
-  <div class="decision">
-    <h3>बैठकको छलफलको कार्यसुची</h3>
-    <p>१. निर्माण कार्य शुरु गर्ने सम्वन्धमा ।</p>
-    <p>२. विविध अन्य विषय सम्वन्धमा ।</p>
-
-    <h3>निर्णय नं.१</h3>
-    <p>बैठकको कार्यसूची नं.१ को सम्बन्धमा छलफल हुँदा मिति .............. गतेको</p>
-    <p>सम्झौता तथा मिति ............ गतेको महानगरपालिका/वडा कार्यालयको कार्यादेश बमो</p>
-    <p>जिम स्वीकृत लागत अनुमान बमोजिम पहिलो किस्ता रकम बराबरको निर्माण कार्य गरि सकिएकोले</p>
-    <p>प्राविधिक नाँपजाँचको लागि र दोश्रो किस्ता रकम माग गर्ने सम्बन्धमा वडा कार्यालय/महानगरपालि</p>
-    <p>कामा निवेदन पेश गर्ने निर्णय गरियो।</p>
-
-    <h3>निर्णय नं.२</h3>
-  </div>
-</div>
-
+                <h3>निर्णय नं.२</h3>
+                <p><!-- निर्णय २ को लागि सामग्री यहाँ थप्न सकिन्छ --></p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

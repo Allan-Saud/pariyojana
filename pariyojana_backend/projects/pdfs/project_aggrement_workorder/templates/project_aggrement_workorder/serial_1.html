@@ -1,126 +1,234 @@
-
 <!DOCTYPE html>
 <html lang="ne">
 <head>
-  <meta charset="UTF-8">
-  <title>योजना सम्झौता टिप्पणी र आदेश</title>
-  <style>
-    body {
-      font-family: Kalimati, 'Noto Sans Devanagari', 'Noto Sans', Arial, sans-serif;
-      line-height: 1.7;
-      margin: 40px;
-    }
-    h1, h2, h3 {
-      text-align: center;
-      margin: 0;
-    }
-    .section {
-      margin-top: 30px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
-    td, th {
-      border: 1px solid #000;
-      padding: 8px;
-      vertical-align: top;
-    }
-    .no-border td {
-      border: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>योजना सम्झौता टिप्पणी र आदेश</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
+        }
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif; /* नेपाली फन्ट प्रयोग गरियो */
+            font-size: 14px; /* फन्ट साइज */
+            line-height: 1.6; /* लाइन हाइट */
+            margin: 0;
+            padding: 20px; /* पृष्ठको चारैतिर प्याडिङ */
+            background: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 25px; /* भित्री सामग्रीको प्याडिङ */
+            border: 2px solid #ddd; /* हल्का बाहिरी बोर्डर */
+            max-width: 800px; /* अधिकतम चौडाइ */
+            margin: 0 auto; /* केन्द्रमा राख्न */
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+        }
+
+        /* हेडर क्षेत्रको लागि कन्टेनर */
+        .header-area {
+            position: relative;
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको लागि न्यूनतम उचाइ */
+            display: flex; /* फ्लेक्सबक्स लेआउट लोगो र पाठ केन्द्रित गर्न */
+            align-items: flex-start; /* शीर्षमा सामग्री पङ्क्तिबद्ध गर्न */
+        }
+
+        .logo-section {
+            flex-shrink: 0; /* लोगोलाई खुम्चिन नदिन */
+            margin-right: 20px; /* लोगो र हेडर पाठ बीचको खाली ठाउँ */
+        }
+
+        .header-content-centered {
+            flex-grow: 1; /* उपलब्ध ठाउँ लिन */
+            text-align: center; /* पाठलाई केन्द्रित गर्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+        }
+
+        .header-content-centered h2 {
+            margin: 0 0 3px 0;
+            font-size: 22px;
+            font-weight: bold;
+            color: #dc2626; /* रातो */
+        }
+        .header-content-centered h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: normal;
+            color: #dc2626; /* रातो */
+        }
+        .address-main {
+            font-size: 14px;
+            color: #dc2626; /* रातो */
+        }
+        .address-main p {
+            margin: 5px 0;
+        }
+
+        /* मुख्य सामग्रीका लागि शैलीहरू */
+        .main-content-area {
+            padding: 0 5px; /* भित्री प्याडिङ */
+            color: #333; /* कालो पाठ */
+        }
+        .section {
+            margin-top: 20px;
+        }
+        .section p {
+            margin: 10px 0;
+            text-align: justify;
+        }
+        .section p strong {
+            color: #333; /* कालो पाठ */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px; /* तालिकाको फन्ट साइज */
+        }
+        td, th {
+            border: 1px solid #000;
+            padding: 8px;
+            vertical-align: top;
+            text-align: left; /* पूर्वनिर्धारित रूपमा बायाँ पङ्क्तिबद्ध */
+            color: #333; /* कालो पाठ */
+        }
+        th {
+            background-color: #f2f2f2; /* हल्का खैरो पृष्ठभूमि */
+            font-weight: bold;
+        }
+        .no-border td {
+            border: none;
+        }
+
+        /* प्रिन्ट शैलीहरू */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                padding: 0;
+                font-size: 12px; /* प्रिन्ट गर्दा फन्ट साइज अलिकति कम */
+            }
+            .document-wrapper {
+                border: none;
+                padding: 0;
+            }
+            @page {
+                margin: 0.8cm; /* प्रिन्टका लागि अझ सानो मार्जिन */
+            }
+            .header-content-centered h2 {
+                font-size: 20px;
+            }
+            .header-content-centered h3 {
+                font-size: 16px;
+            }
+            .address-main {
+                font-size: 12px;
+            }
+            .main-content-area p, .main-content-area table {
+                font-size: 12px;
+            }
+            td, th {
+                padding: 6px; /* प्रिन्ट गर्दा प्याडिङ कम */
+            }
+        }
+    </style>
 </head>
 <body>
- <img src="{{ gov_logo }}" alt="Government Logo" style="width:100px;">
+    <div class="document-wrapper">
+        <div class="header-area">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src={{gov_logo}} alt="Government Logo" style="width:80px; height: auto;">
+            </div>
+            <div class="header-content-centered">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
 
-  <div class="header">
-  <h2>बर्दगोरिया गाउँपालिका</h2>
-<h3>गाउँ कार्यपालिकाको कार्यालय</h3> 
-</div>
+        <div class="main-content-area">
+            <div class="section">
+                <p><strong>मितिः</strong> .........................</p>
+                <p><strong>विषयः</strong> योजना सम्झौता सम्बन्धमा</p>
+                <p style="text-align: center;"><strong>टिप्पणी र आदेश</strong></p>
+            </div>
 
-<div class="address">
-  <p>मूडा, कैलाली</p>
-  <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-</div>
+            <div class="section">
+                <p>श्रीमान,</p>
 
+                <p>
+                    यस महानगरपालिकाको आर्थिक वर्ष {{ fiscal_year }} को स्वीकृत वार्षिक कार्यक्रम अनुसार यस न.पा. को वडा नं. {{ ward_no }} मा देहाय वमोजिमको योजना/कार्यक्रम कार्यान्वयन गर्न वडा कार्यालयको सूचना वमोजिम प्रत्यक्ष लाभग्राहीको भेलाबाट उपभोक्ता समिति/समूह/AI गठन भई सम्झौता गर्ने निर्णयको प्रतिलिपि संलग्न राखी वडा कार्यालयबाट सम्झौताका लागि मिति २०../..../.... सिफारिश भई आएको छ।
+                </p>
 
-  <div class="section">
-    <p><strong>मितिः</strong> .........................</p>
-    <p><strong>विषयः</strong> योजना सम्झौता सम्बन्धमा</p>
-    <p><strong>टिप्पणी र आदेश</strong></p>
-  </div>
+                <p>
+                    प्रस्तुत विषयमा यस न.पा. वडाको मिति २०../..../.... को निर्णयानुसार / आदेशानुसार नगरस्तरीय / वडास्तरीय / सामाजिक विकास वजेट शिर्षकबाट खर्चिने गरी देहायको योजना सम्झौता हुन / गराउन मनासिव देखी सम्झौता फाराम तयार गरी निर्णयार्थ पेश गरेको छु।
+                </p>
+            </div>
 
-  <div class="section">
-    <p>श्रीमान,</p>
-
-    <p>
-      यस महानगरपालिकाको आर्थिक वर्ष {{ fiscal_year }} को स्वीकृत वार्षिक कार्यक्रम अनुसार यस न.पा. को वडा नं. {{ ward_no }} मा देहाय वमोजिमको योजना/कार्यक्रम कार्यान्वयन गर्न वडा कार्यालयको सूचना वमोजिम प्रत्यक्ष लाभग्राहीको भेलाबाट उपभोक्ता समिति/समूह/AI गठन भई सम्झौता गर्ने निर्णयको प्रतिलिपि संलग्न राखी वडा कार्यालयबाट सम्झौताका लागि मिति २०../..../.... सिफारिश भई आएको छ।
-    </p>
-
-    <p>
-      प्रस्तुत विषयमा यस न.पा. वडाको मिति २०../..../.... को निर्णयानुसार / आदेशानुसार नगरस्तरीय / वडास्तरीय / सामाजिक विकास वजेट शिर्षकबाट खर्चिने गरी देहायको योजना सम्झौता हुन / गराउन मनासिव देखी सम्झौता फाराम तयार गरी निर्णयार्थ पेश गरेको छु।
-    </p>
-  </div>
-
-  <div class="section">
-  <table>
-    <tr>
-      <td><strong>आयोजना / कार्यक्रमको नामः</strong></td>
-      <td>{{ project_name }}</td>
-    </tr>
-    <tr>
-      <td><strong>वडा नं.</strong></td>
-      <td>{{ ward_no }}</td>
-    </tr>
-    <tr>
-      <td><strong>टोलवस्तीः</strong></td>
-      <td>{{ tole_basti|default:"......................." }}</td>
-    </tr>
-    <tr>
-      <td><strong>वडा कार्यालयको सूचना बमोजिमको प्रत्यक्ष लाभग्राहीको भेलाको निर्णय मितिः</strong></td>
-      <td>{{ decision_date|default:"२०../..../...." }}</td>
-    </tr>
-    <tr>
-      <td><strong>बजेट वर्ष (आ.व. {{ fiscal_year }})</strong></td>
-      <td>उपभोक्ता समितिको नाम र ठेगानाः {{ consumer_committee_name|default:"...................." }}</td>
-    </tr>
-    <tr>
-      <td><strong>वजेट शिर्षकः</strong></td>
-      <td>{{ budget_heading|default:"वडास्तरीय / नगरस्तरीय सामाजिक विकास" }}</td>
-    </tr>
-    <tr>
-      <td><strong>वडा कार्यालयको सिफारिश पत्रको च.नं. र मितिः</strong></td>
-      <td>{{ recommendation_letter|default:"...................." }}</td>
-    </tr>
-    <tr>
-      <td>
-        <strong>आयोजना सुरु हुने मितिः</strong> {{ start_date|default:"२०../..../...." }}<br>
-        <strong>वजेट श्रोतः</strong> नेपाल सरकार (संघीय) विनियोजित रु. {{ budget }}<br>
-        <strong>न.पा. ले व्यहोर्नु पर्नेः</strong> {{ municipality_percentage }}%<br>
-        <strong>जनश्रमदान/लागत सहभागिता:</strong> {{ public_participation_percentage }}%<br>
-        <strong>उपभोक्ताको नगद सहभागिता:</strong> रु.{{ public_participation_amount }}<br>
-      </td>
-      <td>
-        <strong>आयोजना सम्पन्न हुने मितिः</strong> {{ end_date|default:"२०../..../...." }}<br>
-        <strong>खर्च शिर्षक:</strong> {{ expense_heading|default:"वडा" }}<br>
-        <strong>अक्षरेपी:</strong> रु.{{ budget_in_words|default:"..............." }}<br>
-        <strong>रु:</strong> {{ budget }}<br>
-        <strong>उपभोक्ताको श्रम सहभागिता:</strong> रु.{{ public_labor_contribution}}<br>
-        <strong>वजेट अक्षरेपी:</strong> {{ budget_in_words|default:"...................." }}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        पुरातात्विक सम्पदा युक्त कार्यको हकमा (परम्परागत शैलीमा चुना, सुर्को प्रयोग गरी जिर्णोद्धार तथा पुनर्निर्माण हुने कार्यमा जनसहभागिता व्यहोर्नु पर्ने छैन।)
-      </td>
-      <td>
-        औं नगर सभाबाट पारित नीति पछिल्लो तथा कार्यक्रमको बुँदा नं..... र मध्यपुर थिमि नगरपालिकाको आर्थिक ऐन २०.... को दफा....... मा लेखिए वमोजिम उपभोक्ता समितिले लागत सहभागिता व्यहोर्न नपर्ने।
-      </td>
-    </tr>
-  </table>
-</div>
-
+            <div class="section">
+                <table>
+                    <tr>
+                        <td><strong>आयोजना / कार्यक्रमको नामः</strong></td>
+                        <td>{{ project_name }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>वडा नं.</strong></td>
+                        <td>{{ ward_no }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>टोलवस्तीः</strong></td>
+                        <td>{{ tole_basti|default:"......................." }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>वडा कार्यालयको सूचना बमोजिमको प्रत्यक्ष लाभग्राहीको भेलाको निर्णय मितिः</strong></td>
+                        <td>{{ decision_date|default:"२०../..../...." }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>बजेट वर्ष (आ.व. {{ fiscal_year }})</strong></td>
+                        <td>उपभोक्ता समितिको नाम र ठेगानाः {{ consumer_committee_name|default:"...................." }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>वजेट शिर्षकः</strong></td>
+                        <td>{{ budget_heading|default:"वडास्तरीय / नगरस्तरीय सामाजिक विकास" }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>वडा कार्यालयको सिफारिश पत्रको च.नं. र मितिः</strong></td>
+                        <td>{{ recommendation_letter|default:"...................." }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>आयोजना सुरु हुने मितिः</strong> {{ start_date|default:"२०../..../...." }}<br>
+                            <strong>वजेट श्रोतः</strong> नेपाल सरकार (संघीय) विनियोजित रु. {{ budget }}<br>
+                            <strong>न.पा. ले व्यहोर्नु पर्नेः</strong> {{ municipality_percentage }}%<br>
+                            <strong>जनश्रमदान/लागत सहभागिता:</strong> {{ public_participation_percentage }}%<br>
+                            <strong>उपभोक्ताको नगद सहभागिता:</strong> रु.{{ public_participation_amount }}<br>
+                        </td>
+                        <td>
+                            <strong>आयोजना सम्पन्न हुने मितिः</strong> {{ end_date|default:"२०../..../...." }}<br>
+                            <strong>खर्च शिर्षक:</strong> {{ expense_heading|default:"वडा" }}<br>
+                            <strong>अक्षरेपी:</strong> रु.{{ budget_in_words|default:"..............." }}<br>
+                            <strong>रु:</strong> {{ budget }}<br>
+                            <strong>उपभोक्ताको श्रम सहभागिता:</strong> रु.{{ public_labor_contribution}}<br>
+                            <strong>वजेट अक्षरेपी:</strong> {{ budget_in_words|default:"...................." }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            पुरातात्विक सम्पदा युक्त कार्यको हकमा (परम्परागत शैलीमा चुना, सुर्को प्रयोग गरी जिर्णोद्धार तथा पुनर्निर्माण हुने कार्यमा जनसहभागिता व्यहोर्नु पर्ने छैन।)
+                        </td>
+                        <td>
+                            औं नगर सभाबाट पारित नीति पछिल्लो तथा कार्यक्रमको बुँदा नं..... र मध्यपुर थिमि नगरपालिकाको आर्थिक ऐन २०.... को दफा....... मा लेखिए वमोजिम उपभोक्ता समितिले लागत सहभागिता व्यहोर्न नपर्ने।
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

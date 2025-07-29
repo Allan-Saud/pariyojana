@@ -1,162 +1,253 @@
 <!DOCTYPE html>
-<html>
+<html lang="ne">
 <head>
-<title>समितिको भौतिक तथा वित्तीय प्रगति प्रतिवेदन विवरण</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 20px;
-  }
-  .container {
-    width: 80%;
-    margin: auto;
-    border: 1px solid #eee;
-    padding: 20px;
-  }
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .section-title {
-    font-weight: bold;
-    margin-top: 15px;
-    margin-bottom: 5px;
-  }
-  .subsection {
-    margin-left: 20px;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  table, th, td {
-    border: 1px solid black;
-  }
-  th, td {
-    padding: 8px;
-    text-align: left;
-  }
-  .footer {
-    margin-top: 30px;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>समितिको भौतिक तथा वित्तीय प्रगति प्रतिवेदन विवरण</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
+        }
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif; /* नेपाली फन्ट प्रयोग गरियो */
+            font-size: 14px; /* फन्ट साइज */
+            line-height: 1.6; /* लाइन हाइट */
+            margin: 0;
+            padding: 20px; /* पृष्ठको चारैतिर प्याडिङ */
+            background: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 25px; /* भित्री सामग्रीको प्याडिङ */
+            /* border: 1px solid #ddd; */ /* बोर्डर हटाइयो, सादगीका लागि */
+            max-width: 800px; /* अधिकतम चौडाइ */
+            margin: 0 auto; /* केन्द्रमा राख्न */
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+        }
+
+        /* हेडर क्षेत्रको लागि कन्टेनर */
+        .header-area {
+            position: relative;
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको लागि न्यूनतम उचाइ */
+            display: flex; /* फ्लेक्सबक्स लेआउट लोगो र पाठ केन्द्रित गर्न */
+            align-items: flex-start; /* शीर्षमा सामग्री पङ्क्तिबद्ध गर्न */
+        }
+
+        .logo-section {
+            flex-shrink: 0; /* लोगोलाई खुम्चिन नदिन */
+            margin-right: 20px; /* लोगो र हेडर पाठ बीचको खाली ठाउँ */
+        }
+
+        .header-content-centered {
+            flex-grow: 1; /* उपलब्ध ठाउँ लिन */
+            text-align: center; /* पाठलाई केन्द्रित गर्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+        }
+
+        .header-content-centered h2 {
+            margin: 0 0 3px 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .header-content-centered h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .address-main {
+            font-size: 14px;
+        }
+        .address-main p {
+            margin: 5px 0;
+        }
+
+        /* मुख्य सामग्री शैलीहरू */
+        .main-content {
+            color: #333; /* पूर्वनिर्धारित पाठ रङ्ग */
+            padding: 0 5px; /* भित्री प्याडिङ */
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: #333; /* कालो पाठ */
+        }
+        .subsection {
+            margin-left: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 13px; /* तालिकाको फन्ट साइज अलिकति घटाउनुहोस् */
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f8f8f8; /* तालिका हेडरका लागि हल्का पृष्ठभूमि */
+            font-weight: bold;
+        }
+
+        /* हस्ताक्षर क्षेत्रका लागि शैलीहरू */
+        .signature-line-flex {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            gap: 10px;
+            flex-wrap: wrap; /* सानो स्क्रिनका लागि र्‍याप गर्न */
+        }
+
+        .signature-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1; /* उपलब्ध ठाउँ बराबर बाँड्न */
+            min-width: 150px; /* प्रत्येक हस्ताक्षर बक्सको न्यूनतम चौडाइ */
+            margin: 10px 0; /* बक्सहरू बीचको ठाउँ */
+        }
+
+        .dotted-line {
+            width: 100%;
+            border-bottom: 1px dotted #333; /* बिन्दुदार रेखा */
+            text-align: center;
+            margin-bottom: 5px;
+            height: 1.2em; /* रेखाको लागि पर्याप्त उचाइ */
+        }
+
+        /* प्रिन्ट विशिष्ट शैलीहरू */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                padding: 0;
+                font-size: 12px; /* प्रिन्ट गर्दा फन्ट साइज अलिकति सानो */
+            }
+            .document-wrapper {
+                border: none;
+                padding: 0;
+            }
+            @page {
+                margin: 0.8cm;
+            }
+            .header-content-centered h2 {
+                font-size: 20px;
+            }
+            .header-content-centered h3 {
+                font-size: 16px;
+            }
+            .address-main {
+                font-size: 12px;
+            }
+            .main-content p, .main-content ul li, table, th, td {
+                font-size: 12px;
+            }
+            .signature-box {
+                min-width: 120px; /* प्रिन्टमा हस्ताक्षर बक्सहरू अझ कम्प्याक्ट */
+            }
+        }
+    </style>
 </head>
 <body>
-<img src="{{ gov_logo }}" alt="Government Logo">
+    <div class="document-wrapper">
+        <div class="header-area">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src={{gov_logo}} alt="Government Logo" style="width:80px; height: auto;">
+            </div>
+            <div class="header-content-centered">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
 
-<div class="container">
-  <div class="header">
-    <p>बर्दगोरिया गाउँपालिका</p>
-    <p>गाउँ कार्यपालिकाको कार्यालय</p>
-    <p>मूडा, कैलाली</p>
-    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
-    <p>अनुसूची-६</p>
-    <p>(कार्यविधिको दफा १६ (९) सँग सम्बन्धित)</p>
-  </div>
+        <div class="main-content">
+            <p style="text-align: right; margin-bottom: 10px;">अनुसूची-६</p>
+            <p style="text-align: right; margin-bottom: 20px;">(कार्यविधिको दफा १६ (९) सँग सम्बन्धित)</p>
 
-  <p>समितिको भौतिक तथा वित्तीय प्रगति प्रतिवेदन विवरण पेश गरेको कार्यालयः ललितपुर महानगरपालिका/वडा</p>
-  <p>कार्यालय</p>
+            <p>समितिको भौतिक तथा वित्तीय प्रगति प्रतिवेदन विवरण पेश गरेको कार्यालयः ललितपुर महानगरपालिका/वडा</p>
+            <p>कार्यालय</p>
 
-  <div class="section">
-    <p class="section-title">१. आयोजनाको विवरण</p>
-    <p>आयोजनाको नामः {{project_name}}</p>
-    {% comment %} <p>उपभोक्ता समितिका अध्यक्षः ram</p>
-    <p>सचिवः sita</p> {% endcomment %}
-    <p>
-        {% for official in officials %}
-  {{ official.post }} श्री {{ official.full_name }}<br>
-{% empty %}
-  कोही पनि विवरण उपलब्ध छैन।
-{% endfor %}
-    </p>
-    <p>वडा नं.: {{ward_no}} टोल/बस्तीः</p>
-  </div>
+            <div class="section">
+                <p class="section-title">१. आयोजनाको विवरण</p>
+                <p>आयोजनाको नामः {{project_name}}</p>
+                <p>
+                    {% for official in officials %}
+                    {{ official.post }} श्री {{ official.full_name }}<br>
+                    {% empty %}
+                    कोही पनि विवरण उपलब्ध छैन।
+                    {% endfor %}
+                </p>
+                <p>वडा नं.: {{ward_no}} टोल/बस्तीः</p>
+            </div>
 
-  <div class="section">
-    <p class="section-title">२. आयोजनाको लागतः प्राप्त अनुदान रकम रू. {{municipality_amount}} चन्दा रकम रु............</p>
-    <p>जनसहभागिता रकम रू. {{public_participation_amount}} गरी जम्मा रकम रु.</p>
-  </div>
+            <div class="section">
+                <p class="section-title">२. आयोजनाको लागतः प्राप्त अनुदान रकम रू. {{municipality_amount}} चन्दा रकम रु............</p>
+                <p>जनसहभागिता रकम रू. {{public_participation_amount}} गरी जम्मा रकम रु.</p>
+            </div>
 
-  <div class="section">
-    <p class="section-title">३. हालसम्मको खर्च रू.</p>
-    <p>क. कार्यालयबाट प्राप्त रकम रू.........</p>
-    <div class="subsection">
-      <p>१. निर्माण सामग्रीमा खरिद (सिमेन्ट, छड, काठ, ढुंगा वा फुवा, गिट्टी, उपकरण आदि) रू..</p>
-      <p>२. ज्यालाः दक्ष कामदारलाई रूः-</p>
-      <p>अदक्ष कामदारलाई रू.</p>
-      <p>जम्मा रू.</p>
-      <p>३. मसलन्द सामान (कपि, कलम, मसी, कागज आदि) रू.</p>
-      <p>४. दैनिक भ्रमण भत्ता (सम्झौतामा स्वीकृत भए) रू.</p>
-      <p>५. प्राविधिक निरीक्षण बापत खर्च (सम्झौतामा स्वीकृत भए) रू.</p>
-      <p>६. अन्य</p>
-      <p>७. प्राविधिक प्रतिवेदन बमोजिम मुल्याकंन रकम रु</p>
-      <p>८. उपभोक्ता समुहको निर्णय वमोजिम समिक्षावाट खर्च देखिएको रु</p>
-    </div>
-  </div>
+            <div class="section">
+                <p class="section-title">३. हालसम्मको खर्च रू.</p>
+                <p>क. कार्यालयबाट प्राप्त रकम रू.........</p>
+                <div class="subsection">
+                    <p>१. निर्माण सामग्रीमा खरिद (सिमेन्ट, छड, काठ, ढुंगा वा फुवा, गिट्टी, उपकरण आदि) रू..</p>
+                    <p>२. ज्यालाः दक्ष कामदारलाई रूः-</p>
+                    <p>अदक्ष कामदारलाई रू.</p>
+                    <p>जम्मा रू.</p>
+                    <p>३. मसलन्द सामान (कपि, कलम, मसी, कागज आदि) रू.</p>
+                    <p>४. दैनिक भ्रमण भत्ता (सम्झौतामा स्वीकृत भए) रू.</p>
+                    <p>५. प्राविधिक निरीक्षण बापत खर्च (सम्झौतामा स्वीकृत भए) रू.</p>
+                    <p>६. अन्य</p>
+                    <p>७. प्राविधिक प्रतिवेदन बमोजिम मुल्याकंन रकम रु</p>
+                    <p>८. उपभोक्ता समुहको निर्णय वमोजिम समिक्षावाट खर्च देखिएको रु</p>
+                </div>
+            </div>
 
-  <div class="section">
-    <p class="section-title">९. योजना कार्यान्वयनको क्रममा देखिएका मुख्य समस्याहरु</p>
+            <div class="section">
+                <p class="section-title">९. योजना कार्यान्वयनको क्रममा देखिएका मुख्य समस्याहरु</p>
                 <p>१</p>
                 <p>२</p>
-  </div>
+            </div>
 
-  <div class="section">
-    <p class="section-title">१०. समाधानका उपायहरु</p>
-  </div>
+            <div class="section">
+                <p class="section-title">१०. समाधानका उपायहरु</p>
+            </div>
 
-  <div class="section">
-    <p class="section-title">११. प्राप्त रकम अयोजना बाहेक अन्य कार्यमा खर्च गर्ने गराउने छैनौ ।</p>
-  </div>
+            <div class="section">
+                <p class="section-title">११. प्राप्त रकम अयोजना बाहेक अन्य कार्यमा खर्च गर्ने गराउने छैनौ ।</p>
+            </div>
 
- <style>
-    .signature-line {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 40px;
-        gap: 10px;
-    }
-
-    .signature-box {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        flex: 1;
-    }
-
-    .dotted-line {
-        width: 100%;
-        text-align: center;
-        margin-bottom: 5px;
-    }
-</style>
-
-<div class="signature-line">
-    <div class="signature-box">
-        <div class="dotted-line">............................</div>
-        <p>कोषाध्यक्ष</p>
+            <div class="signature-line-flex">
+                <div class="signature-box">
+                    <div class="dotted-line"></div>
+                    <p>कोषाध्यक्ष</p>
+                </div>
+                <div class="signature-box">
+                    <div class="dotted-line"></div>
+                    <p>प्रमाणित गर्नेः वडा अध्यक्ष श्री</p>
+                </div>
+                <div class="signature-box">
+                    <div class="dotted-line"></div>
+                    <p>सचिव</p>
+                </div>
+                <div class="signature-box">
+                    <div class="dotted-line"></div>
+                    <p>अध्यक्ष</p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="signature-box">
-        <div class="dotted-line">............................</div>
-        <p>प्रमाणित गर्नेः वडा अध्यक्ष श्री</p>
-    </div>
-    <div class="signature-box">
-        <div class="dotted-line">............................</div>
-        <p>सचिव</p>
-    </div>
-    {% comment %} <div class="signature-box">
-        <div class="dotted-line">............................</div>
-        <p>दस्तखत</p>
-    </div> {% endcomment %}
-    <div class="signature-box">
-        <div class="dotted-line">............................</div>
-        <p>अध्यक्ष</p>
-    </div>
-</div>
-
-
-</div>
-
 </body>
 </html>

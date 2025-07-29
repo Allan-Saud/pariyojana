@@ -4,6 +4,271 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>खर्चको तेरिज</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0.8cm; /* प्रिन्टिङका लागि पर्याप्त मार्जिन */
+        }
+        body {
+            font-family: Kalimati, 'Noto Sans Devanagari', Arial, sans-serif; /* नेपाली फन्ट प्रयोग गरियो */
+            font-size: 12px; /* फन्ट साइज अलिकति कम गरियो */
+            line-height: 1.4; /* लाइन हाइट अलिकति कम गरियो */
+            margin: 0;
+            padding: 15px; /* प्याडिङ कम गरियो */
+            background: white; /* पृष्ठभूमि सेतो */
+            color: #333; /* धेरैजसो सामग्रीको लागि पूर्वनिर्धारित पाठ रङ्ग (गाढा खैरो) */
+        }
+        .document-wrapper {
+            background-color: white;
+            padding: 20px; /* प्याडिङ कम गरियो */
+            border: 2px solid #ddd; /* बाहिरी बोर्डर राखिएको छ */
+            max-width: 800px;
+            margin: 0 auto;
+            box-sizing: border-box; /* प्याडिङ र बोर्डरलाई तत्वको कुल चौडाइ र उचाइमा समावेश गर्छ */
+        }
+
+        /* हेडर सामग्री र लोगोको लागि मुख्य कन्टेनर */
+        .header-container {
+            position: relative; /* लोगोलाई सही रूपमा स्थान दिनको लागि */
+            display: flex; /* टेक्स्टलाई केन्द्रित गर्न */
+            align-items: flex-start; /* लोगो र टेक्स्टलाई शीर्षबाट सुरु गर्न */
+            margin-bottom: 25px; /* हेडर पछि तल स्पेस */
+            min-height: 80px; /* लोगोको उचाइ समायोजन गर्न */
+        }
+
+        .logo-section {
+            position: absolute; /* लोगोलाई स्वतन्त्र रूपमा स्थान दिने */
+            top: 0;
+            left: 0;
+            z-index: 10; /* लोगो अन्य सामग्रीको माथि देखियोस् भन्ने सुनिश्चित गर्छ */
+        }
+
+        .center-header-text {
+            flex-grow: 1; /* यो तत्वलाई उपलब्ध ठाउँ लिन अनुमति दिन्छ */
+            text-align: center; /* पाठलाई पृष्ठको केन्द्रमा राख्छ */
+            color: #dc2626; /* हेडर पाठको लागि रातो रङ्ग */
+            padding-left: 80px; /* लोगोको लागि ठाउँ बनाउन */
+        }
+
+        .center-header-text h2 {
+            margin: 0 0 3px 0; /* मार्जिन कम गरियो */
+            font-size: 20px; /* फन्ट साइज कम गरियो */
+            font-weight: bold;
+            color: #dc2626; /* रातो रङ्ग */
+        }
+        .center-header-text h3 {
+            margin: 0 0 10px 0; /* मार्जिन कम गरियो */
+            font-size: 16px; /* फन्ट साइज कम गरियो */
+            font-weight: normal;
+            color: #dc2626; /* रातो रङ्ग */
+        }
+        .address-main {
+            font-size: 12px; /* फन्ट साइज कम गरियो */
+            color: #dc2626; /* ठेगाना पाठको लागि रातो रङ्ग */
+        }
+        .address-main p {
+            margin: 3px 0; /* मार्जिन कम गरियो */
+        }
+
+        /* 'खर्चको तेरिज' शीर्षकको लागि शैली */
+        .main-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px; /* फन्ट साइज */
+            font-weight: bold;
+            color: #333; /* कालो पाठ */
+        }
+
+        /* परियोजना विवरणका लागि शैली */
+        .project-details {
+            margin-bottom: 20px;
+            color: #333; /* कालो पाठ */
+            font-size: 13px; /* फन्ट साइज समायोजित गरियो */
+        }
+        .project-details p {
+            margin-bottom: 8px; /* प्याराग्राफ बीचको स्पेस */
+        }
+        .underline-input {
+            border-bottom: 1px solid #333; /* कालो अन्डरलाइन */
+            display: inline-block;
+            min-width: 150px; /* लम्बाइ अनुसार समायोजित गर्नुहोस् */
+            height: 1.2em;
+            vertical-align: middle;
+            color: #333; /* कालो पाठ */
+        }
+
+        /* तालिका शैली */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            color: #333; /* तालिकाको पाठ कालो */
+            font-size: 11px; /* तालिकाको फन्ट साइज अझ कम गरियो */
+        }
+        table, th, td {
+            border: 1px solid #333; /* तालिकाको बोर्डर कालो */
+        }
+        th, td {
+            padding: 6px 4px; /* प्याडिङ समायोजित गरियो */
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: white; /* हेडरको पृष्ठभूमि सेतो */
+            font-weight: bold;
+            color: #333; /* हेडरको पाठ कालो */
+        }
+        td {
+            text-align: center; /* तालिका डाटालाई केन्द्रित गर्न */
+        }
+        td:first-child {
+            text-align: left; /* पहिलो स्तम्भ बायाँ पङ्क्तिबद्ध गर्न */
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        /* प्रिन्ट शैलीहरू */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                padding: 0;
+                font-size: 10px; /* प्रिन्ट गर्दा अझ सानो फन्ट साइज */
+            }
+            .document-wrapper {
+                border: none;
+                padding: 0;
+            }
+            @page {
+                margin: 0.5cm; /* प्रिन्टका लागि अझ सानो मार्जिन */
+            }
+            .center-header-text h2 {
+                font-size: 18px;
+            }
+            .center-header-text h3 {
+                font-size: 14px;
+            }
+            .address-main {
+                font-size: 10px;
+            }
+            .main-title {
+                font-size: 16px;
+            }
+            .project-details, .project-details p {
+                font-size: 11px;
+            }
+            table {
+                font-size: 9px; /* प्रिन्ट गर्दा तालिकाको फन्ट साइज अझ कम गरियो */
+            }
+            th, td {
+                padding: 3px 2px; /* प्रिन्टका लागि सानो प्याडिङ */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document-wrapper">
+        <div class="header-container">
+            <div class="logo-section">
+                <!-- तपाईंले {{ gov_logo }} लाई लोगोको वास्तविक छवि URL सँग बदल्नुपर्छ -->
+                <img src="https://placehold.co/80x80/888/fff?text=Logo" alt="Government Logo" style="height: 80px;">
+            </div>
+            <div class="center-header-text">
+                <h2>बर्दगोरिया गाउँपालिका</h2>
+                <h3>गाउँ कार्यपालिकाको कार्यालय</h3>
+                <div class="address-main">
+                    <p>मूडा, कैलाली</p>
+                    <p>सुदूरपश्चिम प्रदेश, नेपाल</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-title">
+            <h2>खर्चको तेरिज</h2>
+        </div>
+
+        <!-- Project Details -->
+        <div class="project-details">
+            <p>योजनाको नामः <span class="underline-input">{{project_name}}</span></p>
+            <p>ठेगानाः <span class="underline-input">{{location}}</span></p>
+            <p>बजेट : <span class="underline-input">{{budget}}</span></p>
+        </div>
+
+        <!-- VAT Bill Details -->
+        <div class="mb-6">
+            <p class="font-bold mb-2">भ्याट बिलको विवरणः</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">बिजक जारी गर्नेको नाम</th>
+                        <th style="width: 15%;">भ्याट ना</th>
+                        <th style="width: 20%;">बिजक नं<br>मिति</th>
+                        <th style="width: 15%;">भ्याट बाहेकको रकम</th>
+                        <th style="width: 10%;">भ्याट रकम</th>
+                        <th style="width: 15%;">जम्मा</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                    <tr>
+                        <td colspan="3" class="text-right font-bold">जम्माः</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PAN Bill Details -->
+        <div class="mb-6">
+            <p class="font-bold mb-2">प्यान बिलको विवरणः</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 30%;">बिजक जारी गर्नेको नाम</th>
+                        <th style="width: 20%;">विजक न</th>
+                        <th style="width: 25%;">मिति</th>
+                        <th style="width: 25%;">रकम</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                    <tr>
+                        <td colspan="3" class="text-right font-bold">जम्मा</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+{% comment %} <!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>खर्चको तेरिज</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -141,4 +406,4 @@
 
     </div>
 </body>
-</html>
+</html> {% endcomment %}
