@@ -19,14 +19,17 @@
         }
 
         .letterhead {
-            display: flex;
-            align-items: flex-start; /* Aligns items to the top */
-            margin-bottom: 30px;
-        }
+    display: flex;
+    flex-direction: column;  /* stack logo and text vertically */
+    align-items: center;     /* center horizontally */
+    justify-content: center; /* center vertically */
+    text-align: center;      /* center text inside */
+    margin-bottom: 30px;
+}
+.logo {
+    margin-bottom: 10px;     /* add some space below the logo */
+}
 
-        .logo {
-            margin-right: 20px;
-        }
 
         .logo img {
             width: 100px; /* Adjust logo size as needed */
@@ -103,7 +106,7 @@
 
     <div class="letterhead">
         <div class="logo">
-            <!-- The image path is set according to your Django static file configuration -->
+           
             <img src="{{ logo_url }}" alt="नेपाल सरकारको लोगो">
 
         </div>

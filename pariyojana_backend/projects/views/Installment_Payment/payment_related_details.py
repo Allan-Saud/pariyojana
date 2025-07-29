@@ -85,7 +85,8 @@ from django.templatetags.static import static
 from weasyprint import HTML
 from nepali_datetime import date as ndt
 from datetime import date
-
+from django.conf import settings
+import os
 def generate_payment_bill_pdf(request, project_id):
     try:
         project = Project.objects.get(pk=project_id)
@@ -116,7 +117,7 @@ def generate_payment_bill_pdf(request, project_id):
         })
 
     # ✅ Use absolute URL for the logo
-    logo_url = request.build_absolute_uri(static('images/nepal-govt.png'))
+    logo_url = f'file://{os.path.join(settings.BASE_DIR, "static/images/nepal-govt.png")}'
 
     context = {
         "project_name": project.project_name,
