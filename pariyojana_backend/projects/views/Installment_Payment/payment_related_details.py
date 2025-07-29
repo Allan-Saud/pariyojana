@@ -78,44 +78,13 @@ class PaymentRelatedDetailViewSet(viewsets.ModelViewSet):
 
         
         
-        
     
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.templatetags.static import static
 from weasyprint import HTML
+from nepali_datetime import date as ndt
 from datetime import date
-
-from projects.models.Installment_Payment.payment_related_details import PaymentRelatedDetail
-from projects.models.project import Project
-import nepali_datetime as ndt
-# def generate_payment_bill_pdf(request, project_id):
-#     try:
-#        project = Project.objects.get(pk=project_id)
-#     except Project.DoesNotExist:
-#         return HttpResponse("Project not found", status=404)
-
-#     payment_details = PaymentRelatedDetail.objects.filter(
-#         project=project, is_active=True
-#     ).order_by('created_at')
-
-#     if not payment_details.exists():
-#         return HttpResponse("No payment records found", status=404)
-
-#     context = {
-#         "project_name": project.project_name,
-#         "ward_no": project.ward_no,
-#         "payments": payment_details,
-#         "today": date.today().strftime("%Y-%m-%d")
-#     }
-
-#     html_string = render_to_string("Installment_Bill/payment_bill_template.html", context)
-#     html = HTML(string=html_string)
-#     pdf_file = html.write_pdf()
-
-#     response = HttpResponse(pdf_file, content_type="application/pdf")
-#     response['Content-Disposition'] = f'attachment; filename="payment_bill_project_{project_id}.pdf"'
-#     return response
-
 
 def generate_payment_bill_pdf(request, project_id):
     try:
@@ -130,17 +99,34 @@ def generate_payment_bill_pdf(request, project_id):
     if not payment_details.exists():
         return HttpResponse("No payment records found", status=404)
 
-    # ✅ Convert today's date to Nepali date
-    nepali_today = ndt.date.from_datetime_date(date.today())
-    nepali_today_str = nepali_today.strftime("%K-%n-%D गते")   # Example: २०८२-०५-१२ गते
+    # ✅ Convert today's date to Nepali
+    nepali_today = ndt.from_datetime_date(date.today())
+    nepali_today_str = nepali_today.strftime("%K-%n-%D गते")
+
+    # ✅ Convert each payment date to Nepali
+    payments = []
+    for pay in payment_details:
+        nep_date = ndt.from_datetime_date(pay.issue_date).strftime("%K-%n-%D गते")
+        payments.append({
+            "title": pay.title,
+            "issue_date": nep_date,
+            "amount_paid": pay.amount_paid,
+            "payment_percent": pay.payment_percent,
+            "physical_progress": pay.physical_progress
+        })
+
+    # ✅ Use absolute URL for the logo
+    logo_url = request.build_absolute_uri(static('images/nepal-govt.png'))
 
     context = {
         "project_name": project.project_name,
         "ward_no": project.ward_no,
-        "payments": payment_details,
-        "today": nepali_today_str    # ✅ Use Nepali date in context
+        "payments": payments,
+        "today": nepali_today_str,
+        "logo_url": logo_url
     }
 
+    # ✅ Render to PDF
     html_string = render_to_string("Installment_Bill/payment_bill_template.html", context)
     html = HTML(string=html_string)
     pdf_file = html.write_pdf()
