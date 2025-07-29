@@ -29,7 +29,7 @@ class Project(models.Model):
         ('completed', 'सम्पन्न भएको'),
         ('not_started', 'सुरु नभएको'),
     ]
-    status = models.CharField("स्थिती", max_length=20, choices=STATUS_CHOICES, default='not_started')
+    status = models.CharField("स्थिती", max_length=20, choices=STATUS_CHOICES, default='not_started',null=True,blank=True)
     fiscal_year = models.ForeignKey(FiscalYear, on_delete=models.PROTECT, verbose_name="आर्थिक वर्ष")
 
     location = models.CharField("योजना संचालन स्थान", max_length=255, null=True)
@@ -38,13 +38,13 @@ class Project(models.Model):
     outcome = models.TextField("सम्पन गर्ने परिणाम", null=True)
     unit = models.ForeignKey(Unit, on_delete=models.PROTECT, verbose_name="ईकाइ",null=True)
 
-    is_active = models.BooleanField(default=True)
-    is_deleted = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True,null=True,blank=True)
+    is_deleted = models.BooleanField(default=False,null=True,blank=True)
     deleted_at = models.DateTimeField(null=True, blank=True)
     deleted_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='deleted_projects')
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    updated_at = models.DateTimeField(auto_now=True,null=True,blank=True)
 
     def __str__(self):
         return f"{self.project_name} ({self.serial_number})"
