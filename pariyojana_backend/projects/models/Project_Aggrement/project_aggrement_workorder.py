@@ -3,10 +3,13 @@ from projects.models.project import Project
 
 class ProjectAgreementWorkorderUpload(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='project_aggrement_workorder', null=True)
-    serial_no = models.PositiveIntegerField(unique=True)
+    serial_no = models.PositiveIntegerField()
     file = models.FileField(upload_to='project_agreement_workorder_uploads/')
     remarks = models.TextField(blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ('project', 'serial_no') 
+
     def __str__(self):
-        return f"Upload for item {self.serial_no}"
+        return f"Upload for project {self.project_id} - item {self.serial_no}"

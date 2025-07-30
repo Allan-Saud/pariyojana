@@ -102,20 +102,20 @@ urlpatterns = [
      
     path('project-plan-tracker/', ProjectPlanTrackerListView.as_view()),
     # path('project-plan-tracker/upload/', upload_project_plan_tracker),
-    path('project-aggrement/<int:project_serial_number>/', ProjectPlanTrackerListView.as_view(),name='upload-file'),
-    path('project-aggrement/<int:project_serial_number>/upload/', upload_project_plan_tracker,name='get-file'),
+    path('project-plan-tracker/<int:project_serial_number>/', ProjectPlanTrackerListView.as_view(),name='upload-file'),
+    path('project-plan-tracker/<int:project_serial_number>/upload/', upload_project_plan_tracker,name='get-file'),
     path('project-plan-tracker/download/<int:serial_no>/<int:project_id>/', download_project_plan_tracker_pdf),
     path('plan_aggrement/preview-template/<int:serial_no>/<int:project_id>/', preview_project_plan_tracker_template, name='project-plan-tracker-preview-template'),
     
     
     path('project-aggrement/', ProjectAgreementWorkorderListView.as_view(), name='project_agreement_list'),
     # path('project-aggrement/upload/', project_agreement_workorder_upload, name='project_agreement_upload'),
-    path('project-plan-tracker/<int:serial_number>/upload/', project_agreement_workorder_upload, name='project_agreement_upload'),
-    path('project-plan-tracker/<int:serial_number>/', ProjectAgreementWorkorderListView.as_view(), name='project_agreement_list'),
+    path('project-aggrement/<int:serial_number>/upload/', project_agreement_workorder_upload, name='project_agreement_upload'),
+    path('project-aggrement/<int:serial_number>/', ProjectAgreementWorkorderListView.as_view(), name='project_agreement_list'),
     path('project-aggrement/download/<int:serial_no>/<int:project_id>/', download_project_agreement_workorder_pdf, name='project_agreement_pdf_download'),
     path('project_aggrement_workorder/preview-template/<int:serial_no>/<int:project_id>/', preview_project_aggrement_workorder_template, name='project-aggrement-workorder-preview-template'),
-    # project-plan-tracker
-    # project-aggrement
+    
+    
     path('other-documents/<int:project_id>/', OtherDocumentListView.as_view(), name='other-documents-list'),
     path('other-documents/download/<int:serial_no>/<int:project_id>/', download_other_document_pdf, name='other-document-download'),
     path('other-documents/preview-template/<int:serial_no>/<int:project_id>/', preview_other_document_template, name='other-document-preview-template'),

@@ -10,5 +10,6 @@ class ProjectPlanTrackerUpload(models.Model):
 
     class Meta:
         unique_together = ('project', 'serial_no')  
+        
     def __str__(self):
         return f"Upload for project {self.project.serial_number}, item {self.serial_no}"
