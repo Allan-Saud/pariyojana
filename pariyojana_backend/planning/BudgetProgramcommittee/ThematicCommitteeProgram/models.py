@@ -3,7 +3,7 @@ from project_settings.models.thematic_area import ThematicArea
 from project_settings.models.sub_thematic_area import SubArea
 from project_settings.models.expenditure_center import ExpenditureCenter
 from project_settings.models.source import Source
-
+from django.contrib.postgres.fields import ArrayField
 class ThematicCommitteeProgram(models.Model):
     plan_name = models.CharField(max_length=255, verbose_name="योजना तथा कार्यक्रम")
     thematic_area = models.ForeignKey(ThematicArea, on_delete=models.PROTECT, verbose_name="क्षेत्र")
@@ -11,7 +11,12 @@ class ThematicCommitteeProgram(models.Model):
     source = models.ForeignKey(Source, on_delete=models.PROTECT, verbose_name="स्रोत")
     expenditure_center = models.ForeignKey(ExpenditureCenter, on_delete=models.PROTECT, verbose_name="खर्च केन्द्र")
     budget = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="बजेट")
-    ward_no = models.TextField(verbose_name="वडा नंं.")
+    ward_no = ArrayField(
+    base_field=models.IntegerField(),
+    blank=True,
+    default=list,
+    verbose_name="वडा नं."
+)
     
     status = models.CharField(max_length=255, verbose_name="स्थिती")
     priority_no = models.PositiveIntegerField(verbose_name="प्राथमिकता नम्बर", null=True, blank=True)

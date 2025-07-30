@@ -9,6 +9,7 @@ from project_settings.models.project_level import ProjectLevel
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from projects.models.Cost_Estimate.map_cost_estimate import MapCostEstimate
+from django.contrib.postgres.fields import ArrayField
 User = get_user_model()
 
 class Project(models.Model):
@@ -22,7 +23,13 @@ class Project(models.Model):
     budget = models.DecimalField("बजेट", max_digits=15, decimal_places=2)
 
     WARD_CHOICES = [(i, f"वडा नंं. {i}") for i in range(1, 9)]
-    ward_no = models.IntegerField("वडा नंं.", choices=WARD_CHOICES)
+    
+    ward_no = ArrayField(
+        models.IntegerField(choices=WARD_CHOICES),
+        verbose_name="वडा नंं.",
+        blank=True,
+        default=list
+    )
 
     STATUS_CHOICES = [
         ('process_ensured', 'सुचारु प्रक्रिया सुनिस्चित भएको'),

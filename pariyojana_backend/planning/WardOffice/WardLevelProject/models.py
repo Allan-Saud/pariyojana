@@ -9,7 +9,7 @@ from project_settings.models.sub_thematic_area import SubArea
 from project_settings.models.expenditure_center import ExpenditureCenter
 from project_settings.models.source import Source
 from planning.PlanEntry.models import PlanEntry
-
+from django.contrib.postgres.fields import ArrayField
 
 
 class WardLevelProject(models.Model):
@@ -22,7 +22,12 @@ class WardLevelProject(models.Model):
     expenditure_title = models.ForeignKey(ExpenditureTitle, on_delete=models.PROTECT, null=True, blank=True)
     fiscal_year = models.ForeignKey(FiscalYear, on_delete=models.PROTECT, null=True, blank=True)
     budget = models.DecimalField(max_digits=15, decimal_places=2)
-    ward_no = models.TextField()
+    ward_no = ArrayField(
+    base_field=models.IntegerField(),
+    blank=True,
+    default=list,
+    verbose_name="वडा नं."
+)
     gps_coordinate = models.CharField(max_length=255, blank=True, null=True)   # ✅ new
     expected_result = models.TextField(blank=True, null=True)                  # ✅ new
     unit = models.ForeignKey('project_settings.Unit', on_delete=models.PROTECT, null=True, blank=True)  # ✅ new

@@ -4,6 +4,7 @@ from project_settings.models.sub_thematic_area import SubArea
 from project_settings.models.expenditure_center import ExpenditureCenter
 from project_settings.models.source import Source
 from planning.PlanEntry.models import PlanEntry
+from django.contrib.postgres.fields import ArrayField
 
 class SubmittedToBudgetMunicipalityPrideProject(models.Model):
     plan_name = models.CharField(max_length=255)
@@ -12,7 +13,12 @@ class SubmittedToBudgetMunicipalityPrideProject(models.Model):
     source = models.ForeignKey(Source, on_delete=models.PROTECT)
     expenditure_center = models.ForeignKey(ExpenditureCenter, on_delete=models.PROTECT)
     budget = models.DecimalField(max_digits=15, decimal_places=2)
-    ward_no = models.TextField()
+    ward_no = ArrayField(
+    base_field=models.IntegerField(),
+    blank=True,
+    default=list,
+    verbose_name="वडा नं."
+)
     status = models.CharField(max_length=255, default="बजेट तथा कार्यक्रम तर्जुमा समितिमा पेश गरिएको परियोजना")
     priority_no = models.PositiveIntegerField(null=True, blank=True)
     remarks = models.TextField(blank=True, null=True)

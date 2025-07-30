@@ -8,6 +8,7 @@ from project_settings.models.fiscal_year import FiscalYear
 from project_settings.models.source import Source
 from project_settings.models.project_level import ProjectLevel
 from planning.PlanEntry.models import PlanEntry
+from django.contrib.postgres.fields import ArrayField
 
 YES_NO_CHOICES = [
     ('भएको', 'भएको'),
@@ -29,7 +30,12 @@ class ProvinciallytransferredProgram(models.Model):
     unit = models.ForeignKey(Unit, on_delete=models.PROTECT, null=True, blank=True)
 
     budget = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="बजेट")
-    ward_no = models.TextField(verbose_name="वडा नंं.", blank=True, null=True)
+    ward_no = ArrayField(
+    base_field=models.IntegerField(),
+    blank=True,
+    default=list,
+    verbose_name="वडा नं."
+)
     gps_coordinate = models.CharField(max_length=255, blank=True, null=True)
     location = models.CharField(max_length=255, blank=True, null=True)
     expected_result = models.TextField(blank=True, null=True)

@@ -8,7 +8,7 @@ from project_settings.models.fiscal_year import FiscalYear
 from project_settings.models.source import Source
 from project_settings.models.project_level import ProjectLevel
 from django.conf import settings
-
+from django.contrib.postgres.fields import ArrayField
 PROJECT_TYPE_CHOICES = [
     ('ward_level', 'Ward-level Project'),
     ('municipality_level', 'Municipality-level Project'),
@@ -35,7 +35,12 @@ class PlanEntry(models.Model):
     project_level = models.ForeignKey(ProjectLevel, on_delete=models.PROTECT,null=True)
     proposed_amount = models.DecimalField(max_digits=15, decimal_places=2)
     source = models.ForeignKey(Source, on_delete=models.PROTECT)
-    ward_no = models.TextField(blank=True,null=True)
+    ward_no = ArrayField(
+        base_field=models.IntegerField(),
+        blank=True,
+        default=list,
+        verbose_name="वडा नं."
+    )
     gps_coordinate = models.CharField(max_length=255, blank=True, null=True)
     expected_result = models.TextField(blank=True, null=True)
     unit = models.ForeignKey(Unit, on_delete=models.PROTECT, null=True, blank=True)
