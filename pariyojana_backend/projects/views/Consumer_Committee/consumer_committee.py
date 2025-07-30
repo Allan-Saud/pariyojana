@@ -293,7 +293,7 @@ def consumer_committee_upload(request, project_serial_number):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def download_consumer_committee_pdf(request, serial_no: int, project_id: int):
-    if not 1 <= serial_no <= 6:
+    if not 1 <= serial_no <= 7:
         raise Http404("Template not available.")
 
     template_map = {
