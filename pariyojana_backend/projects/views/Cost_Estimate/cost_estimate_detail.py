@@ -83,6 +83,8 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from datetime import date
+import os
+from django.conf import settings
 from projects.models.Cost_Estimate.cost_estimate_detail import CostEstimateDetail
 from projects.models.Consumer_Committee.consumer_committee_details import ConsumerCommitteeDetail
 
@@ -98,8 +100,11 @@ def generate_bill_pdf(request, project_id):
         committee_name = consumer_committee.consumer_committee_name
     except ConsumerCommitteeDetail.DoesNotExist:
         committee_name = "........."
+    
+    gov_logo = f'file://{os.path.join(settings.BASE_DIR, "static/images/nepal-govt.png")}'
 
     context = {
+        "gov_logo": gov_logo,
         "project_name": cost_estimate.project.project_name,
         "consumer_committee_name": committee_name,  
         "estimated_cost": cost_estimate.estimated_cost,

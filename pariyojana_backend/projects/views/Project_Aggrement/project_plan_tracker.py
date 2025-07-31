@@ -18,26 +18,6 @@ from projects.pdfs.plan_aggrement.utils import build_pdf_context
 
 
 class ProjectPlanTrackerListView(APIView):
-    # def get(self, request):
-    #     today = date.today()
-    #     uploads = ProjectPlanTrackerUpload.objects.all()
-    #     upload_map = {u.serial_no: u for u in uploads}
-    #     response_data = []
-
-    #     for item in PROJECT_PLAN_TRACKER_TITLES:
-    #         serial_no = item["serial_no"]
-    #         upload = upload_map.get(serial_no)
-
-    #         response_data.append({
-    #             "serial_no": serial_no,
-    #             "title": item["title"],
-    #             "date": today,
-    #             "status": "अपलोड गरिएको" if upload else "",
-    #             "file_uploaded_name": upload.file.name.split('/')[-1] if upload else "No file uploaded",
-    #         })
-
-    #     serializer = ProjectPlanTrackerRowSerializer(response_data, many=True)
-    #     return Response(serializer.data)
     
     def get(self, request, project_serial_number):
         today = date.today()
@@ -78,21 +58,6 @@ class ProjectPlanTrackerListView(APIView):
         return Response(serializer.data)
 
 
-# @api_view(['POST'])
-# @parser_classes([MultiPartParser, FormParser])
-# def upload_project_plan_tracker(request):
-#     serial_no = request.data.get('serial_no')
-#     file = request.FILES.get('file')
-#     remarks = request.data.get('remarks')
-
-#     if not serial_no or not file:
-#         return Response({"detail": "serial_no and file are required."}, status=status.HTTP_400_BAD_REQUEST)
-
-#     ProjectPlanTrackerUpload.objects.update_or_create(
-#         serial_no=serial_no,
-#         defaults={'file': file, 'remarks': remarks}
-#     )
-#     return Response({"detail": "File uploaded successfully."})
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
