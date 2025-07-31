@@ -11,28 +11,47 @@ class VerificationLogViewSet(viewsets.ModelViewSet):
     queryset = VerificationLog.objects.all()
     serializer_class = VerificationLogSerializer
     
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     user = self.request.user
+        
+    #     if self.request.query_params.get('all') == 'true':
+    #         return queryset
+        
+    #     # For checkers - show only their pending documents
+    #     if hasattr(user, 'verification_checked'):
+    #         return queryset.filter(
+    #             checker=user,
+    #             status='pending'
+    #         )
+        
+    #     # For approvers - show only checked documents assigned to them
+    #     elif hasattr(user, 'verification_approved'):
+    #         return queryset.filter(
+    #             approver=user,
+    #             status='checked'
+    #         )
+            
+    #     return queryset.none()  
+    
     def get_queryset(self):
         queryset = super().get_queryset()
+
+        # ✅ Ignore old CostEstimateDetail logs
+        queryset = queryset.filter(source_model="MapCostEstimate")
+
         user = self.request.user
-        
         if self.request.query_params.get('all') == 'true':
             return queryset
         
-        # For checkers - show only their pending documents
         if hasattr(user, 'verification_checked'):
-            return queryset.filter(
-                checker=user,
-                status='pending'
-            )
+            return queryset.filter(checker=user, status='pending')
         
-        # For approvers - show only checked documents assigned to them
         elif hasattr(user, 'verification_approved'):
-            return queryset.filter(
-                approver=user,
-                status='checked'
-            )
-            
-        return queryset.none()  
+            return queryset.filter(approver=user, status='checked')
+        
+        return queryset.none()
+
 
 
 
