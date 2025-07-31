@@ -104,15 +104,32 @@ class PlanEnteredByThematicCommitteeDownloadReport(APIView):
         headers = ['क्र.सं.', 'वडा नं', 'योजना', 'क्षेत्र', 'उप-क्षेत्र', 'बजेट']
         ws.append(headers)
 
+        # for i, obj in enumerate(queryset, start=1):
+        #     ws.append([
+        #         i,
+        #         obj.ward_no,
+        #         obj.plan_name,
+        #         obj.thematic_area.name if obj.thematic_area else '',
+        #         obj.sub_area.name if obj.sub_area else '',
+        #         obj.budget
+        #     ])
+        
         for i, obj in enumerate(queryset, start=1):
+    # ✅ Convert ward_no to a comma-separated string if it's a list/iterable
+            if hasattr(obj.ward_no, '__iter__') and not isinstance(obj.ward_no, str):
+                ward_no_display = ', '.join(map(str, obj.ward_no))
+            else:
+                ward_no_display = obj.ward_no
+
             ws.append([
                 i,
-                obj.ward_no,
+                ward_no_display,
                 obj.plan_name,
                 obj.thematic_area.name if obj.thematic_area else '',
                 obj.sub_area.name if obj.sub_area else '',
                 obj.budget
             ])
+
 
         # Save to stream
         stream = io.BytesIO()
