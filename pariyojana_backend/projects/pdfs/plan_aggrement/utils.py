@@ -204,8 +204,18 @@ def build_pdf_context(serial_no: int, project_serial_number: int):
         return context
     
     elif serial_no == 3:
-        officials = OfficialDetail.objects.filter(project=project).order_by("serial_no")
+        # Example: Use ProgramDetail or any model relevant for serial 3
+        program_details = ProgramDetail.objects.filter(project=project)
+        
+        program_rows = [{"name": p.program_name} for p in program_details]
+
+        context = {
+            "gov_logo": gov_logo,
+            "project_name": project.project_name or "........",
+            "program_rows": program_rows,
+        }
         return context
+
 
     elif serial_no == 4:
         officials = OfficialDetail.objects.filter(project=project).order_by("serial_no")
