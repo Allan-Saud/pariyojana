@@ -42,8 +42,7 @@ class ReportsDropdownsView(APIView):
             "सुचारु प्रक्रिया सुनिस्चित भएको",
             "सुरु नभएको"
         ]
-        wards = [f"वडा नं.-{i}" for i in range(1, 9)]
-
+        wards = [{"label": f"वडा नं.-{i}", "value": i} for i in range(1, 6)]
         thematic_areas = ThematicAreaSerializer(ThematicArea.objects.filter(is_active=True), many=True).data
         sub_areas = SubAreaSerializer(SubArea.objects.filter(is_active=True), many=True).data
         sources = SourceSerializer(Source.objects.filter(is_active=True), many=True).data
@@ -80,7 +79,8 @@ class ExportReportExcelView(APIView):
         if status:
             filters &= Q(status=status)
         if ward:
-            filters &= Q(ward_no=int(ward))
+            filters &= Q(ward_no__contains=[int(ward)])
+
         if area:
             filters &= Q(area__id=area)
         if sub_area:
@@ -110,7 +110,7 @@ class ExportReportExcelView(APIView):
             try:
                 fiscal_year_val = str(proj.fiscal_year.year[0]) if proj.fiscal_year and isinstance(proj.fiscal_year.year, (list, tuple)) else proj.fiscal_year.year if proj.fiscal_year else ''
                 status_val = dict(Project.STATUS_CHOICES).get(proj.status, proj.status)
-                ward_val = f"वडा नंं. {proj.ward_no}"
+                ward_val = ", ".join([f"वडा नंं. {w}" for w in (proj.ward_no or [])])
                 area_val = proj.area.name if proj.area else ''
                 sub_area_val = proj.sub_area.name if proj.sub_area else ''
                 source_val = proj.source.name if proj.source else ''
