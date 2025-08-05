@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     "planning",
     'corsheaders',
     'import_export',
-    'notifications'
+    'notifications',
+    'django_extensions',
 
     
 ]
