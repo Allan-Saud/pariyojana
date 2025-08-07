@@ -2,11 +2,13 @@
 from rest_framework import viewsets, permissions
 from .models import SupplierRegistry
 from .serializers import SupplierRegistrySerializer
+from rest_framework.parsers import MultiPartParser, FormParser
 
 class SupplierRegistryViewSet(viewsets.ModelViewSet):
     queryset = SupplierRegistry.objects.all().order_by('-created_at')
     serializer_class = SupplierRegistrySerializer
     permission_classes = [permissions.IsAuthenticated]
+    parser_classes = (MultiPartParser, FormParser)
 
 
 
