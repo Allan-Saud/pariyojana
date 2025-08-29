@@ -33,11 +33,11 @@ DEBUG = True
 # ALLOWED_HOSTS = ['213.199.53.33', 'localhost', '127.0.0.1', 'pariyojana.onrender.com','pariyojana-web.netlify.app','43.205.255.142']
 ALLOWED_HOSTS = [
     "213.199.53.33",
-    "43.205.255.140",
+    # "43.205.255.140",
     "43.205.255.142",
-    "localhost",
-    "127.0.0.1",
-    "pariyojana.onrender.com",
+    # "localhost",
+    # "127.0.0.1",
+    # "pariyojana.onrender.com",
     "pariyojana-web.netlify.app"
 ]
 
