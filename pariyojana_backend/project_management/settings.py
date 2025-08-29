@@ -34,7 +34,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "213.199.53.33",
     # "43.205.255.140",
-    "43.205.255.142",
+    "3.108.67.147",
     # "localhost",
     # "127.0.0.1",
     # "pariyojana.onrender.com",
